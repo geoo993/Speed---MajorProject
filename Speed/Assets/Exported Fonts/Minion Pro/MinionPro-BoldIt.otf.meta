@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 480af068cf1ea4667beee4b5328bd6da
+timeCreated: 1464333554
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 3
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 1
+  characterPadding: 0
+  includeFontData: 1
+  fontNames:
+  - Minion Pro
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3e90b3899f5774445b75e5e7deb04137, type: 3}
+  - {fileID: 12800000, guid: 038c3c0ab11164479aed5b1aa3880eef, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
