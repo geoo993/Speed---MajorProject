@@ -11,7 +11,10 @@ public class HealthPickUp : MonoBehaviour {
 		if (col.gameObject.name == "Craft")
 		{
 			GameManager.health += 25;
-			Destroy (this.gameObject);
+			//Destroy (this.gameObject);
+			print (gameObject.name + "  has collided with " + col.gameObject.name);
+
+			Items.RemoveObjectFromHealthList(this.gameObject, Items.healthItems);
 		}
 
 		//print ("health: " + GameManager.health);

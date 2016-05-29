@@ -5,7 +5,7 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
 	public GameObject craft = null;
-	public CharacterMeshComplete craftScript;
+	private CharacterMeshComplete craftScript;
 
 	public static int health = 80;
 	public static int speedValue = 100;
@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
 	public Image speedBarFillImage;
 	public Image transitionBarFillImage;
 	public Image[] icons = null;
+	public Image[] radarLocatorsIcons = null;
 	public Image[] craftIcons = null;
 	public Image[] craftSliderIcons = null;
 
@@ -128,6 +129,8 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
+
+
 		if ((craftScript.moveState == "ball" && craftScript.animateCount == 0) || (craftScript.moveState == "car" && craftScript.animateCount == 2)) {
 
 			ShowHideCraftIcon (0);
@@ -151,6 +154,16 @@ public class GameManager : MonoBehaviour {
 		} 
 
 
+	}
+
+	public void ShowHideRadarLocatorIcon(int i){
+
+		foreach (Image icon in radarLocatorsIcons) 
+		{
+			icon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
+		}
+
+		radarLocatorsIcons [i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 1f);
 	}
 
 	private void ShowHideCraftIcon(int i){

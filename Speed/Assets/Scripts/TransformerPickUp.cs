@@ -11,7 +11,8 @@ public class TransformerPickUp : MonoBehaviour {
 		if (col.gameObject.name == "Craft")
 		{
 			CharacterMeshComplete.TranformNum += 1;
-			Destroy (this.gameObject);
+			//Destroy (this.gameObject);
+			Items.RemoveObjectFromHealthList(this.gameObject, Items.transformerItems);
 		}
 
 		//print ("transform: "+CharacterMeshComplete.TranformNum);

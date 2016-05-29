@@ -530,15 +530,18 @@ public class CharacterMeshComplete : MonoBehaviour {
 
 				}
 
+
 				float topY =  Mathf.Lerp (topParent.transform.localPosition.y, 5.0f, airplaneId);
 				float bottomY =  Mathf.Lerp (bottomParent.transform.localPosition.y, -3.0f, airplaneId);
 
 				float frontYr = Mathf.Lerp (frontParent.transform.localPosition.y, 0f, airplaneId);
 				float backZr = Mathf.Lerp (backParent.transform.localPosition.z, -6.0f, airplaneId);
-				float backStretchZr = Mathf.Lerp (backStrechParent.transform.localPosition.z, -5.60f, airplaneId);
+				float backStretchZr = Mathf.Lerp (backStrechParent.transform.localPosition.z, -4.60f, airplaneId);
 				float LeftRightZr = Mathf.Lerp (leftParent.transform.localPosition.z, 0.0f, airplaneId);
 				float leftXr = Mathf.Lerp (leftParent.transform.localPosition.x, -4.5f, airplaneId);
 				float rightXr = Mathf.Lerp (rightParent.transform.localPosition.x, 4.5f, airplaneId);
+
+
 
 				topParent.transform.localPosition = new Vector3 (topParent.transform.localPosition.x, topY, topParent.transform.localPosition.z);
 				bottomParent.transform.localPosition = new Vector3 (bottomParent.transform.localPosition.x, bottomY, bottomParent.transform.localPosition.z);
@@ -693,6 +696,7 @@ public class CharacterMeshComplete : MonoBehaviour {
 				float backStretchZr = Mathf.Lerp (backStrechParent.transform.localPosition.z, -7.0f, jetId);
 				float frontStretchZr = Mathf.Lerp (frontStrechParent.transform.localPosition.z, 6.0f, jetId);
 
+
 				topParent.transform.localPosition = new Vector3 (topParent.transform.localPosition.x, topY, topParent.transform.localPosition.z);
 				bottomParent.transform.localPosition = new Vector3 (bottomParent.transform.localPosition.x, bottomY, bottomParent.transform.localPosition.z);
 
@@ -761,16 +765,18 @@ public class CharacterMeshComplete : MonoBehaviour {
 				//stretch y
 				foreach (int bs in backStretch) {
 					newSpheres [bs].transform.Translate (
-						((newSpheres [top [120]].transform.localPosition.x - newSpheres [bs].transform.localPosition.x) / 1000.0f), 
+						0.0f, 
 						((newSpheres [left [12]].transform.localPosition.y - newSpheres [bs].transform.localPosition.y) / 1000.0f), 
 						0.0f);
 				}
 				foreach (int fs in frontStretch) {
 					newSpheres [fs].transform.Translate (
-						((newSpheres [top [120]].transform.localPosition.x - newSpheres [fs].transform.localPosition.x) / 1000.0f), 
+						0.0f, 
 						((newSpheres [left [12]].transform.localPosition.y - newSpheres [fs].transform.localPosition.y) / 1000.0f), 
 						0.0f);
 				}
+
+
 				//done
 				float topY =  Mathf.Lerp (topParent.transform.localPosition.y, 3f, nasaId);
 				float bottomY =  Mathf.Lerp (bottomParent.transform.localPosition.y, -1.8f, nasaId);
@@ -817,13 +823,13 @@ public class CharacterMeshComplete : MonoBehaviour {
 				//stretch y
 				foreach (int bs in backStretch) {
 					newSpheres [bs].transform.Translate (
-						-((newSpheres [top [120]].transform.localPosition.x - newSpheres [bs].transform.localPosition.x) / 1000.0f), 
+						0.0f, 
 						-((newSpheres [left [12]].transform.localPosition.y - newSpheres [bs].transform.localPosition.y) / 1000.0f), 
 						0.0f);
 				}
 				foreach (int fs in frontStretch) {
 					newSpheres [fs].transform.Translate (
-						-((newSpheres [top [120]].transform.localPosition.x - newSpheres [fs].transform.localPosition.x) / 1000.0f), 
+						0.0f, 
 						-((newSpheres [left [12]].transform.localPosition.y - newSpheres [fs].transform.localPosition.y) / 1000.0f), 
 						0.0f);
 				}
@@ -839,6 +845,8 @@ public class CharacterMeshComplete : MonoBehaviour {
 				float backZr = Mathf.Lerp (backParent.transform.localPosition.z, -10.0f, nasaId);
 				float backStretchZr = Mathf.Lerp (backStrechParent.transform.localPosition.z, -6.0f, nasaId);
 				float frontStretchZr = Mathf.Lerp (frontStrechParent.transform.localPosition.z, 7.0f, nasaId);
+
+
 
 				topParent.transform.localPosition = new Vector3 (topParent.transform.localPosition.x, topY, topParent.transform.localPosition.z);
 				bottomParent.transform.localPosition = new Vector3 (bottomParent.transform.localPosition.x, bottomY, bottomParent.transform.localPosition.z);

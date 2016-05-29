@@ -38,7 +38,6 @@ public class Radar : MonoBehaviour {
 
 				newList.Add (radarObjects [i]);
 			}
-				
 		}
 
 		radarObjects.RemoveRange (0, radarObjects.Count);

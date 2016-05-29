@@ -23,6 +23,7 @@ public class CharacterCollider : MonoBehaviour {
 
 
 		if (col.gameObject.name == "building") {
+			//print (" hit building");
 			GameManager.health -= (int)impact / healthDamage;
 		}
 
@@ -35,16 +36,18 @@ public class CharacterCollider : MonoBehaviour {
 		}
 
 		if (col.gameObject.name == "Pyramid") {
+			print (" hit pyramid");
 			///GameManager.health -= healthDamage;
 		}
 
 		if (col.gameObject.name == "TorusKnot") 
 		{
+			print (" hit Torus knot");
 			GameManager.health -= (int)impact / healthDamage;
 		}
 		if (col.gameObject.name == "Earth") 
 		{
-			print (impact);
+			print (" hit earth ball");
 			GameManager.health -= (int)impact ;
 		}
 

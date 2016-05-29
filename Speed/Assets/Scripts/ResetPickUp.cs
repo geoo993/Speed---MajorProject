@@ -11,10 +11,11 @@ public class ResetPickUp : MonoBehaviour {
 
 		if (col.gameObject.name == "Craft")
 		{
-			Destroy (this.gameObject);
-
+			//Destroy (this.gameObject);
 			GameManager.collecteditems = 0;
-			print (gameObject.name + "  has collided with " + col.gameObject.name +"  now reset");
+			//print (gameObject.name + "  has collided with " + col.gameObject.name +"  now reset");
+
+			Items.RemoveObjectFromHealthList(this.gameObject, Items.resetItems);
 		}
 
 	}

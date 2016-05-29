@@ -14,10 +14,10 @@ public class Items : MonoBehaviour {
 	[Range(1, 20)]public int resetPickUps = 5;
 	[Range(1, 20)]public int transformPickUps = 5;
 
-	[HideInInspector] public List<GameObject> healthItems = new List<GameObject> ();
-	[HideInInspector] public List<GameObject> transformerItems = new List<GameObject> ();
-	[HideInInspector] public List<GameObject> collectablesItems = new List<GameObject> ();
-	[HideInInspector] public List<GameObject> resetItems = new List<GameObject> ();
+	[HideInInspector] public static List<GameObject> healthItems = new List<GameObject> ();
+	[HideInInspector] public static List<GameObject> transformerItems = new List<GameObject> ();
+	//[HideInInspector] public List<GameObject> collectablesItems = new List<GameObject> ();
+	[HideInInspector] public static List<GameObject> resetItems = new List<GameObject> ();
 	[HideInInspector] public Vector3 nextItemPos = Vector3.zero;
 	[HideInInspector] private GameObject c;
 
@@ -117,7 +117,31 @@ public class Items : MonoBehaviour {
 		}
 
 
+	}
 
+
+	public static void RemoveObjectFromHealthList(GameObject obj, List <GameObject> objectList)
+	{
+		//print ("list of items: "+objectList.Count+" in and index: "+ objectList.IndexOf(obj));
+
+		List <GameObject> newList = new List<GameObject> ();
+
+		for (int i = 0; i < objectList.Count; i++) {
+
+			if (objectList [i] == obj) {
+
+				Destroy (objectList [i]);
+				continue;
+			} else {
+
+				newList.Add (objectList [i]);
+			}
+		}
+
+		objectList.RemoveRange (0, objectList.Count);
+		objectList.AddRange (newList);
+
+		//print (" count the list" + objectList.Count);
 	}
 
 
