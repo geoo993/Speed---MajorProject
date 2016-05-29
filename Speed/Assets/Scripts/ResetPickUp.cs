@@ -9,7 +9,7 @@ public class ResetPickUp : MonoBehaviour {
 
 		//print (gameObject.name + "  has collided with " + col.gameObject.name);
 
-		if (col.gameObject.name == "craft")
+		if (col.gameObject.name == "Craft")
 		{
 			Destroy (this.gameObject);
 

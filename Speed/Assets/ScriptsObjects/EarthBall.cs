@@ -12,10 +12,15 @@ public class EarthBall : MonoBehaviour {
 	private Color currentCol = Color.yellow;
 
 
+	void Start(){
+
+		this.name = "Earth";
+	}
+
 	// Update is called once per frame
 	void Update () {
 
-		this.name = "Earth";
+
 		lightAndColor ();
 
 	}

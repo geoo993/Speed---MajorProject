@@ -319,33 +319,26 @@ public class CharacterMovement : MonoBehaviour
 
 			if ((craft.moveState == "airplane" && craft.animateCount == 2) || (craft.moveState == "jet" && craft.animateCount == 4)) {
 
-				maxSpeed = Mathf.Lerp(maxSpeed, 800f, lerpingTime);
+				maxSpeed = Mathf.Lerp(maxSpeed, 1000f, lerpingTime);
 				minSpeed = Mathf.Lerp(minSpeed, 600f, lerpingTime);
-				defaultSpeed = Mathf.Lerp(defaultSpeed, 700f, lerpingTime);
+				defaultSpeed = Mathf.Lerp(defaultSpeed, 800f, lerpingTime);
 			}
 
 			if ((craft.moveState == "jet" && craft.animateCount == 3) || (craft.moveState == "nasa" && craft.animateCount == 5)) 
 			{
-				maxSpeed = Mathf.Lerp(maxSpeed, 1200f, lerpingTime);
-				minSpeed = Mathf.Lerp(minSpeed, 800f, lerpingTime);
-				defaultSpeed = Mathf.Lerp(defaultSpeed, 1000f, lerpingTime);
+				maxSpeed = Mathf.Lerp(maxSpeed, 1500f, lerpingTime);
+				minSpeed = Mathf.Lerp(minSpeed, 900f, lerpingTime);
+				defaultSpeed = Mathf.Lerp(defaultSpeed, 1100f, lerpingTime);
 
 			}
 
-			if ((craft.moveState == "nasa" && craft.animateCount == 4) || (craft.moveState == "rocket" && craft.animateCount == 6)) 
+			if ((craft.moveState == "nasa" && craft.animateCount == 4)) 
 			{
-				maxSpeed = Mathf.Lerp(maxSpeed, 1600f, lerpingTime);
-				minSpeed = Mathf.Lerp(minSpeed, 1100f, lerpingTime);
-				defaultSpeed = Mathf.Lerp(defaultSpeed, 1300f, lerpingTime);
-			}
-
-			if ((craft.moveState == "rocket" && craft.animateCount == 5)) {
-
 				maxSpeed = Mathf.Lerp(maxSpeed, 2000f, lerpingTime);
 				minSpeed = Mathf.Lerp(minSpeed, 1200f, lerpingTime);
-				defaultSpeed = Mathf.Lerp(defaultSpeed, 1400f, lerpingTime);
-
+				defaultSpeed = Mathf.Lerp(defaultSpeed, 1500f, lerpingTime);
 			}
+
 
 		}
 

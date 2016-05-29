@@ -4,9 +4,8 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-	public GameObject city = null;
-	public GameObject camera = null;
 	public GameObject craft = null;
+	public CharacterMeshComplete craftScript;
 
 	public static int health = 80;
 	public static int speedValue = 100;
@@ -15,29 +14,29 @@ public class GameManager : MonoBehaviour {
 	public Slider speedBar;
 	public Slider transformerBar;
 
-
 	public Image healthBarFillImage;
 	public Image speedBarFillImage;
+	public Image transitionBarFillImage;
+	public Image[] icons = null;
+	public Image[] craftIcons = null;
+	public Image[] craftSliderIcons = null;
 
 	public Text transitionText;
-	public Text craftLevelText;
 	public Text healthText;
 	public Text speedText;
-	public Text scoreText;
-	public Image[] icons = null;
-	public static float transformNum = 100;
+
 	private Color fullHealthColor = Color.green;
 	private Color lowHealthColor = Color.red;
-
+	public Color interfaceColor = Color.cyan;
 	public bool showIcons = false;
 
-
+	public static float transformNum = 100;
 	public static int collecteditems = 0; 
 
 	void Start () {
 
 		//InvokeRepeating ("ReduceHealth", 1, 1);
-
+		craftScript = craft.GetComponent<CharacterMeshComplete>();
 	}
 
 	void Update () {
@@ -90,11 +89,13 @@ public class GameManager : MonoBehaviour {
 	{
 
 		transitionText.text = "In Transition.";
-		transitionText.color = new Color(transitionText.color.r,transitionText.color.g,transitionText.color.b, flashing(1.0f));
+		transitionText.color = new Color(interfaceColor.r,interfaceColor.g,interfaceColor.b, flashing(1.0f));
+		healthText.color = interfaceColor;
+		speedText.color = interfaceColor;
+		transitionBarFillImage.color = interfaceColor;
+		//scoreText.text = collecteditems + " Items Collected";
 
-		scoreText.text = collecteditems + " Items Collected";
-
-		craftLevelText.text = " Craft Level "+ craft.GetComponent<CharacterMeshComplete> ().animateCount+".";
+		//craftLevelText.text = " Craft Level "+ craft.GetComponent<CharacterMeshComplete> ().animateCount+".";
 
 	}
 
@@ -125,10 +126,51 @@ public class GameManager : MonoBehaviour {
 
 				icon.enabled = false;
 			}
-
 		}
+
+		if ((craftScript.moveState == "ball" && craftScript.animateCount == 0) || (craftScript.moveState == "car" && craftScript.animateCount == 2)) {
+
+			ShowHideCraftIcon (0);
+			ShowHideCraftSliderIcon (0);
+		}else if ((craftScript.moveState == "car" && craftScript.animateCount == 1) || (craftScript.moveState == "airplane" && craftScript.animateCount == 3)) {
+			ShowHideCraftIcon (1);
+			ShowHideCraftSliderIcon (1);
+
+		} else if((craftScript.moveState == "airplane" && craftScript.animateCount == 2) || (craftScript.moveState == "jet" && craftScript.animateCount == 4))
+		{
+			ShowHideCraftIcon (2);
+			ShowHideCraftSliderIcon (2);
+		} else if ((craftScript.moveState == "jet" && craftScript.animateCount == 3) || (craftScript.moveState == "nasa" && craftScript.animateCount == 5)){
+			
+			ShowHideCraftIcon (3);
+			ShowHideCraftSliderIcon (3);
+		}else if (craftScript.moveState == "nasa" && craftScript.animateCount == 4)
+		{
+			ShowHideCraftIcon (4);
+			ShowHideCraftSliderIcon (4);
+		} 
+
+
 	}
 
+	private void ShowHideCraftIcon(int i){
+
+		foreach (Image icon in craftIcons) {
+			icon.color = interfaceColor;
+			icon.enabled = false;
+		}
+
+		craftIcons [i].enabled = true;
+	}
+
+	private void ShowHideCraftSliderIcon(int i){
+
+		foreach (Image icon in craftSliderIcons) {
+			icon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
+		}
+
+		craftSliderIcons [i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 1f);
+	}
 
 	public float percentageValue( float value, float min, float max) 
 	{

@@ -30,7 +30,7 @@ public class CharacterCollider : MonoBehaviour {
 			//GameManager.health -= healthDamage;
 		}
 
-		if (col.gameObject.name == "circularGround") {
+		if (col.gameObject.name == "CircularGround") {
 			///GameManager.health -= healthDamage;
 		}
 
@@ -44,7 +44,8 @@ public class CharacterCollider : MonoBehaviour {
 		}
 		if (col.gameObject.name == "Earth") 
 		{
-			GameManager.health -= (int)impact / healthDamage;
+			print (impact);
+			GameManager.health -= (int)impact ;
 		}
 
 

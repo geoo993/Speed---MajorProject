@@ -123,7 +123,7 @@ public class CharacterMeshComplete : MonoBehaviour {
 
 	void Awake ()
 	{
-		this.name = "craft";
+		this.name = "Craft";
 
 		craftMovement = GetComponent<CharacterMovement> ();
 
@@ -326,6 +326,18 @@ public class CharacterMeshComplete : MonoBehaviour {
 				if (prevAnim) 
 				{
 					print ("gone to 0");
+
+					topParent.transform.localPosition = new Vector3 (0, 5.0f, 0);
+					bottomParent.transform.localPosition = new Vector3 (0, -5.0f, 0);
+
+					frontParent.transform.localPosition = new Vector3 (0,0, 5.0f);
+					backParent.transform.localPosition = new Vector3 (0, 0, -5.0f);
+					leftParent.transform.localPosition = new Vector3 (-5.0f, 0,0);
+					rightParent.transform.localPosition = new Vector3 (5.0f, 0,0);
+					frontStrechParent.transform.localPosition = new Vector3 (0, 0, 5.0f);
+					backStrechParent.transform.localPosition = new Vector3 (0, 0, -5.0f);
+
+
 					animateCount = 0;
 					prevAnim = false;
 				}
@@ -816,6 +828,7 @@ public class CharacterMeshComplete : MonoBehaviour {
 						0.0f);
 				}
 
+
 				float topY =  Mathf.Lerp (topParent.transform.localPosition.y, 3.5f, nasaId);
 				float bottomY =  Mathf.Lerp (bottomParent.transform.localPosition.y, -1.8f, nasaId);
 
@@ -862,71 +875,71 @@ public class CharacterMeshComplete : MonoBehaviour {
 		JetAnimation ();
 		NasaPlaneAnimation ();
 
-		if (Input.GetKeyDown ("2")) 
-		{
+		if (Input.GetKeyDown ("2") && moveState == "idle" ) {
 
-			prevAnim = false;
-			if (animateCount == 0 && moveState == "idle" && nextAnim == false) {
-				moveState = "ball"; 
-				nextAnim = true;
-				disolveState = true;
-			}
-			if (animateCount == 1 && moveState == "idle" && nextAnim == false) {
-				moveState = "car"; 
-				nextAnim = true;
-				disolveState = true;
-			}
-			if (animateCount == 2 && moveState == "idle" && nextAnim == false) {
-				moveState = "airplane"; 
-				nextAnim = true;
-				disolveState = true;
-			}
-			if (animateCount == 3 && moveState == "idle" && nextAnim == false) {
-				moveState = "jet"; 
-				nextAnim = true;
-				disolveState = true;
-			}
-			if (animateCount == 4 && moveState == "idle" && nextAnim == false) {
-				moveState = "nasa"; 
-				nextAnim = true;
-				disolveState = true;
+				prevAnim = false;
+				if (animateCount == 0 && nextAnim == false) {
+					moveState = "ball"; 
+					nextAnim = true;
+					disolveState = true;
+				}
+				if (animateCount == 1 && nextAnim == false) {
+					moveState = "car"; 
+					nextAnim = true;
+					disolveState = true;
+				}
+				if (animateCount == 2 && nextAnim == false) {
+					moveState = "airplane"; 
+					nextAnim = true;
+					disolveState = true;
+				}
+				if (animateCount == 3 && nextAnim == false) {
+					moveState = "jet"; 
+					nextAnim = true;
+					disolveState = true;
+				}
+				if (animateCount == 4 && nextAnim == false) {
+					moveState = "nasa"; 
+					nextAnim = true;
+					disolveState = true;
+				}
+
+				//print("moveState:  "+ moveState+"   count: "+animateCount +" prev: "+prevAnim+"  next: "+nextAnim);
 			}
 
-			//print("moveState:  "+ moveState+"   count: "+animateCount +" prev: "+prevAnim+"  next: "+nextAnim);
-		}
+		if (Input.GetKeyDown ("1") && moveState == "idle" ) {
+				nextAnim = false;
 
-		if (Input.GetKeyDown ("1")) 
-		{
-			nextAnim = false;
-
-			if (animateCount == 5 && moveState == "idle" && prevAnim == false) {
-				moveState = "nasa"; 
-				prevAnim = true;
-				disolveState = true;
-			}
-			if (animateCount == 4 && moveState == "idle" && prevAnim == false) {
-				moveState = "jet"; 
-				prevAnim = true;
-				disolveState = true;
-			}
-			if (animateCount == 3 && moveState == "idle" && prevAnim == false) {
-				moveState = "airplane"; 
-				prevAnim = true;
-				disolveState = true;
-			}
-			if (animateCount == 2 && moveState == "idle" && prevAnim == false) {
-				moveState = "car"; 
-				prevAnim = true;
-				disolveState = true;
-			}
-			if (animateCount == 1 && moveState == "idle" && prevAnim == false) {
-				moveState = "ball"; 
-				prevAnim = true;
-				disolveState = true;
-			}
+				if (animateCount == 5 && prevAnim == false) {
+					moveState = "nasa"; 
+					prevAnim = true;
+					disolveState = true;
+				}
+				if (animateCount == 4 && prevAnim == false) {
+					moveState = "jet"; 
+					prevAnim = true;
+					disolveState = true;
+				}
+				if (animateCount == 3 && prevAnim == false) {
+					moveState = "airplane"; 
+					prevAnim = true;
+					disolveState = true;
+				}
+				if (animateCount == 2 && prevAnim == false) {
+					moveState = "car"; 
+					prevAnim = true;
+					disolveState = true;
+				}
+				if (animateCount == 1 && prevAnim == false) {
+					moveState = "ball"; 
+					prevAnim = true;
+					disolveState = true;
+				}
 				
-			//print("moveState:  "+ moveState+"   count: "+animateCount +" prev: "+prevAnim+"  next: "+nextAnim);
-		}
+				//print("moveState:  "+ moveState+"   count: "+animateCount +" prev: "+prevAnim+"  next: "+nextAnim);
+			}
+			
+
 
 
 	}

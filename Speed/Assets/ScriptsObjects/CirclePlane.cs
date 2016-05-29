@@ -10,7 +10,6 @@ public class CirclePlane : MonoBehaviour {
 
 	public GameObject city = null;
 
-	public Camera cam;
 
 	[Range(1.0f, 1000.0f)] private float radius = 1000f;
 	[Range(50, 500)] private int numVerts = 500; 
@@ -127,7 +126,7 @@ public class CirclePlane : MonoBehaviour {
 
 	void UpdateColor (){
 
-		meshRenderer.material.color = cam.gameObject.GetComponent<Skybox> ().bc;
+		meshRenderer.material.color = Camera.main.gameObject.GetComponent<Skybox> ().bc;
 	}
 
 }

@@ -8,7 +8,7 @@ public class TransformerPickUp : MonoBehaviour {
 
 		//print (gameObject.name + "  has collided with " + col.gameObject.name);
 
-		if (col.gameObject.name == "craft")
+		if (col.gameObject.name == "Craft")
 		{
 			CharacterMeshComplete.TranformNum += 1;
 			Destroy (this.gameObject);

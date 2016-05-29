@@ -80,9 +80,9 @@ public class GenerateCity : MonoBehaviour {
 
 	private void Awake () {
 
-		this.transform.name = "city";
-		//StartCoroutine(GenerateCityBuildings ());
-		GenerateCityBuildings ();
+		this.transform.name = "City";
+		StartCoroutine(GenerateCityBuildings ());
+		//GenerateCityBuildings ();
 	}
 	private void Update(){
 
@@ -91,10 +91,10 @@ public class GenerateCity : MonoBehaviour {
 	}
 
 
-	//private IEnumerator GenerateCityBuildings () 
-	private void GenerateCityBuildings () 
+	private IEnumerator GenerateCityBuildings () 
+	//private void GenerateCityBuildings () 
 	{
-		WaitForSeconds wait = new WaitForSeconds (0.05f);
+		WaitForSeconds wait = new WaitForSeconds (0.01f);
 
 		GameObject startCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		startCube.transform.localScale = new Vector3 (mapWidth,1,mapHeight);
@@ -138,7 +138,7 @@ public class GenerateCity : MonoBehaviour {
 			GetVectors (areas [i]);
 		}
 
-		//yield return wait;
+		yield return wait;
 
 		for (int i = 0; i < areas.Count; i++) {
 
@@ -211,7 +211,7 @@ public class GenerateCity : MonoBehaviour {
 
 						ySize = Random.Range(buildingsMinHeight,buildingsMaxHeight) + ((int)distanceToMapEdge / 4);
 						Vector3 buildingPos1 = new Vector3 (pointsInArea [o].x + (stretcher / 2), transform.localPosition.y, pointsInArea [o].z + (stretcher / 2));
-						getBuilding ("building", buildingPos1);
+						AddBuilding ("building", buildingPos1);
 					}
 
 
@@ -222,12 +222,14 @@ public class GenerateCity : MonoBehaviour {
 					zSize -= (int)stretcher - 5;
 					Vector3 buildingPos2 = new Vector3 (pivotPoint.x + (stretcher / 2), this.transform.position.y, pivotPoint.z + (stretcher / 2));
 
-					getBuilding ("building", buildingPos2);
+					AddBuilding ("building", buildingPos2);
 				}
 
 			}
-			//yield return wait;
+			yield return wait;
 		}
+
+
 
 	}
 
@@ -252,7 +254,7 @@ public class GenerateCity : MonoBehaviour {
 		return a;
 	}
 
-	private void getBuilding(string name, Vector3 position){
+	private void AddBuilding(string name, Vector3 position){
 
 		GameObject building = CreateBuilding (position) as GameObject;
 		building.transform.parent = this.transform;

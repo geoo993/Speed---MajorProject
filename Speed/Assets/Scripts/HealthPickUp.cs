@@ -8,7 +8,7 @@ public class HealthPickUp : MonoBehaviour {
 
 		//print (gameObject.name + "  has collided with " + col.gameObject.name);
 
-		if (col.gameObject.name == "craft")
+		if (col.gameObject.name == "Craft")
 		{
 			GameManager.health += 25;
 			Destroy (this.gameObject);

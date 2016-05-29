@@ -9,7 +9,7 @@ public class CollectablesPickUp : MonoBehaviour {
 
 		//print (gameObject.name + "  has collided with " + col.gameObject.name);
 
-		if (col.gameObject.name == "craft")
+		if (col.gameObject.name == "Craft")
 		{
 			//Destroy (this.gameObject);
 			//this.gameObject.SetActive (false);
@@ -24,8 +24,8 @@ public class CollectablesPickUp : MonoBehaviour {
 			//city.GetComponent<Track> ().UpdateCollectable();
 
 
-			GameManager.collecteditems += 1;
-			print ("hit on enter");
+			//GameManager.collecteditems += 1;
+			//print ("hit on enter");
 
 		}
 
