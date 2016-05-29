@@ -13,7 +13,8 @@ public class CharacterMovement : MonoBehaviour
 	[HideInInspector] public static float minSpeed = 600f;
 	[HideInInspector] public static float defaultSpeed = 700f;
 	[HideInInspector] public static float speed = 0.0f;// speed variable is the speed
-	//float uplift = 0.0f;// Uplift to take off
+
+
 	private float pseudogravitation = -0.3f; // downlift for driving through landscape
 
 	private float rightleftsoft = 0.0f; // Variable for soft curveflight
@@ -137,7 +138,6 @@ public class CharacterMovement : MonoBehaviour
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 
 		rigid.AddForce (movement * (speed * 10) * Time.deltaTime);
-
 
 	}
 

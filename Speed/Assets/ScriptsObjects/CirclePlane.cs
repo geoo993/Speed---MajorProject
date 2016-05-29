@@ -9,7 +9,7 @@ using System.Collections.Generic;
 public class CirclePlane : MonoBehaviour {
 
 	public GameObject city = null;
-
+	public GameObject craft = null;
 
 	[Range(1.0f, 1000.0f)] private float radius = 1000f;
 	[Range(50, 500)] private int numVerts = 500; 
@@ -23,19 +23,19 @@ public class CirclePlane : MonoBehaviour {
 	MeshFilter meshFilter;
 	Mesh mesh;
 
-	private GenerateCity craft;
+	private GenerateCity cityScript;
 
 	void Start ()
 	{
-		craft = city.GetComponent<GenerateCity> ();
+		cityScript = city.GetComponent<GenerateCity> ();
 
 		Circle ();
 	}
 
 	void Update ()
 	{
-
 		UpdateColor ();
+		UpdateCollider ();
 	}
 
 //	private void OnDrawGizmos () {
@@ -121,7 +121,7 @@ public class CirclePlane : MonoBehaviour {
 
 		this.transform.localScale = Vector3.one * radius;
 		this.transform.eulerAngles = new Vector3 (90, 0.0f, 0.0f);
-		this.transform.localPosition = new Vector3 (craft.mapWidth / 2, 0f, craft.mapWidth / 2);
+		this.transform.localPosition = new Vector3 (cityScript.mapWidth / 2, 0f, cityScript.mapWidth / 2);
 	}
 
 	void UpdateColor (){
@@ -129,4 +129,14 @@ public class CirclePlane : MonoBehaviour {
 		meshRenderer.material.color = Camera.main.gameObject.GetComponent<Skybox> ().bc;
 	}
 
+	void UpdateCollider(){
+
+		if (craft.GetComponent<CharacterMovement> ().ballState || craft.GetComponent<CharacterMovement> ().groundState) 
+		{
+			meshCollider.sharedMesh = mesh;
+
+		} else if (craft.GetComponent<CharacterMovement> ().airSate) {
+			meshCollider.sharedMesh = null;
+		}
+	}
 }

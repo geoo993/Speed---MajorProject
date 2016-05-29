@@ -129,8 +129,6 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-
-
 		if ((craftScript.moveState == "ball" && craftScript.animateCount == 0) || (craftScript.moveState == "car" && craftScript.animateCount == 2)) {
 
 			ShowHideCraftIcon (0);

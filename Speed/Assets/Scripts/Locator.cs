@@ -22,6 +22,10 @@ public class Locator : MonoBehaviour {
 
 	private Vector3 locatorTarget = Vector3.zero;
 
+	void Start(){
+
+		this.name = "Locator";
+	}
 	void Update()
 	{
 
@@ -29,21 +33,36 @@ public class Locator : MonoBehaviour {
 		switch (itemsToLocate) {
 
 		case ItemsToLocate.Transformers:
+			if (Items.transformerItems.Count <= 0) {
 
-			gameManager.GetComponent<GameManager>().ShowHideRadarLocatorIcon (0);
-			locatorTarget = GetClosestIcon (craft.transform.position, Items.transformerItems);
+				itemsToLocate = ItemsToLocate.Collectables;
 
+			} else {
+				gameManager.GetComponent<GameManager> ().ShowHideRadarLocatorIcon (0);
+				locatorTarget = GetClosestIcon (craft.transform.position, Items.transformerItems);
+			}
 			break;
 		case ItemsToLocate.Health: 
 
-			gameManager.GetComponent<GameManager>().ShowHideRadarLocatorIcon (1);
-			locatorTarget = GetClosestIcon (craft.transform.position, Items.healthItems);
+			if (Items.healthItems.Count <= 0) {
 
+				itemsToLocate = ItemsToLocate.Collectables;
+
+			}else{
+				gameManager.GetComponent<GameManager> ().ShowHideRadarLocatorIcon (1);
+				locatorTarget = GetClosestIcon (craft.transform.position, Items.healthItems);
+			} 
 			break;
 		case ItemsToLocate.Reset: 
 
-			gameManager.GetComponent<GameManager>().ShowHideRadarLocatorIcon (2);
-			locatorTarget = GetClosestIcon (craft.transform.position, Items.resetItems);
+			if (Items.resetItems.Count <= 0) {
+				
+				itemsToLocate = ItemsToLocate.Collectables;
+
+			} else {
+				gameManager.GetComponent<GameManager> ().ShowHideRadarLocatorIcon (2);
+				locatorTarget = GetClosestIcon (craft.transform.position, Items.resetItems);
+			}
 
 			break;
 		case ItemsToLocate.Collectables: 
@@ -57,12 +76,6 @@ public class Locator : MonoBehaviour {
 
 		locatorArrow (locatorTarget);
 
-		//print (city.GetComponent<Items> ().healthItems.Count);
-
-//		print ("reset items "+city.GetComponent<Items> ().resetItems.Count);
-//		print ("transformer items "+city.GetComponent<Items> ().transformerItems.Count);
-//		print ("health items "+ city.GetComponent<Items> ().healthItems.Count);
-
 	}
 
 	void locatorArrow( Vector3 target){
@@ -71,7 +84,6 @@ public class Locator : MonoBehaviour {
 		Color col = Color.Lerp (Color.green, Color.red, dist / radarRange);
 
 		playerImage.color =  col;
-
 		foreach (GameObject p in arrowParts) {
 
 			if (showArrow) {
