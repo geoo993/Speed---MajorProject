@@ -10,9 +10,11 @@ public class TransformerPickUp : MonoBehaviour {
 
 		if (col.gameObject.name == "Craft")
 		{
-			CharacterMeshComplete.TranformNum += 1;
-			//Destroy (this.gameObject);
-			Items.RemoveObjectFromHealthList(this.gameObject, Items.transformerItems);
+			if (Items.transformerItems.Count > 0) {
+				CharacterMeshComplete.tranformNum += 1;
+				//Destroy (this.gameObject);
+				Items.RemoveObjectFromHealthList (this.gameObject, Items.transformerItems);
+			}
 		}
 
 		//print ("transform: "+CharacterMeshComplete.TranformNum);
@@ -21,7 +23,6 @@ public class TransformerPickUp : MonoBehaviour {
 	void OnTriggerEnter  ( Collider other ) {
 
 		//print (other.name);
-
 
 	}
 

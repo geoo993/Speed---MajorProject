@@ -12,7 +12,6 @@ public class CollectablesPickUp : MonoBehaviour {
 		if (col.gameObject.name == "Craft")
 		{
 			//Destroy (this.gameObject);
-			//this.gameObject.SetActive (false);
 
 			Vector3 pos = new Vector3(Random.Range (50, 800), Random.Range (100.0f, 400),Random.Range (50, 800));
 			this.gameObject.transform.localPosition = pos;
@@ -24,7 +23,7 @@ public class CollectablesPickUp : MonoBehaviour {
 			//city.GetComponent<Track> ().UpdateCollectable();
 
 
-			//GameManager.collecteditems += 1;
+			GameManager.collecteditems += 1;
 			//print ("hit on enter");
 
 		}

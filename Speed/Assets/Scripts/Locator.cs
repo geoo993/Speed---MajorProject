@@ -76,6 +76,17 @@ public class Locator : MonoBehaviour {
 
 		locatorArrow (locatorTarget);
 
+
+		if (Input.GetKeyDown ("3")) {
+			itemsToLocate = ItemsToLocate.Transformers;
+		}else if (Input.GetKeyDown ("4")) {
+			itemsToLocate = ItemsToLocate.Health;
+		}else if (Input.GetKeyDown ("5")) {
+			itemsToLocate = ItemsToLocate.Reset;
+		}else if (Input.GetKeyDown ("6")) {
+			itemsToLocate = ItemsToLocate.Collectables;
+		}
+
 	}
 
 	void locatorArrow( Vector3 target){

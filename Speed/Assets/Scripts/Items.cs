@@ -10,9 +10,11 @@ public class Items : MonoBehaviour {
 	public GameObject craft = null;
 	public GameObject[] collectors = null; 
 
-	[Range(1, 20)]public int healthPickUps = 5;
-	[Range(1, 20)]public int resetPickUps = 5;
-	[Range(1, 20)]public int transformPickUps = 5;
+	[Range(1, 50)] public int healthPickUps = 5;
+	[Range(1, 10)] public int resetPickUps = 5;
+	[Range(5, 50)] public int transformPickUps = 5;
+
+	[Range(0, 5)] public int transformStartingAmoungt = 5;
 
 	[HideInInspector] public static List<GameObject> healthItems = new List<GameObject> ();
 	[HideInInspector] public static List<GameObject> transformerItems = new List<GameObject> ();
@@ -24,6 +26,8 @@ public class Items : MonoBehaviour {
 	void Start () {
 
 		city = GetComponent<GenerateCity> ();
+
+		CharacterMeshComplete.tranformNum = transformStartingAmoungt;
 
 		createResetItems ();
 		CreateHealthAndTransformItems ();
@@ -68,7 +72,7 @@ public class Items : MonoBehaviour {
 		c.transform.localScale = scale;
 		c.transform.parent = this.transform;
 
-		c.GetComponent<Rigidbody> ().useGravity = true;//(Random.Range (0, 2) == 0);
+		c.GetComponent<Rigidbody> ().useGravity = true;
 
 		c.name = "CollectableItem";
 		c.tag = "RadarCollectable";
@@ -81,7 +85,7 @@ public class Items : MonoBehaviour {
 	{
 
 		//transformers objects // sphere
-		for (int t = 0; t < transformPickUps; t++) {
+		for (int t = 0; t < transformPickUps - transformStartingAmoungt; t++) {
 
 			Vector3 pos = new Vector3 (Random.Range (0, city.mapWidth), Random.Range (0.0f, city.mapHeight), Random.Range (0, city.mapWidth));
 			GameObject a = (GameObject)Instantiate (collectors [2], pos, Quaternion.identity);
@@ -90,7 +94,7 @@ public class Items : MonoBehaviour {
 			a.transform.localScale = scale;
 			a.transform.parent = this.transform;
 
-			a.GetComponent<Rigidbody> ().useGravity = false;
+			a.GetComponent<Rigidbody> ().useGravity = (Random.Range (0, 2) == 0);
 
 			a.name = "transformers" + t;
 			transformerItems.Add (a);

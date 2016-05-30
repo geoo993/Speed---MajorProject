@@ -54,7 +54,7 @@ public class CirclePlane : MonoBehaviour {
 
 	void Circle () {
 
-		this.name = "circularGround";
+		this.name = "CircularGround";
 
 		meshFilter = GetComponent<MeshFilter>();
 		if (meshFilter==null){

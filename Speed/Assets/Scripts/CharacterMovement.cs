@@ -96,8 +96,8 @@ public class CharacterMovement : MonoBehaviour
 
 	}
 
-	void RigidBodyControl(){
-
+	void RigidBodyControl()
+	{
 
 		if ((craft.moveState == "ball" && craft.animateCount == 0) || (craft.moveState == "car" && craft.animateCount == 2)) {
 

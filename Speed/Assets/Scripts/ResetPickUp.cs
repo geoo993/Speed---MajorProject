@@ -12,7 +12,8 @@ public class ResetPickUp : MonoBehaviour {
 		if (col.gameObject.name == "Craft")
 		{
 			//Destroy (this.gameObject);
-			GameManager.collecteditems = 0;
+
+			GameManager.CreateSwirl();
 			//print (gameObject.name + "  has collided with " + col.gameObject.name +"  now reset");
 
 			Items.RemoveObjectFromHealthList(this.gameObject, Items.resetItems);

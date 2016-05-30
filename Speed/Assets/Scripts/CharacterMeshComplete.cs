@@ -23,7 +23,7 @@ public class CharacterMeshComplete : MonoBehaviour {
 	public GameObject sphere;
 	private List <GameObject> newSpheres = new List<GameObject>();
 
-	[HideInInspector] public static int TranformNum = 0;
+	[HideInInspector] public static int tranformNum = 0;
 	[HideInInspector] public int animateCount = 0;//0
 	[HideInInspector] public string moveState = "ball";
 	[HideInInspector] public GameObject leftTrail;
@@ -51,7 +51,6 @@ public class CharacterMeshComplete : MonoBehaviour {
 
 	private Texture[] textures, stripesTexture;
 	Material material;
-
 
 	//private MeshCollider meshCollider; 
 	private SphereCollider sphereCollider; 
@@ -307,7 +306,7 @@ public class CharacterMeshComplete : MonoBehaviour {
 	void BallAnimation()
 	{
 		if (moveState == "ball") {
-			GameManager.transformNum = ballId * 100f;
+			GameManager.inTransitionNum = ballId * 100f;
 
 			if (ballId < 1.0f) {
 
@@ -356,7 +355,7 @@ public class CharacterMeshComplete : MonoBehaviour {
 		
 		if (moveState == "car") {
 
-			GameManager.transformNum = carId * 100f;
+			GameManager.inTransitionNum = carId * 100f;
 
 			if (carId < 1.0f) {
 
@@ -457,7 +456,7 @@ public class CharacterMeshComplete : MonoBehaviour {
 	void PlaneAnimation()
 	{
 		if (moveState == "airplane") {
-			GameManager.transformNum = airplaneId * 100f;
+			GameManager.inTransitionNum = airplaneId * 100f;
 
 			if (airplaneId < 1.0f) {
 
@@ -564,7 +563,7 @@ public class CharacterMeshComplete : MonoBehaviour {
 	{
 		if (moveState == "jet") {
 
-			GameManager.transformNum = jetId * 100f;
+			GameManager.inTransitionNum = jetId * 100f;
 
 			if (jetId < 1.0f) {
 
@@ -723,7 +722,7 @@ public class CharacterMeshComplete : MonoBehaviour {
 
 		if (moveState == "nasa") {
 
-			GameManager.transformNum = nasaId * 100f;
+			GameManager.inTransitionNum = nasaId * 100f;
 
 			if (nasaId < 1.0f) {
 
@@ -883,9 +882,11 @@ public class CharacterMeshComplete : MonoBehaviour {
 		JetAnimation ();
 		NasaPlaneAnimation ();
 
-		if (Input.GetKeyDown ("2") && moveState == "idle" ) {
+		if (Input.GetKeyDown ("2") && moveState == "idle" && tranformNum > 0) {
 
 				prevAnim = false;
+				tranformNum --;
+
 				if (animateCount == 0 && nextAnim == false) {
 					moveState = "ball"; 
 					nextAnim = true;
@@ -913,10 +914,11 @@ public class CharacterMeshComplete : MonoBehaviour {
 				}
 
 				//print("moveState:  "+ moveState+"   count: "+animateCount +" prev: "+prevAnim+"  next: "+nextAnim);
-			}
+		}
 
-		if (Input.GetKeyDown ("1") && moveState == "idle" ) {
+		if (Input.GetKeyDown ("1") && moveState == "idle" && tranformNum > 0) {
 				nextAnim = false;
+				tranformNum --;
 
 				if (animateCount == 5 && prevAnim == false) {
 					moveState = "nasa"; 
