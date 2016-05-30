@@ -109,9 +109,9 @@ public class GameManager : MonoBehaviour {
 			mainTexts [i].color = interfaceColor;
 		}
 
-		radarIconsTexts [0].text = ""+CharacterMeshComplete.tranformNum  + "/" + city.GetComponent<Items>().transformPickUps;
-		radarIconsTexts [1].text = ""+Items.healthItems.Count + "/" + city.GetComponent<Items>().healthPickUps;
-		radarIconsTexts [2].text = ""+Items.resetItems.Count + "/" + city.GetComponent<Items>().resetPickUps;
+		radarIconsTexts [0].text = ""+CharacterMeshComplete.tranformNum  + " /" + city.GetComponent<Items>().transformPickUps;
+		radarIconsTexts [1].text = ""+Items.healthItems.Count + " /" + city.GetComponent<Items>().healthPickUps;
+		radarIconsTexts [2].text = ""+Items.resetItems.Count + " /" + city.GetComponent<Items>().resetPickUps;
 		radarIconsTexts [3].text = ""+collecteditems;
 
 	}
