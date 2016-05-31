@@ -49,7 +49,7 @@ public class Items : MonoBehaviour {
 			Vector3 pos = new Vector3(Random.Range (0, city.mapWidth), Random.Range (0.0f, city.mapHeight ), Random.Range (0, city.mapWidth));
 			GameObject b = (GameObject) Instantiate(collectors [0], pos, Quaternion.identity);
 
-			Vector3 scale = new Vector3 (Random.Range (5.0f, 10.0f), Random.Range (5.0f, 10.0f), Random.Range (5.0f, 10.0f));
+			Vector3 scale = new Vector3 (Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f));
 			b.transform.localScale = scale;
 			b.transform.parent = this.transform;
 
@@ -68,7 +68,7 @@ public class Items : MonoBehaviour {
 		Vector3 pos = new Vector3(Random.Range (0, city.mapWidth), Random.Range (100.0f, city.mapHeight),Random.Range (0, city.mapWidth));
 		c = (GameObject) Instantiate(collectors [1], pos, Quaternion.identity) as GameObject;
 
-		Vector3 scale = new Vector3 (Random.Range (5.0f, 10.0f), Random.Range (5.0f, 10.0f), Random.Range (5.0f, 10.0f));
+		Vector3 scale = new Vector3 (Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f));
 		c.transform.localScale = scale;
 		c.transform.parent = this.transform;
 
@@ -80,7 +80,6 @@ public class Items : MonoBehaviour {
 	}
 
 
-
 	void CreateHealthAndTransformItems()
 	{
 
@@ -90,7 +89,7 @@ public class Items : MonoBehaviour {
 			Vector3 pos = new Vector3 (Random.Range (0, city.mapWidth), Random.Range (0.0f, city.mapHeight), Random.Range (0, city.mapWidth));
 			GameObject a = (GameObject)Instantiate (collectors [2], pos, Quaternion.identity);
 
-			Vector3 scale = new Vector3 (Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f));
+			Vector3 scale = new Vector3 (Random.Range (10.0f, 18.0f), Random.Range (10.0f, 18.0f), Random.Range (10.0f, 18.0f));
 			a.transform.localScale = scale;
 			a.transform.parent = this.transform;
 
@@ -110,7 +109,7 @@ public class Items : MonoBehaviour {
 			Vector3 pos = new Vector3 (Random.Range (0, city.mapWidth), Random.Range (0.0f, city.mapHeight/2), Random.Range (0, city.mapWidth));
 			GameObject a = (GameObject)Instantiate (collectors [3], pos, Quaternion.identity);
 
-			Vector3 scale = new Vector3 (Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f));
+			Vector3 scale = new Vector3 (Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f));
 			a.transform.localScale = scale;
 			a.transform.parent = this.transform;
 
@@ -119,8 +118,7 @@ public class Items : MonoBehaviour {
 			a.name = "Health" + h;
 			healthItems.Add (a);
 		}
-
-
+			
 	}
 
 

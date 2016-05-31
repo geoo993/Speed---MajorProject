@@ -5,11 +5,12 @@ using System.Collections.Generic;
 
 public class Locator : MonoBehaviour {
 
+	public GameManager gameManager = null;
+
 	private int range = 200;
 
 	public GameObject city = null;
 	public GameObject craft = null;
-	public GameManager gameManager = null;
 
 	public GameObject[] arrowParts = null;
 	public Image playerImage;
@@ -33,59 +34,60 @@ public class Locator : MonoBehaviour {
 		switch (itemsToLocate) {
 
 		case ItemsToLocate.Transformers:
-			if (Items.transformerItems.Count <= 0) {
+			if (CharacterMeshComplete.tranformNum <= 0 && Items.transformerItems.Count <= 0) {
 
 				itemsToLocate = ItemsToLocate.Collectables;
 
 			} else {
-				gameManager.GetComponent<GameManager> ().ShowHideRadarLocatorIcon (0);
+				GameManager.radarIcon = 0 ;
 				locatorTarget = GetClosestIcon (craft.transform.position, Items.transformerItems);
 			}
 			break;
 		case ItemsToLocate.Health: 
 
-			if (Items.healthItems.Count <= 0) {
+			if (GameManager.healthCollectableItems <= 0 && Items.healthItems.Count <= 0) {
 
 				itemsToLocate = ItemsToLocate.Collectables;
 
 			}else{
-				gameManager.GetComponent<GameManager> ().ShowHideRadarLocatorIcon (1);
+				GameManager.radarIcon = 1 ;
 				locatorTarget = GetClosestIcon (craft.transform.position, Items.healthItems);
 			} 
 			break;
 		case ItemsToLocate.Reset: 
 
-			if (Items.resetItems.Count <= 0) {
+			if (GameManager.resetCollectableItems <= 0 && Items.resetItems.Count <= 0) {
 				
 				itemsToLocate = ItemsToLocate.Collectables;
 
 			} else {
-				gameManager.GetComponent<GameManager> ().ShowHideRadarLocatorIcon (2);
+				GameManager.radarIcon = 2 ;
 				locatorTarget = GetClosestIcon (craft.transform.position, Items.resetItems);
 			}
 
 			break;
 		case ItemsToLocate.Collectables: 
 
-			gameManager.GetComponent<GameManager>().ShowHideRadarLocatorIcon (3);
+			GameManager.radarIcon = 3 ;
 			locatorTarget = city.GetComponent<Items>().nextItemPos;
 
 			break;
 
 		}
-
+		gameManager.GetComponent<GameManager>().ShowHideRadarLocatorIcon (GameManager.radarIcon);
 		locatorArrow (locatorTarget);
 
-
-		if (Input.GetKeyDown ("3")) {
+		if (Input.GetKeyDown ("3") || (Input.GetAxis ("PS4_DirectionalPadHorizontal") == -1.0f)) {
 			itemsToLocate = ItemsToLocate.Transformers;
-		}else if (Input.GetKeyDown ("4")) {
+		}else if (Input.GetKeyDown ("4") || (Input.GetAxis ("PS4_DirectionalPadVertical") == -1.0f)) {
 			itemsToLocate = ItemsToLocate.Health;
-		}else if (Input.GetKeyDown ("5")) {
+		}else if (Input.GetKeyDown ("5") || (Input.GetAxis ("PS4_DirectionalPadVertical") == 1.0f)) {
 			itemsToLocate = ItemsToLocate.Reset;
-		}else if (Input.GetKeyDown ("6")) {
+		}else if (Input.GetKeyDown ("6") || (Input.GetAxis ("PS4_DirectionalPadHorizontal") == 1.0f)) {
 			itemsToLocate = ItemsToLocate.Collectables;
 		}
+
+
 
 	}
 

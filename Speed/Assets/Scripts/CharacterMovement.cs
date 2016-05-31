@@ -3,6 +3,10 @@ using System.Collections;
 
 public class CharacterMovement : MonoBehaviour 
 {
+
+	public GameObject gameManager;
+	private GameManager gameManagerScript;
+
 	//.............. plane...............
     //Rotaton and position of our airplane
 	private static float rotationx = 0;
@@ -35,10 +39,12 @@ public class CharacterMovement : MonoBehaviour
 	[HideInInspector] public bool ballState, groundState, airSate;
 
 	private bool changeSpeed = false;
-
+	private float moveVertical = 0.0f;
+	private float moveHorizontal = 0.0f;
 
 	void Awake(){
 
+		gameManagerScript = gameManager.GetComponent<GameManager> ();
 		craft = GetComponent<CharacterMeshComplete> ();
 		rigid = GetComponent<Rigidbody> ();
 	
@@ -46,7 +52,6 @@ public class CharacterMovement : MonoBehaviour
 
 	void Update () 
 	{
-
 		VehicleTransition ();
 		RigidBodyControl ();
 		UpdateSpeed ();
@@ -132,11 +137,18 @@ public class CharacterMovement : MonoBehaviour
 	void BallMovement(){
 		speed = 200f;
 
-		float moveHorizontal = Input.GetAxis ("Horizontal"); 
-		float moveVertical = Input.GetAxis ("Vertical");
+
+		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
+
+			moveHorizontal = Input.GetAxis ("Horizontal"); 
+			moveVertical = Input.GetAxis ("Vertical");
+
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+			moveHorizontal = Input.GetAxis ("PS4_LeftAnalogHorizontal"); 
+			moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
+		}
 
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-
 		rigid.AddForce (movement * (speed * 10) * Time.deltaTime);
 
 	}
@@ -145,13 +157,24 @@ public class CharacterMovement : MonoBehaviour
 	{
 		speed = 300f;
 
+
+		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
+			moveVertical = Input.GetAxis ("Vertical");
+			moveHorizontal = Input.GetAxis ("Horizontal");
+
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+			moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
+			moveHorizontal = Input.GetAxis ("PS4_RightAnalogHorizontal");
+		}
+
+
 		//check if we are touching the ground:
 		if (Physics.Raycast (transform.position, transform.up * -1, 10f)) {
 			////we are on the ground; enable the accelartor and increase drag:
 			rigid.drag = 1;
 
 			////calculate forward force:
-			Vector3 forwardForce = transform.forward * (speed * 10) * Input.GetAxis ("Vertical");
+			Vector3 forwardForce = transform.forward * (speed * 10) * moveVertical;
 
 			////correct the force for deltatime and vehical mass:
 			forwardForce = forwardForce * Time.deltaTime * rigid.mass;
@@ -164,7 +187,7 @@ public class CharacterMovement : MonoBehaviour
 		}
 
 		////you can turn in the air or on the ground:
-		Vector3 turnTorque = Vector3.up * rotationRate * Input.GetAxis ("Horizontal");
+		Vector3 turnTorque = Vector3.up * rotationRate * moveHorizontal;
 
 		////correct the force for deltatime and vehicle mass:
 		turnTorque = turnTorque * Time.deltaTime * rigid.mass;
@@ -174,7 +197,7 @@ public class CharacterMovement : MonoBehaviour
 		Vector3 newRotation = transform.eulerAngles;
 		float xRotation = Mathf.Lerp (this.transform.rotation.x, 0f, Time.deltaTime / 5.0f);
 		float zRotation = Mathf.SmoothDampAngle (
-			newRotation.z, Input.GetAxis ("Horizontal") * - turnRotationAngle,
+			newRotation.z, moveHorizontal * - turnRotationAngle,
 			ref rotationVelocity, turnRotationSeekSpeed);
 		newRotation = new Vector3 (0, newRotation.y, zRotation);
 		transform.eulerAngles = newRotation;
@@ -190,6 +213,14 @@ public class CharacterMovement : MonoBehaviour
 			changeSpeed = false;
 		}
 
+		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
+			moveVertical = Input.GetAxis ("Vertical");
+			moveHorizontal = Input.GetAxis ("Horizontal");
+
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+			moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
+			moveHorizontal = Input.GetAxis ("PS4_LeftAnalogHorizontal");
+		}
 
 		// Turn variables to rotation and position of the object
 		rotationx = (int)transform.eulerAngles.x; 
@@ -199,27 +230,27 @@ public class CharacterMovement : MonoBehaviour
 		//------------------------- Rotations of the airplane -------------------------------------------------------------------------
 
 		//Up Down, limited to a minimum speed
-		if ((Input.GetAxis ("Vertical") <= 0) && ((speed > 595))) {
-			transform.Rotate ((Input.GetAxis ("Vertical") * Time.deltaTime * 80), 0, 0); 
+		if ((moveVertical <= 0) && ((speed > 595))) {
+			transform.Rotate ((moveVertical * Time.deltaTime * 80), 0, 0); 
 		}
 		//Special case dive above 90 degrees
-		if ((Input.GetAxis ("Vertical") > 0) && ((speed > 595))) {
-			transform.Rotate ((0.8f - divesalto) * (Input.GetAxis ("Vertical") * Time.deltaTime * 80), 0, 0); 
+		if ((moveVertical > 0) && ((speed > 595))) {
+			transform.Rotate ((0.8f - divesalto) * (moveVertical * Time.deltaTime * 80), 0, 0); 
 		}
 
 		//// Left Right in the air  
 		transform.Rotate (0, Time.deltaTime * 100 * rightleftsoft, 0, Space.World); 
 
 		//Tilt multiplied with minus 1 to go into the right direction	
-		transform.Rotate (0, 0, Time.deltaTime * 100 * (1.0f - rightleftsoftabs - diveblocker) * Input.GetAxis ("Horizontal") * -1.0f); 		
+		transform.Rotate (0, 0, Time.deltaTime * 100 * (1.0f - rightleftsoftabs - diveblocker) * moveHorizontal * -1.0f); 		
 
 		//------------------------------------------------ Pitch and Tilt calculations ------------------------------------------
 		//variable rightleftsoft + rightleftsoftabs
 
 		//	//Soft rotation calculation -----This prevents the airplaine to fly to the left while it is still tilted to the right
-		if ((Input.GetAxis ("Horizontal") <= 0) && (rotationz > 0) && (rotationz < 90))
+		if ((moveHorizontal <= 0) && (rotationz > 0) && (rotationz < 90))
 			rightleftsoft = rotationz * 2.2f / 100 * -1; //to the left
-		if ((Input.GetAxis ("Horizontal") >= 0) && (rotationz > 270))
+		if ((moveHorizontal >= 0) && (rotationz > 270))
 			rightleftsoft = (7.92f - rotationz * 2.2f / 100);//to the right
 
 		//Limit rightleftsoft so that the switch isn`t too hard when flying overhead
@@ -254,27 +285,52 @@ public class CharacterMovement : MonoBehaviour
 		//---------------------------- everything rotate back ---------------------------------------------------------------------------------
 
 		//  rotateback when key wrong direction 
-		if ((rotationz < 180) && (Input.GetAxis ("Horizontal") > 0))
+		if ((rotationz < 180) && (moveHorizontal > 0))
 			transform.Rotate (0, 0, rightleftsoft * Time.deltaTime * 80);
-		if ((rotationz > 180) && (Input.GetAxis ("Horizontal") < 0))
+		if ((rotationz > 180) && (moveHorizontal < 0))
 			transform.Rotate (0, 0, rightleftsoft * Time.deltaTime * 80);
 
-		//Rotate back in z axis general, limited by no horizontal button pressed
-		if (!Input.GetButton ("Horizontal")) 
-		{
-			if ((rotationz < 135))
-				transform.Rotate (0, 0, rightleftsoftabs * Time.deltaTime * -100);
-			if ((rotationz > 225))
-				transform.Rotate (0, 0, rightleftsoftabs * Time.deltaTime * 100);
+
+
+		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
+
+			//Rotate back in z axis general, limited by no horizontal button pressed
+			if (!Input.GetButton ("Horizontal")) 
+			{
+				if ((rotationz < 135))
+					transform.Rotate (0, 0, rightleftsoftabs * Time.deltaTime * -100);
+				if ((rotationz > 225))
+					transform.Rotate (0, 0, rightleftsoftabs * Time.deltaTime * 100);
+			}
+
+			//Rotate back X axis
+			if (!Input.GetButton ("Vertical")) {
+				if ((rotationx > 0) && (rotationx < 180))
+					transform.Rotate (Time.deltaTime * -50, 0, 0);
+				if ((rotationx > 0) && (rotationx > 180))
+					transform.Rotate (Time.deltaTime * 50, 0, 0);
+			}
+
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+
+			//Rotate back in z axis general, limited by no horizontal button pressed
+			if (moveHorizontal == 0.0f) 
+			{
+				if ((rotationz < 135))
+					transform.Rotate (0, 0, rightleftsoftabs * Time.deltaTime * -100);
+				if ((rotationz > 225))
+					transform.Rotate (0, 0, rightleftsoftabs * Time.deltaTime * 100);
+			}
+
+			//Rotate back X axis
+			if (moveVertical == 0.0f) {
+				if ((rotationx > 0) && (rotationx < 180))
+					transform.Rotate (Time.deltaTime * -50, 0, 0);
+				if ((rotationx > 0) && (rotationx > 180))
+					transform.Rotate (Time.deltaTime * 50, 0, 0);
+			}
 		}
 
-		//Rotate back X axis
-		if (!Input.GetButton ("Vertical") ) {
-			if ((rotationx > 0) && (rotationx < 180))
-				transform.Rotate (Time.deltaTime * -50, 0, 0);
-			if ((rotationx > 0) && (rotationx > 180))
-				transform.Rotate (Time.deltaTime * 50, 0, 0);
-		}
 
 		//----------------------------Speed driving and flying ----------------------------------------------------------------
 
@@ -282,32 +338,64 @@ public class CharacterMovement : MonoBehaviour
 		transform.Translate (0, 0, speed / 20f * Time.deltaTime);
 		//We need a minimum speed limit in the air. We limit again with the groundtrigger.triggered variable
 
-		// Input Accellerate and deccellerate in the air
-		if ((Input.GetKey ("z")) && (speed < maxSpeed))////800
-			speed += Time.deltaTime * 240;
-		if ((Input.GetKey ("x")) && (speed > minSpeed))//(speed > 600))  ///600
-			speed -= Time.deltaTime * 240;
+		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
+			
+			// Input Accellerate and deccellerate in the air
+			if ((Input.GetKey ("z")) && (speed < maxSpeed))////800
+				speed += Time.deltaTime * 240;
+			if ((Input.GetKey ("x")) && (speed > minSpeed))//(speed > 600))  ///600
+				speed -= Time.deltaTime * 240;
+			
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+			
+			// Input Accellerate and deccellerate in the air
+			if ((Input.GetAxis ("PS4_R2") > 0.0f) && (speed < maxSpeed))////800
+				speed += Time.deltaTime * 240;
+			if ((Input.GetAxis ("PS4_L2") > 0.0f) && (speed > minSpeed))//(speed > 600))  ///600
+				speed -= Time.deltaTime * 240;
+
+		}
+			
 
 		if (speed < 0)
 			speed = 0; //floatingpoint calculations makes a fix necessary so that speed cannot be below zero
 
-		//Another speed floatingpoint fix:
-		if ((!Input.GetKey ("z")) && (!Input.GetKey ("x")) && (speed > (defaultSpeed - 5f)) && (speed < (defaultSpeed + 5f))) ////695 === 705
-			speed = defaultSpeed;
-		
+		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
+			//Another speed floatingpoint fix:
+			if ((!Input.GetKey ("z")) && (!Input.GetKey ("x")) && (speed > (defaultSpeed - 5f)) && (speed < (defaultSpeed + 5f))) ////695 === 705
+				speed = defaultSpeed;
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+			//Another speed floatingpoint fix:
+			if (((Input.GetAxis ("PS4_R2") <= 0.0f) && (Input.GetAxis ("PS4_L2") <= 0.0f)) && (speed > (defaultSpeed - 5f)) && (speed < (defaultSpeed + 5f))) ////695 === 705
+				speed = defaultSpeed;
+		}
+			
 
 		//----------------------------------------------------- Uplift  ----------------------------------------------------------------------
 
 		//When we don`t accellerate or deccellerate we want to go to a neutral speed in the air. With this speed it has to stay at a neutral height. 
 		//Above this value the airplane has to climb, with a lower speed it has to  sink. That way we are able to takeoff and land then.
 
-		// Neutral speed at 700
-		//This code resets the speed to 700 when there is no acceleration or deccelleration. speed is between Maximum 800, minimum 600, so go back to 700
-		if ((Input.GetKey ("z") == false) && (Input.GetKey ("x") == false) && (speed > (minSpeed - 5f)) && (speed < defaultSpeed)) //595 === 700
-			speed += Time.deltaTime * 240.0f;
-		if ((Input.GetKey ("z") == false) && (Input.GetKey ("x") == false) && (speed > (minSpeed - 5f)) && (speed > defaultSpeed))// 595 === 700
-			speed -= Time.deltaTime * 240.0f;
-		
+		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
+
+			// Neutral speed at 700
+			//This code resets the speed to 700 when there is no acceleration or deccelleration. speed is between Maximum 800, minimum 600, so go back to 700
+			if (!Input.GetKey ("z") && (!Input.GetKey ("x")) && (speed > (minSpeed - 5f)) && (speed < defaultSpeed)) //595 === 700
+				speed += Time.deltaTime * 240.0f;
+			if (!Input.GetKey ("z") && (!Input.GetKey ("x")) && (speed > (minSpeed - 5f)) && (speed > defaultSpeed))// 595 === 700
+				speed -= Time.deltaTime * 240.0f;
+
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+
+			// Neutral speed at 700
+			//This code resets the speed to 700 when there is no acceleration or deccelleration. speed is between Maximum 800, minimum 600, so go back to 700
+			if (((Input.GetAxis ("PS4_R2") <= 0.0f) && (Input.GetAxis ("PS4_L2") <= 0.0f)) && (speed > (minSpeed - 5f)) && (speed < defaultSpeed)) //595 === 700
+				speed += Time.deltaTime * 240.0f;
+
+			if (((Input.GetAxis ("PS4_R2") <= 0.0f) && (Input.GetAxis ("PS4_L2") <= 0.0f)) && (speed > (minSpeed - 5f)) && (speed > defaultSpeed))// 595 === 700
+				speed -= Time.deltaTime * 240.0f;
+
+		}
 	}
 
 	void UpdateSpeed()
@@ -343,20 +431,6 @@ public class CharacterMovement : MonoBehaviour
 		}
 
 	}
-
-//	void OnGUI() {
-//		
-//		GUI.contentColor = Color.red; 
-//		GUI.Label(new Rect(2000, 10, 200, 20), ("Plane Speed: "+ speed).ToString());
-//		GUI.Label(new Rect(2000, 30, 200, 20), ("Plane Y: "+ this.transform.position.y).ToString());
-//		GUI.Label(new Rect(2000, 50, 200, 20), ("Plane Z: "+ this.transform.position.z).ToString());
-//		GUI.Label(new Rect(2000, 70, 200, 20), ("Plane X: "+ this.transform.rotation.x).ToString());
-//		GUI.Label(new Rect(2000, 90, 200, 20), ("Plane Rotation X: "+ this.transform.localRotation.x).ToString());
-//		GUI.Label(new Rect(2000, 110, 200, 20), ("Plane Rotation Y: "+ this.transform.localRotation.y).ToString());
-//		GUI.Label(new Rect(2000, 130, 200, 20), ("Plane Rotation Z: "+ this.transform.localRotation.z).ToString());
-//		GUI.Label(new Rect(2000, 230, 200, 20), ("rightleftsoftabs: "+ rightleftsoftabs).ToString());
-//		GUI.Label(new Rect(2000, 250, 200, 20), ("Pseudo gravitation: "+ pseudogravitation).ToString());
-//	}
 
 
 }

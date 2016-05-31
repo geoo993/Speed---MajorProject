@@ -3,7 +3,10 @@ using System.Collections;
 
 public class CameraTracker : MonoBehaviour {
 
+	public GameObject gameManager;
 	public Transform target;
+
+	private GameManager gameManagerScript;
 
 	private float distance = 50.0f;
 	private float currentX = 0.0f;
@@ -23,8 +26,10 @@ public class CameraTracker : MonoBehaviour {
 	private float groundTimer = 0.0f;
 
 
+
 	void Awake ()
 	{
+		gameManagerScript = gameManager.GetComponent<GameManager> ();
 		craftMovement = target.GetComponent<CharacterMovement> ();
 
 	}
@@ -41,10 +46,21 @@ public class CameraTracker : MonoBehaviour {
 	}
 	void Update ()
 	{
+		
+		UpdateControls ();
 
-		currentX += Input.GetAxis ("Vertical2");
-		currentY += Input.GetAxis ("Horizontal2");
+	}
 
+	void UpdateControls(){
+
+		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
+			currentX += Input.GetAxis ("VerticalSW");
+			currentY += Input.GetAxis ("HorizontalAD");
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) 
+		{
+			currentX += Input.GetAxis ("PS4_RightAnalogVertical");
+			currentY += Input.GetAxis ("PS4_RightAnalogHorizontal");
+		}
 	}
 	void LateUpdate () {
 

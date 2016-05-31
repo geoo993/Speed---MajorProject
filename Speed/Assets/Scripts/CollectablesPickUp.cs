@@ -23,7 +23,7 @@ public class CollectablesPickUp : MonoBehaviour {
 			//city.GetComponent<Track> ().UpdateCollectable();
 
 
-			GameManager.collecteditems += 1;
+			GameManager.collectedItems += 1;
 			//print ("hit on enter");
 
 		}

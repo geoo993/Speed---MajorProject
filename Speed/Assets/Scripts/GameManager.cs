@@ -27,9 +27,18 @@ public class GameManager : MonoBehaviour {
 	public Color interfaceColor = Color.cyan;
 
 	public static float inTransitionNum = 100;
-	public static int collecteditems = 0; 
+
+	public static int radarIcon = 0; 
+
+	public static int collectedItems = 0; 
+	public static int healthCollectableItems = 0; 
+	public static int resetCollectableItems = 0; 
 
 	private string iconState = "idle";
+
+	public enum ControlsType { Keyboard, Controller };
+	public ControlsType controlsType = ControlsType.Keyboard;
+
 
 	void Start () {
 
@@ -45,9 +54,97 @@ public class GameManager : MonoBehaviour {
 		UpdateFillBars ();
 		UpdateTexts ();
 		UpdateIcons ();
+		PS4Controls ();
+
 
 	}
 
+
+
+	void PS4Controls()
+	{
+
+		if (Input.GetKeyDown ("7") || Input.GetButtonDown ("PS4_X")) {
+
+			if (healthCollectableItems > 0 && radarIcon == 1) {
+				health += 20;
+				healthCollectableItems -= 1;
+			}
+
+			if (resetCollectableItems > 0 && radarIcon == 2) {
+				
+				resetCollectableItems -= 1;
+			}
+
+		}
+
+		////Axis
+//		print("Right Analog Horizontal: "+ Input.GetAxis ("PS4_RightAnalogHorizontal") +
+//				"    Right Analog Vertical: "+ Input.GetAxis ("PS4_RightAnalogVertical")+
+//				"    Horizontal: "+ Input.GetAxis ("Horizontal") +
+//				"    Vertical: "+ Input.GetAxis ("Vertical")
+//		);
+//
+//
+//		print("D-Pad Horizontal: "+ Input.GetAxis ("PS4_DirectionalPadHorizontal") +
+//			"    D-Pad Vertical: "+ Input.GetAxis ("PS4_DirectionalPadVertical")+
+//			"    Horizontal: "+ Input.GetAxis ("Horizontal") +
+//			"    Vertical: "+ Input.GetAxis ("Vertical")
+//		);
+
+//		print("L2: "+ Input.GetAxis ("PS4_L2") +
+//			"    R2: "+ Input.GetAxis ("PS4_R2")+
+//			"    Horizontal: "+ Input.GetAxis ("Horizontal") +
+//			"    Vertical: "+ Input.GetAxis ("Vertical")
+//		);
+
+//		print("Left Analog Horizontal: "+ Input.GetAxis ("PS4_LeftAnalogHorizontal") +
+//			"    Left Analog Vertical: "+ Input.GetAxis ("PS4_LeftAnalogVertical")+
+//			"    Horizontal: "+ Input.GetAxis ("Horizontal") +
+//			"    Vertical: "+ Input.GetAxis ("Vertical")
+//		);
+
+
+		////buttons
+//		if (Input.GetButton ("PS4_X")) 
+//		{
+//			print("Pressed X");
+//		}
+//		if (Input.GetButton ("PS4_O")) {
+//			print("Pressed O");
+//		}
+//		if (Input.GetButton ("PS4_Triangle")) {
+//			print("Pressed Triangle");
+//		}
+//		if (Input.GetButton ("PS4_Square")) {
+//			print("Pressed Square");
+//		}
+//		if (Input.GetButton ("PS4_Share")) {
+//			print("Pressed Share");
+//		}
+//		if (Input.GetButton ("PS4_Options")) {
+//			print("Pressed Options");
+//		}
+//		if (Input.GetButton ("PS4_R1")) {
+//			print("Pressed R1");
+//		}
+//		if (Input.GetButton ("PS4_R3")) {
+//			print("Pressed R3");
+//		}
+//		if (Input.GetButton ("PS4_L1")) {
+//			print("Pressed L1");
+//		}
+//		if (Input.GetButton ("PS4_L3")) {
+//			print("Pressed L3");
+//		}
+//		if (Input.GetButton ("PS4_Touch")) {
+//			print("Pressed Touch");
+//		}
+//		if (Input.GetButton ("PS4_PSN")) {
+//			print("Pressed PSN");
+//		}
+
+	}
 	void UpdateInTransitionSlider(){
 
 		sliderBars[0].value = inTransitionNum;
@@ -57,8 +154,8 @@ public class GameManager : MonoBehaviour {
 
 			mainTexts[0].enabled = false;
 		}
-
 	}
+
 	void UpdateHealthSlider(){
 
 		sliderBars[1].value = health;
@@ -103,16 +200,16 @@ public class GameManager : MonoBehaviour {
 		mainTexts[0].color = new Color(interfaceColor.r,interfaceColor.g,interfaceColor.b, flashing(1.0f));
 		mainTexts[1].text = "Health ( "+health+" )";
 		mainTexts[2].text = "Speed ( "+Mathf.Round(CharacterMovement.speed)+" )";
-		mainTexts[3].text = "Points/Score ";
+		mainTexts[3].text = "Points /Score ";
 
 		for (int i = 1; i < mainTexts.Length; i++) {
 			mainTexts [i].color = interfaceColor;
 		}
 
 		radarIconsTexts [0].text = ""+CharacterMeshComplete.tranformNum  + " /" + city.GetComponent<Items>().transformPickUps;
-		radarIconsTexts [1].text = ""+Items.healthItems.Count + " /" + city.GetComponent<Items>().healthPickUps;
-		radarIconsTexts [2].text = ""+Items.resetItems.Count + " /" + city.GetComponent<Items>().resetPickUps;
-		radarIconsTexts [3].text = ""+collecteditems;
+		radarIconsTexts [1].text = ""+healthCollectableItems + " /" + city.GetComponent<Items>().healthPickUps;
+		radarIconsTexts [2].text = ""+resetCollectableItems + " /" + city.GetComponent<Items>().resetPickUps;
+		radarIconsTexts [3].text = ""+collectedItems;
 
 	}
 
