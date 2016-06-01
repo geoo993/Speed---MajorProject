@@ -53,9 +53,12 @@ public class CameraTracker : MonoBehaviour {
 
 	void UpdateControls(){
 
-		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
+		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) 
+		{
+			
 			currentX += Input.GetAxis ("VerticalSW");
 			currentY += Input.GetAxis ("HorizontalAD");
+
 		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) 
 		{
 			currentX += Input.GetAxis ("PS4_RightAnalogVertical");
@@ -83,6 +86,7 @@ public class CameraTracker : MonoBehaviour {
 		transform.position = target.position + rotation * dir;
 		transform.LookAt (target.position);
 
+		//print ("pos: " + transform.position + "   rotation: " + rotation);
 
 //		if (getPos == "ball") {
 //			transform.position = lookTargetFromBehind();

@@ -7,6 +7,11 @@ public class CharacterMovement : MonoBehaviour
 	public GameObject gameManager;
 	private GameManager gameManagerScript;
 
+	public ParticleSystem travelerParticle = null;
+	public ParticleSystem rearParticle1 = null;
+	public ParticleSystem rearParticle2 = null;
+
+
 	//.............. plane...............
     //Rotaton and position of our airplane
 	private static float rotationx = 0;
@@ -17,7 +22,6 @@ public class CharacterMovement : MonoBehaviour
 	[HideInInspector] public static float minSpeed = 600f;
 	[HideInInspector] public static float defaultSpeed = 700f;
 	[HideInInspector] public static float speed = 0.0f;// speed variable is the speed
-
 
 	private float pseudogravitation = -0.3f; // downlift for driving through landscape
 
@@ -42,6 +46,8 @@ public class CharacterMovement : MonoBehaviour
 	private float moveVertical = 0.0f;
 	private float moveHorizontal = 0.0f;
 
+	private string craftLevel = "idle";
+
 	void Awake(){
 
 		gameManagerScript = gameManager.GetComponent<GameManager> ();
@@ -55,6 +61,8 @@ public class CharacterMovement : MonoBehaviour
 		VehicleTransition ();
 		RigidBodyControl ();
 		UpdateSpeed ();
+		SetParticles ();
+		SetFieldView ();
 	}
 
 	void FixedUpdate ()
@@ -68,75 +76,225 @@ public class CharacterMovement : MonoBehaviour
 			GroundHoveringMovement ();
 		}
 
-	}
-	void VehicleTransition(){
 
+		if ((craft.moveState == "ball" && craft.animateCount == 0) || (craft.moveState == "car" && craft.animateCount == 2)) {
+
+			craftLevel = "ball";
+
+		}else if ((craft.moveState == "car" && craft.animateCount == 1) || (craft.moveState == "airplane" && craft.animateCount == 3)) {
+
+			craftLevel = "car";
+
+		} else if((craft.moveState == "airplane" && craft.animateCount == 2) || (craft.moveState == "jet" && craft.animateCount == 4))
+		{
+			craftLevel = "airplane";
+
+		} else if ((craft.moveState == "jet" && craft.animateCount == 3) || (craft.moveState == "nasa" && craft.animateCount == 5)){
+
+			craftLevel = "jet";
+
+		}else if (craft.moveState == "nasa" && craft.animateCount == 4)
+		{
+			craftLevel = "nasa";
+		} 
+
+
+	}
+
+
+	void VehicleTransition(){
 
 		if (airSate) {
 			AirMovement ();
+
 		}
 
-		if ((craft.moveState == "ball" && craft.animateCount == 0) || (craft.moveState == "car" && craft.animateCount == 2)) {
+		if (craftLevel == "ball") {
 
 			ballState = true;
 			groundState = false;
 			airSate = false;
 
-		}else if ((craft.moveState == "car" && craft.animateCount == 1) || (craft.moveState == "airplane" && craft.animateCount == 3)) {
-
+		} else if (craftLevel == "car") {
+			
 			ballState = false;
 			groundState = true;
 			airSate = false;
 			changeSpeed = true;
 
-		} else if (
-			(craft.moveState == "airplane" && craft.animateCount == 2) || (craft.moveState == "jet" && craft.animateCount == 4)||
-			(craft.moveState == "jet" && craft.animateCount == 3) || (craft.moveState == "nasa" && craft.animateCount == 5) ||
-			(craft.moveState == "nasa" && craft.animateCount == 4)){
+		} else if (craftLevel == "airplane") {
 
 			ballState = false;
 			groundState = false;
 			airSate = true;
+		} else if (craftLevel == "jet") {
+
+			ballState = false;
+			groundState = false;
+			airSate = true;
+		} else if (craftLevel == "nasa") {
+			ballState = false;
+			groundState = false;
+			airSate = true;
 		}
+
+
 
 	}
 
 	void RigidBodyControl()
 	{
 
-		if ((craft.moveState == "ball" && craft.animateCount == 0) || (craft.moveState == "car" && craft.animateCount == 2)) {
-
+		if (craftLevel == "ball") {
 			rigid.useGravity = true;
 			rigid.mass = 1f;
 
+		} else if (craftLevel == "car") {
 
-		}else if ((craft.moveState == "car" && craft.animateCount == 1) || (craft.moveState == "airplane" && craft.animateCount == 3)) {
-				
 			rigid.useGravity = true;
 			rigid.mass = 100f;
 
-		} else if((craft.moveState == "airplane" && craft.animateCount == 2) || (craft.moveState == "jet" && craft.animateCount == 4))
-		{
-			rigid.useGravity = false;
-			rigid.mass = 300f;
+		} else if (craftLevel == "airplane") {
 
-		} else if ((craft.moveState == "jet" && craft.animateCount == 3) || (craft.moveState == "nasa" && craft.animateCount == 5)){
 			rigid.useGravity = false;
-			rigid.mass = 220f;
-		
-		}else if (craft.moveState == "nasa" && craft.animateCount == 4)
-		{
+			rigid.mass = 250f;
+
+		} else if (craftLevel == "jet") {
+
+			rigid.useGravity = false;
+			rigid.mass = 200f;
+
+		} else if (craftLevel == "nasa") {
 			rigid.useGravity = false;
 			rigid.mass = 150f;
+		}
 
-		} 
+
+	}
+
+	void SetParticles(){
+
+		if (craftLevel == "ball") {
+
+			UpdateWindParticle (0.0f, 0.0f,0.0f);
+			UpdateRearParticles (0.0f, 0.0f, 0.0f, 0.0f);
+
+		} else if (craftLevel == "car") {
+
+			UpdateWindParticle (0.0f, 2.0f, 0.0f); 
+			UpdateRearParticles (0.0f, 0.0f, 0.0f, 0.0f);
+
+		} else if (craftLevel == "airplane") {
+			
+			UpdateWindParticle (50.0f, 10.0f, 5.0f);
+			UpdateRearParticles (150.0f, 100.0f, 50.0f, 60.0f);
+
+		} else if (craftLevel == "jet") {
+
+			UpdateWindParticle (80.0f, 20.0f, 10.0f);
+			UpdateRearParticles (80.0f, 50.0f, 20.0f, 40.0f);
+
+		} else if (craftLevel == "nasa") {
+			
+			UpdateWindParticle (300.0f, 40.0f, 30f);
+			UpdateRearParticles (120.0f, 80.0f, 50.0f, 40.0f);
+		}
+
+	
+	}
+
+
+	private void UpdateWindParticle(float withSpeed, float withoutSpeed, float slowingDown){
+
+		travelerParticle.startColor = gameManagerScript.interfaceColor;
+
+		if (Input.GetKey ("z") || (Input.GetAxis ("PS4_R2") > 0.0f)) {
+			
+			ParticleSystemExtension.SetEmissionRate (travelerParticle, withSpeed);
+
+		}else if (Input.GetKey ("x") || (Input.GetAxis ("PS4_L2") > 0.0f)) {
+			
+			ParticleSystemExtension.SetEmissionRate (travelerParticle, slowingDown);
+		}
+		else {
+			
+			ParticleSystemExtension.SetEmissionRate (travelerParticle, withoutSpeed);
+		}
+	}
+	private void UpdateRearParticles(float withSpeed, float withoutSpeed, float slowingDown, float startSpeed){
+
+		rearParticle1.startSpeed = startSpeed;
+		rearParticle2.startSpeed = startSpeed;
+
+		if (Input.GetKey ("z") || (Input.GetAxis ("PS4_R2") > 0.0f)) {
+
+			ParticleSystemExtension.SetEmissionRate (rearParticle1, withSpeed);
+			ParticleSystemExtension.SetEmissionRate (rearParticle2, withSpeed);
+
+			rearParticle1.startColor = gameManagerScript.interfaceColor;
+			rearParticle2.startColor = gameManagerScript.interfaceColor;
+
+
+		}else if (Input.GetKey ("x") || (Input.GetAxis ("PS4_L2") > 0.0f)) {
+
+			ParticleSystemExtension.SetEmissionRate (rearParticle1, slowingDown);
+			ParticleSystemExtension.SetEmissionRate (rearParticle2, slowingDown);
+			rearParticle1.startColor = Color.white;
+			rearParticle2.startColor = Color.white;
+		}
+		else {
+
+			ParticleSystemExtension.SetEmissionRate (rearParticle1, withoutSpeed);
+			ParticleSystemExtension.SetEmissionRate (rearParticle2, withoutSpeed);
+
+			rearParticle1.startColor = Color.white;
+			rearParticle2.startColor = Color.white;
+		}
+	}
+	void SetFieldView(){
+
+		if (craftLevel == "ball") {
+
+			UpdateFieldView (moveVertical,"out", 50.0f, 50.0f, 0.0f);
+
+		} else if (craftLevel == "car") {
+
+			UpdateFieldView (moveVertical,"out", 38.0f, 42.0f, 5.0f);
+
+		} else if (craftLevel == "airplane") {
+
+			//30, 40, 50
+			Camera.main.fieldOfView = Mathf.Clamp(GameManager.speedValue,30f, 50f);
+
+		} else if (craftLevel == "jet") {
+			// 45,  55,  75
+			Camera.main.fieldOfView = Mathf.Clamp(GameManager.speedValue - 5.0f,40f, 70f);
+
+		} else if (craftLevel == "nasa") {
+			//60, 75, 100
+			Camera.main.fieldOfView = Mathf.Clamp(GameManager.speedValue - 10f,50f, 90f);
+
+		}
+		//print (Camera.main.fieldOfView);
+	}
+	void UpdateFieldView(float control, string inOrOut, float minView, float maxView, float sensitivity ){
+
+		float fov = Camera.main.fieldOfView;
+
+		if (inOrOut == "out"){
+			fov += control * sensitivity;
+		}
+		if (inOrOut == "in"){
+			fov -= control * sensitivity;
+		}
+		fov = Mathf.Clamp(fov, minView, maxView);
+		Camera.main.fieldOfView = fov;
 
 	}
 
 
 	void BallMovement(){
 		speed = 200f;
-
 
 		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
 
@@ -350,8 +508,10 @@ public class CharacterMovement : MonoBehaviour
 			
 			// Input Accellerate and deccellerate in the air
 			if ((Input.GetAxis ("PS4_R2") > 0.0f) && (speed < maxSpeed))////800
+				
 				speed += Time.deltaTime * 240;
 			if ((Input.GetAxis ("PS4_L2") > 0.0f) && (speed > minSpeed))//(speed > 600))  ///600
+				
 				speed -= Time.deltaTime * 240;
 
 		}
