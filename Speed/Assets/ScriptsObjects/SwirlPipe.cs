@@ -15,8 +15,18 @@ public class SwirlPipe : MonoBehaviour {
 	[Range(0,10)] public float ringDistance;
 	[Range(1,360)] public float xRotation;
 
-	private float curveRadius;
+	public float CurveRadius {
+		get {
+			return curveRadius;
+		}
+	}
+
 	private float curveAngle;
+	public float CurveAngle {
+		get {
+			return curveAngle;
+		}
+	}
 
 	private Mesh mesh;
 	private Vector3[] vertices;

@@ -12,16 +12,16 @@ public class SquarePyramid : MonoBehaviour {
 	[Range(0.1f,5)] public float height = 3f; 
 	Color color;
 
-	//MeshCollider meshCollider;
+	MeshCollider meshCollider;
 
 	void Awake ()
 	{
 		
 		color = new Color( Random.value, Random.value, Random.value, 1.0f);
 
-		//meshCollider = gameObject.AddComponent(typeof(MeshCollider)) as MeshCollider;
-		BoxCollider boxCollider = gameObject.AddComponent<BoxCollider>();
-		boxCollider.center = Vector3.zero;
+		meshCollider = GetComponent(typeof(MeshCollider)) as MeshCollider;
+//		BoxCollider boxCollider = gameObject.AddComponent<BoxCollider>();
+//		boxCollider.center = Vector3.zero;
 	}
 
 	void Update()
@@ -188,7 +188,7 @@ public class SquarePyramid : MonoBehaviour {
 		mesh.RecalculateBounds();
 		mesh.Optimize();
 
-		//meshCollider.sharedMesh = mesh; // Give it your mesh here.
+		meshCollider.sharedMesh = mesh; // Give it your mesh here.
 
 	}
 }

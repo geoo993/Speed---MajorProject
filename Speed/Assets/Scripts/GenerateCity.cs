@@ -27,7 +27,7 @@ public class GenerateCity : MonoBehaviour {
 	[Range(100,1000)] public int mapHeight = 1000;
 
 	[Range(1,20)] public int buildingsFrequency = 10;
-	[Range(200f,600f)] public float buildingsLimit = 600.0f;
+	[Range(50f,600f)] public float buildingsLimit = 600.0f;
 
 	[Range(0, 50)] public int buildingsMinHeight = 10;
 	[Range(10, 100)] public int buildingsMaxHeight = 60;
@@ -140,82 +140,82 @@ public class GenerateCity : MonoBehaviour {
 
 		yield return wait;
 
-//		for (int i = 0; i < areas.Count; i++) {
-//
-//			xSize = (int)areas[i].GetComponent<MeshRenderer> ().bounds.size.x;
-//			zSize = (int)areas[i].GetComponent<MeshRenderer> ().bounds.size.z;
-//
-//			float distanceToCenter = Vector3.Distance (new Vector3(mapWidth/2, 0, mapHeight/2), areas [i].transform.localPosition);
-//
-//			float distanceToMapEdge = Vector3.Distance (GetClosestEdge (areas [i].transform.localPosition, mapEdgePoints), areas [i].transform.localPosition);
-//
-//			//move from center
-//			float xx = areas[i].transform.position.x - ((float)xSize/2.0f);
-//			float zz = areas[i].transform.position.z - ((float)zSize/2.0f);
-//
-//			Vector3 pivotPoint = new Vector3 (xx,areas[i].transform.position.y, zz);
-//
-//
-//			roundTop = (Random.Range (0, 2) == 0);
-//
-//			if (distanceToCenter < buildingsLimit) {
-//
-//				int splitSize = (int)buildingsLimit / buildingsFrequency;
-//
-//				if (xSize > splitSize || zSize > splitSize) {
-//
-//					int xCount = 1;
-//					while (xSize / xCount > splitSize) {
-//
-//						xCount++;
-//					}
-//					float xOffset = xSize / xCount;
-//
-//					int zCount = 1;
-//					while (zSize / zCount > splitSize) {
-//						zCount++;
-//					}
-//					float zOffset = zSize / zCount;
-//
-//					List<Vector3> pointsInArea = new List<Vector3> ();
-//					for (int s = 0; s < xCount; s++) {
-//
-//						float xP = pivotPoint.x + (s * xOffset);
-//
-//						for (int z = 0; z < zCount; z++) {
-//
-//							float zP = pivotPoint.z + (z * zOffset);
-//
-//							Vector3 finalP = new Vector3 (xP, pivotPoint.y, zP);
-//							pointsInArea.Add (finalP);
-//						}
-//
-//					}
-//					xSize = (int)xOffset - (int)stretcher - 5;
-//					zSize = (int)zOffset - (int)stretcher - 5;
-//
-//
-//					for (int o = 0; o < pointsInArea.Count; o++) {
-//
-//						ySize = Random.Range(buildingsMinHeight,buildingsMaxHeight) + ((int)distanceToMapEdge / 4);
-//						Vector3 buildingPos1 = new Vector3 (pointsInArea [o].x + (stretcher / 2), transform.localPosition.y, pointsInArea [o].z + (stretcher / 2));
-//						AddBuilding ("building", buildingPos1);
-//					}
-//
-//
-//				} else {
-//					
-//					xSize -= (int)stretcher - 5;
-//					ySize = Random.Range(buildingsMinHeight,buildingsMaxHeight) + ((int)distanceToMapEdge / 4);
-//					zSize -= (int)stretcher - 5;
-//					Vector3 buildingPos2 = new Vector3 (pivotPoint.x + (stretcher / 2), this.transform.position.y, pivotPoint.z + (stretcher / 2));
-//
-//					AddBuilding ("building", buildingPos2);
-//				}
-//
-//			}
-//			//yield return wait;
-//		}
+		for (int i = 0; i < areas.Count; i++) {
+
+			xSize = (int)areas[i].GetComponent<MeshRenderer> ().bounds.size.x;
+			zSize = (int)areas[i].GetComponent<MeshRenderer> ().bounds.size.z;
+
+			float distanceToCenter = Vector3.Distance (new Vector3(mapWidth/2, 0, mapHeight/2), areas [i].transform.localPosition);
+
+			float distanceToMapEdge = Vector3.Distance (GetClosestEdge (areas [i].transform.localPosition, mapEdgePoints), areas [i].transform.localPosition);
+
+			//move from center
+			float xx = areas[i].transform.position.x - ((float)xSize/2.0f);
+			float zz = areas[i].transform.position.z - ((float)zSize/2.0f);
+
+			Vector3 pivotPoint = new Vector3 (xx,areas[i].transform.position.y, zz);
+
+
+			roundTop = (Random.Range (0, 2) == 0);
+
+			if (distanceToCenter < buildingsLimit) {
+
+				int splitSize = (int)buildingsLimit / buildingsFrequency;
+
+				if (xSize > splitSize || zSize > splitSize) {
+
+					int xCount = 1;
+					while (xSize / xCount > splitSize) {
+
+						xCount++;
+					}
+					float xOffset = xSize / xCount;
+
+					int zCount = 1;
+					while (zSize / zCount > splitSize) {
+						zCount++;
+					}
+					float zOffset = zSize / zCount;
+
+					List<Vector3> pointsInArea = new List<Vector3> ();
+					for (int s = 0; s < xCount; s++) {
+
+						float xP = pivotPoint.x + (s * xOffset);
+
+						for (int z = 0; z < zCount; z++) {
+
+							float zP = pivotPoint.z + (z * zOffset);
+
+							Vector3 finalP = new Vector3 (xP, pivotPoint.y, zP);
+							pointsInArea.Add (finalP);
+						}
+
+					}
+					xSize = (int)xOffset - (int)stretcher - 5;
+					zSize = (int)zOffset - (int)stretcher - 5;
+
+
+					for (int o = 0; o < pointsInArea.Count; o++) {
+
+						ySize = Random.Range(buildingsMinHeight,buildingsMaxHeight) + ((int)distanceToMapEdge / 4);
+						Vector3 buildingPos1 = new Vector3 (pointsInArea [o].x + (stretcher / 2), transform.localPosition.y, pointsInArea [o].z + (stretcher / 2));
+						AddBuilding ("building", buildingPos1);
+					}
+
+
+				} else {
+					
+					xSize -= (int)stretcher - 5;
+					ySize = Random.Range(buildingsMinHeight,buildingsMaxHeight) + ((int)distanceToMapEdge / 4);
+					zSize -= (int)stretcher - 5;
+					Vector3 buildingPos2 = new Vector3 (pivotPoint.x + (stretcher / 2), this.transform.position.y, pivotPoint.z + (stretcher / 2));
+
+					AddBuilding ("building", buildingPos2);
+				}
+
+			}
+			//yield return wait;
+		}
 
 
 

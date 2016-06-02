@@ -20,17 +20,19 @@ public class Skybox : MonoBehaviour {
 	public bool lerpMidColor = false;
 	public bool lerpBottomColor = false;
 
+	[Range(0.0f, 1.0f)]public float height = 0.5f;
+
 	[HideInInspector] public Color tc;
 	[HideInInspector] public Color bc; 
 	[HideInInspector] public Color mc;
 
 
 
-	public static Material CreateGradientMaterial(Color topColor, Color middleColor, Color bottomColor)
+	public static Material CreateGradientMaterial(Color topColor, Color middleColor, Color bottomColor, float h)
 	{
 		Material result = new Material (Shader.Find (".ShaderExample/GradientThreeColor"));
 
-		result.SetFloat ("_Middle", 0.5f);
+		result.SetFloat ("_Middle", h);
 		result.SetColor("_ColorTop", topColor);
 		result.SetColor("_ColorMid",middleColor);
 		result.SetColor("_ColorBot", bottomColor);
@@ -59,7 +61,7 @@ public class Skybox : MonoBehaviour {
 		tc = lerpTopColor ? lerp : topColor;
 		mc = lerpMidColor ? lerp : midColor;
 		bc = lerpBottomColor ? lerp : bottomColor;
-		Material material = CreateGradientMaterial(tc,mc,bc);
+		Material material = CreateGradientMaterial(tc, mc, bc, height);
 		SetSkybox(material);
 		//enabled = false;
 
