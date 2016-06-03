@@ -69,8 +69,9 @@ public class Locator : MonoBehaviour {
 //		case ItemsToLocate.Collectables: 
 //
 //			GameManager.radarIcon = 3 ;
-			locatorTarget = city.GetComponent<Items>().nextItemPos;
-//
+			//locatorTarget = city.GetComponent<Items>().nextItemPos;
+			locatorTarget = GetClosestIcon (craft.transform.position, Items.collectablesItems);
+//	
 //			break;
 //
 //		}

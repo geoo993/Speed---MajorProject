@@ -23,7 +23,7 @@ public class CoinPickUp : MonoBehaviour {
 
 			if (Items.coinItems.Count > 0) {
 				//Destroy (this.gameObject);
-				GameManager.coinCollectableItems -= 1;
+				GameManager.coinCollectableItems += 1;
 				Items.RemoveObjectFromHealthList (this.gameObject, Items.coinItems);
 			}
 

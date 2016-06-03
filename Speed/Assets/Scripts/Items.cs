@@ -19,11 +19,10 @@ public class Items : MonoBehaviour {
 
 	[HideInInspector] public static List<GameObject> healthItems = new List<GameObject> ();
 	[HideInInspector] public static List<GameObject> transformerItems = new List<GameObject> ();
-	//[HideInInspector] public List<GameObject> collectablesItems = new List<GameObject> ();
+	[HideInInspector] public static List<Vector3> collectablesItemsPositions = new List<Vector3> ();
+	[HideInInspector] public static List<GameObject> collectablesItems = new List<GameObject> ();
 	//[HideInInspector] public static List<GameObject> resetItems = new List<GameObject> ();
 	[HideInInspector] public static List<GameObject> coinItems = new List<GameObject> ();
-	[HideInInspector] public Vector3 nextItemPos = Vector3.zero;
-	[HideInInspector] private GameObject c;
 
 	void Start () {
 
@@ -36,12 +35,10 @@ public class Items : MonoBehaviour {
 		CreateHealthAndTransformItems ();
 		CreateCollectable ();
 
-
 	}
 	void Update(){
 
-		nextItemPos = c.transform.position;
-
+	
 	}
 
 //	void createResetItems(){
@@ -87,19 +84,21 @@ public class Items : MonoBehaviour {
 
 	public void CreateCollectable()
 	{
+		for (int col = 0; col < collectablesItemsPositions.Count; col++) {
+			//Vector3 pos = new Vector3(Random.Range (0, city.mapWidth), Random.Range (100.0f, city.mapHeight),Random.Range (0, city.mapWidth));
+			GameObject c = (GameObject) Instantiate(collectors [1], collectablesItemsPositions[col], Quaternion.identity) as GameObject;
 
-		Vector3 pos = new Vector3(Random.Range (0, city.mapWidth), Random.Range (100.0f, city.mapHeight),Random.Range (0, city.mapWidth));
-		c = (GameObject) Instantiate(collectors [1], pos, Quaternion.identity) as GameObject;
+			Vector3 scale = new Vector3 (Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f));
+			c.transform.localScale = scale;
+			c.transform.parent = this.transform;
 
-		Vector3 scale = new Vector3 (Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f));
-		c.transform.localScale = scale;
-		c.transform.parent = this.transform;
+			c.GetComponent<Rigidbody> ().useGravity = false;
 
-		c.GetComponent<Rigidbody> ().useGravity = true;
+			c.name = "CollectableItem";
+			c.tag = "RadarCollectable";
 
-		c.name = "CollectableItem";
-		c.tag = "RadarCollectable";
-
+			collectablesItems.Add (c);
+		}
 	}
 
 
@@ -120,7 +119,6 @@ public class Items : MonoBehaviour {
 
 			a.name = "transformers" + t;
 			transformerItems.Add (a);
-
 
 		}
 

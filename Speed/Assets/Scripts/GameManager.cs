@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour {
 	public Image[] fillBarsImages;
 
 	public Image[] gameIcons = null;
-	public Image[] radarLocatorsIcons = null;
 	public Image[] craftIcons = null;
 	public Image[] craftSliderIcons = null;
 
@@ -46,7 +45,14 @@ public class GameManager : MonoBehaviour {
 
 		craftScript = craft.GetComponent<CharacterMeshComplete>();
 		coinItemsAtStart = Items.coinItems.Count;
-		coinCollectableItems = coinItemsAtStart;
+
+
+		foreach (Vector3 pos in Items.collectablesItemsPositions) {
+
+			//print (Items.collectablesItemsPositions.Count);
+			print(pos);
+		}
+
 	}
 
 	void Update () {
@@ -220,7 +226,7 @@ public class GameManager : MonoBehaviour {
 		radarIconsTexts [1].text = ""+healthCollectableItems + " /" + city.GetComponent<Items>().healthPickUps;
 		//radarIconsTexts [2].text = ""+resetCollectableItems + " /" + city.GetComponent<Items>().resetPickUps;
 		radarIconsTexts [2].text = ""+coinCollectableItems + " /" + coinItemsAtStart;
-		radarIconsTexts [3].text = ""+collectedItems;
+		radarIconsTexts [3].text = ""+collectedItems + " /" +Items.collectablesItemsPositions.Count;
 
 		foreach (Text textIcon in radarIconsTexts) {
 			textIcon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
@@ -299,15 +305,10 @@ public class GameManager : MonoBehaviour {
 //			icon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
 //		}
 //
-//		foreach (Image icon in radarLocatorsIcons) 
-//		{
-//			icon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
-//		}
-//
+
 //		gameIcons [i].transform.localScale = Vector3.one * 1.4f;
 //		gameIcons[i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b,  1.0f);
 //		radarIconsTexts[i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 1.0f);
-//		radarLocatorsIcons [i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 1f);
 //	}
 		
 	private void ShowHideCraftIcon(int i){

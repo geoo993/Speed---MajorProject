@@ -11,6 +11,13 @@ public class HeartPulse : MonoBehaviour {
 			-city.GetComponent<GenerateCity> ().mapHeight/4, 
 			city.GetComponent<GenerateCity> ().transform.position.z + city.GetComponent<GenerateCity> ().mapWidth/2);
 
+		AddCollectableItemPositon ();
+
+	}
+
+	private void AddCollectableItemPositon(){
+
+		Items.collectablesItemsPositions.Add (this.transform.position);
 	}
 
 }

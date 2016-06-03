@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshCollider))]
 
 
 public class CirclePlane : MonoBehaviour {
@@ -11,8 +12,8 @@ public class CirclePlane : MonoBehaviour {
 	public GameObject city = null;
 	public GameObject craft = null;
 
-	[Range(1.0f, 1000.0f)] private float radius = 1000f;
-	[Range(50, 500)] private int numVerts = 500; 
+	[Range(1.0f, 2000.0f)] public float radius = 1000f;
+	[Range(50, 500)] public int numVerts = 500; 
 
 	Vector3[] verts = new Vector3[]{ };
 	Vector2[] uvs = new Vector2[]{};
@@ -29,11 +30,13 @@ public class CirclePlane : MonoBehaviour {
 	{
 		cityScript = city.GetComponent<GenerateCity> ();
 
-		Circle ();
+		//Circle ();
 	}
 
 	void Update ()
 	{
+		Circle ();
+
 		UpdateColor ();
 		UpdateCollider ();
 	}
@@ -115,9 +118,8 @@ public class CirclePlane : MonoBehaviour {
 		mesh.RecalculateBounds();
 		mesh.Optimize();
 
-		meshCollider = gameObject.AddComponent (typeof(MeshCollider)) as MeshCollider;
+		meshCollider = GetComponent (typeof(MeshCollider)) as MeshCollider;
 		meshCollider.sharedMesh = mesh;
-
 
 		this.transform.localScale = Vector3.one * radius;
 		this.transform.eulerAngles = new Vector3 (90, 0.0f, 0.0f);

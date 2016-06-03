@@ -82,7 +82,7 @@ public class GenerateCity : MonoBehaviour {
 
 		this.transform.name = "City";
 		StartCoroutine(GenerateCityBuildings ());
-		//GenerateCityBuildings ();
+		AddCollectableItemPositon ();
 	}
 	private void Update(){
 
@@ -90,6 +90,10 @@ public class GenerateCity : MonoBehaviour {
 
 	}
 
+	private void AddCollectableItemPositon(){
+
+		Items.collectablesItemsPositions.Add (new Vector3 (mapWidth / 2, Random.Range (1f, 50f), mapWidth / 2));
+	}
 
 	private IEnumerator GenerateCityBuildings () 
 	//private void GenerateCityBuildings () 

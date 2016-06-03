@@ -25,10 +25,10 @@ public class SwirlPipeSystem : MonoBehaviour
 	{
 		if (pipeType == PipeType.easy) {
 			
-			pipePos = new Vector3 (0.0f, Random.Range (500.0f, 1000.0f), Random.Range (1500.0f, 2000.0f));
+			pipePos = new Vector3 (0.0f, Random.Range (1000.0f, 2000.0f), Random.Range (1000.0f, 1500.0f));
 
 		} else if (pipeType == PipeType.hard) {
-			pipePos = new Vector3 (0.0f, Random.Range (500.0f, 1000.0f), -Random.Range (1500.0f, 2000.0f));
+			pipePos = new Vector3 (0.0f, Random.Range (1000.0f, 2000.0f), -Random.Range (1000.0f, 1500.0f));
 		}
 		this.transform.position = pipePos;
 
@@ -50,7 +50,13 @@ public class SwirlPipeSystem : MonoBehaviour
 			}
 		}
 
+		AddCollectableItemPositon ();
 
+	}
+
+	private void AddCollectableItemPositon(){
+
+		Items.collectablesItemsPositions.Add (this.transform.position);
 	}
 
 	Vector3 CircumferencePoint ( Vector3 center , float ang,  float radius  ){
