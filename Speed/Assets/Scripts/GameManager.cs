@@ -32,7 +32,9 @@ public class GameManager : MonoBehaviour {
 
 	public static int collectedItems = 0; 
 	public static int healthCollectableItems = 0; 
-	public static int resetCollectableItems = 0; 
+	//public static int resetCollectableItems = 0; 
+	public static int coinCollectableItems = 0; 
+	public static int coinItemsAtStart = 0; 
 
 	private string iconState = "idle";
 
@@ -43,6 +45,8 @@ public class GameManager : MonoBehaviour {
 	void Start () {
 
 		craftScript = craft.GetComponent<CharacterMeshComplete>();
+		coinItemsAtStart = Items.coinItems.Count;
+		coinCollectableItems = coinItemsAtStart;
 	}
 
 	void Update () {
@@ -66,15 +70,21 @@ public class GameManager : MonoBehaviour {
 
 		if (Input.GetKeyDown ("7") || Input.GetButtonDown ("PS4_X")) {
 
-			if (healthCollectableItems > 0 && radarIcon == 1) {
+//			if (healthCollectableItems > 0 && radarIcon == 1) {
+//				health += 20;
+//				healthCollectableItems -= 1;
+//			}
+
+			if (healthCollectableItems > 0 ) {
 				health += 20;
 				healthCollectableItems -= 1;
 			}
 
-			if (resetCollectableItems > 0 && radarIcon == 2) {
-				
-				resetCollectableItems -= 1;
-			}
+
+//			if (resetCollectableItems > 0 && radarIcon == 2) {
+//				
+//				resetCollectableItems -= 1;
+//			}
 
 		}
 
@@ -208,9 +218,13 @@ public class GameManager : MonoBehaviour {
 
 		radarIconsTexts [0].text = ""+CharacterMeshComplete.tranformNum  + " /" + city.GetComponent<Items>().transformPickUps;
 		radarIconsTexts [1].text = ""+healthCollectableItems + " /" + city.GetComponent<Items>().healthPickUps;
-		radarIconsTexts [2].text = ""+resetCollectableItems + " /" + city.GetComponent<Items>().resetPickUps;
+		//radarIconsTexts [2].text = ""+resetCollectableItems + " /" + city.GetComponent<Items>().resetPickUps;
+		radarIconsTexts [2].text = ""+coinCollectableItems + " /" + coinItemsAtStart;
 		radarIconsTexts [3].text = ""+collectedItems;
 
+		foreach (Text textIcon in radarIconsTexts) {
+			textIcon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
+		}
 	}
 
 	void UpdateIcons(){
@@ -274,27 +288,27 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public void ShowHideRadarLocatorIcon(int i){
-
-		foreach (Text textIcon in radarIconsTexts) {
-			textIcon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
-		}
-		foreach (Image icon in gameIcons) 
-		{
-			icon.transform.localScale = Vector3.one;
-			icon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
-		}
-
-		foreach (Image icon in radarLocatorsIcons) 
-		{
-			icon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
-		}
-
-		gameIcons [i].transform.localScale = Vector3.one * 1.4f;
-		gameIcons[i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b,  1.0f);
-		radarIconsTexts[i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 1.0f);
-		radarLocatorsIcons [i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 1f);
-	}
+//	public void ShowHideRadarLocatorIcon(int i){
+//
+//		foreach (Text textIcon in radarIconsTexts) {
+//			textIcon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
+//		}
+//		foreach (Image icon in gameIcons) 
+//		{
+//			icon.transform.localScale = Vector3.one;
+//			icon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
+//		}
+//
+//		foreach (Image icon in radarLocatorsIcons) 
+//		{
+//			icon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
+//		}
+//
+//		gameIcons [i].transform.localScale = Vector3.one * 1.4f;
+//		gameIcons[i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b,  1.0f);
+//		radarIconsTexts[i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 1.0f);
+//		radarLocatorsIcons [i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 1f);
+//	}
 		
 	private void ShowHideCraftIcon(int i){
 

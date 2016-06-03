@@ -6,8 +6,11 @@ public class SwirlPipeSystem : MonoBehaviour
 {
 
 	public SwirlPipe pipePrefab;
-
 	public int pipeCount;
+	public enum PipeType { easy, hard };
+	public PipeType pipeType = PipeType.hard;
+
+	public GameObject coin = null;
 
 	private SwirlPipe[] pipes;
 
@@ -16,11 +19,18 @@ public class SwirlPipeSystem : MonoBehaviour
 	private Color previousColor = Color.red; 
 	private int duration = 20;
 
+	private Vector3 pipePos;
+
 	private void Awake () 
 	{
-		Vector3 smallPipePos = new Vector3(Random.Range (700, 1200), Random.Range (500.0f, 1000.0f ), Random.Range (1500.0f, 2000.0f));
-		Vector3 bigPipePos = new Vector3(-(Random.Range (700, 1200)), Random.Range (500.0f, 1000.0f ), Random.Range (1500.0f, 2000.0f));
-		this.transform.position = smallPipePos;
+		if (pipeType == PipeType.easy) {
+			
+			pipePos = new Vector3 (0.0f, Random.Range (500.0f, 1000.0f), Random.Range (1500.0f, 2000.0f));
+
+		} else if (pipeType == PipeType.hard) {
+			pipePos = new Vector3 (0.0f, Random.Range (500.0f, 1000.0f), -Random.Range (1500.0f, 2000.0f));
+		}
+		this.transform.position = pipePos;
 
 		pipes = new SwirlPipe[pipeCount];
 		for (int i = 0; i < pipeCount; i++) 
@@ -28,7 +38,7 @@ public class SwirlPipeSystem : MonoBehaviour
 			pipes[i] = Instantiate<SwirlPipe>(pipePrefab);
 			SwirlPipe pipe = pipes[i];
 
-			Vector3 pos = this.transform.localPosition + pipe.transform.localPosition;
+			Vector3 pos = pipe.transform.localPosition;
 			createCollectables (pos, pipe.CurveRadius, pipe.CurveAngle - pipe.pipeRadius, pipe.transform);
 
 
@@ -53,11 +63,12 @@ public class SwirlPipeSystem : MonoBehaviour
 
 	private GameObject createCollectables(Vector3 pos, float radius, float angle, Transform parent){
 
-		GameObject a = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		//GameObject a = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		GameObject a = Instantiate(coin) as GameObject;
 		a.transform.parent = parent;
 		a.transform.localPosition = CircumferencePoint(pos, angle, radius);
-		a.transform.localScale = new Vector3 (10f, 10f, 10f);
-
+		//a.transform.localScale = new Vector3 (10f, 10f, 10f);
+		Items.coinItems.Add (a);
 		return a;
 	}
 

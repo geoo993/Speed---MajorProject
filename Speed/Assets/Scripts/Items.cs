@@ -11,7 +11,8 @@ public class Items : MonoBehaviour {
 	public GameObject[] collectors = null; 
 
 	[Range(1, 50)] public int healthPickUps = 5;
-	[Range(1, 10)] public int resetPickUps = 5;
+	//[Range(1, 10)] public int resetPickUps = 5;
+	[HideInInspector] private int coinPickUps = 10;
 	[Range(5, 50)] public int transformPickUps = 5;
 
 	[Range(0, 5)] public int transformStartingAmoungt = 5;
@@ -19,7 +20,8 @@ public class Items : MonoBehaviour {
 	[HideInInspector] public static List<GameObject> healthItems = new List<GameObject> ();
 	[HideInInspector] public static List<GameObject> transformerItems = new List<GameObject> ();
 	//[HideInInspector] public List<GameObject> collectablesItems = new List<GameObject> ();
-	[HideInInspector] public static List<GameObject> resetItems = new List<GameObject> ();
+	//[HideInInspector] public static List<GameObject> resetItems = new List<GameObject> ();
+	[HideInInspector] public static List<GameObject> coinItems = new List<GameObject> ();
 	[HideInInspector] public Vector3 nextItemPos = Vector3.zero;
 	[HideInInspector] private GameObject c;
 
@@ -29,7 +31,8 @@ public class Items : MonoBehaviour {
 
 		CharacterMeshComplete.tranformNum = transformStartingAmoungt;
 
-		createResetItems ();
+		//createResetItems ();
+		createCoinItems();
 		CreateHealthAndTransformItems ();
 		CreateCollectable ();
 
@@ -41,22 +44,42 @@ public class Items : MonoBehaviour {
 
 	}
 
-	void createResetItems(){
-		
-		//resetItems objects // cube
-		for (int r = 0; r < resetPickUps; r++) 
+//	void createResetItems(){
+//		
+//		//resetItems objects // cube
+//		for (int r = 0; r < resetPickUps; r++) 
+//		{
+//			Vector3 pos = new Vector3(Random.Range (0, city.mapWidth), Random.Range (0.0f, city.mapHeight ), Random.Range (0, city.mapWidth));
+//			GameObject b = (GameObject) Instantiate(collectors [0], pos, Quaternion.identity);
+//
+//			Vector3 scale = new Vector3 (Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f));
+//			b.transform.localScale = scale;
+//			b.transform.parent = this.transform;
+//
+//			b.GetComponent<Rigidbody> ().useGravity = false;
+//
+//			b.name = "resetItem" + r;
+//			resetItems.Add (b);
+//		}
+//
+//	}
+//
+	void createCoinItems(){
+
+		for (int r = 0; r < coinPickUps; r++) 
 		{
-			Vector3 pos = new Vector3(Random.Range (0, city.mapWidth), Random.Range (0.0f, city.mapHeight ), Random.Range (0, city.mapWidth));
+			Vector3 pos = new Vector3(Random.Range (0, city.mapWidth), Random.Range (5.0f, city.mapHeight ), Random.Range (0, city.mapWidth));
 			GameObject b = (GameObject) Instantiate(collectors [0], pos, Quaternion.identity);
 
-			Vector3 scale = new Vector3 (Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f));
-			b.transform.localScale = scale;
+			//Vector3 scale = new Vector3 (Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f));
+			//b.transform.localScale = scale;
+			b.transform.localRotation = Quaternion.Euler(90, 0f, 0f);
 			b.transform.parent = this.transform;
 
-			b.GetComponent<Rigidbody> ().useGravity = false;
+			//b.GetComponent<Rigidbody> ().useGravity = false;
 
-			b.name = "resetItem" + r;
-			resetItems.Add (b);
+			b.name = "coinItem" + r;
+			coinItems.Add (b);
 		}
 
 	}

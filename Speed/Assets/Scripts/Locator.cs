@@ -18,7 +18,7 @@ public class Locator : MonoBehaviour {
 
 	public bool showArrow = false;
 
-	public enum ItemsToLocate { Transformers, Health, Reset, Collectables };
+	public enum ItemsToLocate { Transformers, Health, Coin, Collectables };
 	public ItemsToLocate itemsToLocate = ItemsToLocate.Collectables;
 
 	private Vector3 locatorTarget = Vector3.zero;
@@ -31,63 +31,63 @@ public class Locator : MonoBehaviour {
 	{
 
 
-		switch (itemsToLocate) {
-
-		case ItemsToLocate.Transformers:
-			if (CharacterMeshComplete.tranformNum <= 0 && Items.transformerItems.Count <= 0) {
-
-				itemsToLocate = ItemsToLocate.Collectables;
-
-			} else {
-				GameManager.radarIcon = 0 ;
-				locatorTarget = GetClosestIcon (craft.transform.position, Items.transformerItems);
-			}
-			break;
-		case ItemsToLocate.Health: 
-
-			if (GameManager.healthCollectableItems <= 0 && Items.healthItems.Count <= 0) {
-
-				itemsToLocate = ItemsToLocate.Collectables;
-
-			}else{
-				GameManager.radarIcon = 1 ;
-				locatorTarget = GetClosestIcon (craft.transform.position, Items.healthItems);
-			} 
-			break;
-		case ItemsToLocate.Reset: 
-
-			if (GameManager.resetCollectableItems <= 0 && Items.resetItems.Count <= 0) {
-				
-				itemsToLocate = ItemsToLocate.Collectables;
-
-			} else {
-				GameManager.radarIcon = 2 ;
-				locatorTarget = GetClosestIcon (craft.transform.position, Items.resetItems);
-			}
-
-			break;
-		case ItemsToLocate.Collectables: 
-
-			GameManager.radarIcon = 3 ;
+//		switch (itemsToLocate) {
+//
+//		case ItemsToLocate.Transformers:
+//			if (CharacterMeshComplete.tranformNum <= 0 && Items.transformerItems.Count <= 0) {
+//
+//				itemsToLocate = ItemsToLocate.Collectables;
+//
+//			} else {
+//				GameManager.radarIcon = 0 ;
+//				locatorTarget = GetClosestIcon (craft.transform.position, Items.transformerItems);
+//			}
+//			break;
+//		case ItemsToLocate.Health: 
+//
+//			if (GameManager.healthCollectableItems <= 0 && Items.healthItems.Count <= 0) {
+//
+//				itemsToLocate = ItemsToLocate.Collectables;
+//
+//			}else{
+//				GameManager.radarIcon = 1 ;
+//				locatorTarget = GetClosestIcon (craft.transform.position, Items.healthItems);
+//			} 
+//			break;
+//		case ItemsToLocate.Coin: 
+//
+//			if (GameManager.coinCollectableItems <= 0 && Items.coinItems.Count <= 0) {
+//				
+//				itemsToLocate = ItemsToLocate.Collectables;
+//
+//			} else {
+//				GameManager.radarIcon = 2 ;
+//				locatorTarget = GetClosestIcon (craft.transform.position, Items.coinItems);
+//			}
+//
+//			break;
+//		case ItemsToLocate.Collectables: 
+//
+//			GameManager.radarIcon = 3 ;
 			locatorTarget = city.GetComponent<Items>().nextItemPos;
-
-			break;
-
-		}
-		gameManager.GetComponent<GameManager>().ShowHideRadarLocatorIcon (GameManager.radarIcon);
+//
+//			break;
+//
+//		}
+		//gameManager.GetComponent<GameManager>().ShowHideRadarLocatorIcon (GameManager.radarIcon);
 		locatorArrow (locatorTarget);
 
-		if (Input.GetKeyDown ("3") || (Input.GetAxis ("PS4_DirectionalPadHorizontal") == -1.0f)) {
-			itemsToLocate = ItemsToLocate.Transformers;
-		}else if (Input.GetKeyDown ("4") || (Input.GetAxis ("PS4_DirectionalPadVertical") == -1.0f)) {
-			itemsToLocate = ItemsToLocate.Health;
-		}else if (Input.GetKeyDown ("5") || (Input.GetAxis ("PS4_DirectionalPadVertical") == 1.0f)) {
-			itemsToLocate = ItemsToLocate.Reset;
-		}else if (Input.GetKeyDown ("6") || (Input.GetAxis ("PS4_DirectionalPadHorizontal") == 1.0f)) {
-			itemsToLocate = ItemsToLocate.Collectables;
-		}
-
-
+//		if (Input.GetKeyDown ("3") || (Input.GetAxis ("PS4_DirectionalPadHorizontal") == -1.0f)) {
+//			itemsToLocate = ItemsToLocate.Transformers;
+//		}else if (Input.GetKeyDown ("4") || (Input.GetAxis ("PS4_DirectionalPadVertical") == -1.0f)) {
+//			itemsToLocate = ItemsToLocate.Health;
+//		}else if (Input.GetKeyDown ("5") || (Input.GetAxis ("PS4_DirectionalPadVertical") == 1.0f)) {
+//			itemsToLocate = ItemsToLocate.Coin;
+//		}else if (Input.GetKeyDown ("6") || (Input.GetAxis ("PS4_DirectionalPadHorizontal") == 1.0f)) {
+//			itemsToLocate = ItemsToLocate.Collectables;
+//		}
+//
+//
 
 	}
 

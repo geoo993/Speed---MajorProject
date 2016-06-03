@@ -3,7 +3,6 @@ using System.Collections;
 
 public class BasePyramid : MonoBehaviour {
 
-	public GameObject heart;
 	private int mapWidth = 900;
 	private int mapHeight = 900;
 
@@ -47,8 +46,6 @@ public class BasePyramid : MonoBehaviour {
 		pyramidRenderer = pyramid.AddComponent<MeshRenderer> ();
 		pyramidColor = Camera.main.GetComponent<Skybox> ().bottomColor;
 
-
-		heart.transform.position = new Vector3 (pyramid.transform.position.x, pyramid.transform.position.y - (mapHeight/2), pyramid.transform.position.z);
 
 	}
 

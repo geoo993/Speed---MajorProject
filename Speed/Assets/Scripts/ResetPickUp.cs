@@ -12,12 +12,12 @@ public class ResetPickUp : MonoBehaviour {
 		if (col.gameObject.name == "Craft")
 		{
 			//Destroy (this.gameObject);
-			GameManager.resetCollectableItems += 1;
+			//GameManager.resetCollectableItems += 1;
 
-			GameManager.CreateSwirl();
+			//GameManager.CreateSwirl();
 			//print (gameObject.name + "  has collided with " + col.gameObject.name +"  now reset");
 
-			Items.RemoveObjectFromHealthList(this.gameObject, Items.resetItems);
+			//Items.RemoveObjectFromHealthList(this.gameObject, Items.resetItems);
 		}
 
 	}
