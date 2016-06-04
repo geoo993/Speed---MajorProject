@@ -13,7 +13,7 @@ public class HealthPickUp : MonoBehaviour {
 			//GameManager.health += 20;
 			GameManager.healthCollectableItems += 1;
 			//Destroy (this.gameObject);
-			print (gameObject.name + "  has collided with " + col.gameObject.name);
+			//print (gameObject.name + "  has collided with " + col.gameObject.name);
 
 			Items.RemoveObjectFromHealthList(this.gameObject, Items.healthItems);
 		}

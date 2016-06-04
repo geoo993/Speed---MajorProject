@@ -540,19 +540,19 @@ public class CharacterMovement : MonoBehaviour
 
 			// Neutral speed at 700
 			//This code resets the speed to 700 when there is no acceleration or deccelleration. speed is between Maximum 800, minimum 600, so go back to 700
-			if (!Input.GetKey ("z") && (!Input.GetKey ("x")) && (speed > (minSpeed - 5f)) && (speed < defaultSpeed)) //595 === 700
+			if (!Input.GetKey ("z") && (!Input.GetKey ("x")) && (speed > (minSpeed - 20f)) && (speed < defaultSpeed)) //595 === 700
 				speed += Time.deltaTime * 240.0f;
-			if (!Input.GetKey ("z") && (!Input.GetKey ("x")) && (speed > (minSpeed - 5f)) && (speed > defaultSpeed))// 595 === 700
+			if (!Input.GetKey ("z") && (!Input.GetKey ("x")) && (speed > (minSpeed - 20f)) && (speed > defaultSpeed))// 595 === 700
 				speed -= Time.deltaTime * 240.0f;
 
 		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
 
 			// Neutral speed at 700
 			//This code resets the speed to 700 when there is no acceleration or deccelleration. speed is between Maximum 800, minimum 600, so go back to 700
-			if (((Input.GetAxis ("PS4_R2") <= 0.0f) && (Input.GetAxis ("PS4_L2") <= 0.0f)) && (speed > (minSpeed - 5f)) && (speed < defaultSpeed)) //595 === 700
+			if (((Input.GetAxis ("PS4_R2") <= 0.0f) && (Input.GetAxis ("PS4_L2") <= 0.0f)) && (speed > (minSpeed - 20f)) && (speed < defaultSpeed)) //595 === 700
 				speed += Time.deltaTime * 240.0f;
 
-			if (((Input.GetAxis ("PS4_R2") <= 0.0f) && (Input.GetAxis ("PS4_L2") <= 0.0f)) && (speed > (minSpeed - 5f)) && (speed > defaultSpeed))// 595 === 700
+			if (((Input.GetAxis ("PS4_R2") <= 0.0f) && (Input.GetAxis ("PS4_L2") <= 0.0f)) && (speed > (minSpeed - 20f)) && (speed > defaultSpeed))// 595 === 700
 				speed -= Time.deltaTime * 240.0f;
 
 		}

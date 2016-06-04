@@ -47,12 +47,6 @@ public class GameManager : MonoBehaviour {
 		coinItemsAtStart = Items.coinItems.Count;
 
 
-		foreach (Vector3 pos in Items.collectablesItemsPositions) {
-
-			//print (Items.collectablesItemsPositions.Count);
-			print(pos);
-		}
-
 	}
 
 	void Update () {

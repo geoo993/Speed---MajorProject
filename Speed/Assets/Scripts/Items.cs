@@ -12,10 +12,13 @@ public class Items : MonoBehaviour {
 
 	[Range(1, 50)] public int healthPickUps = 5;
 	//[Range(1, 10)] public int resetPickUps = 5;
-	[HideInInspector] private int coinPickUps = 10;
+	[Range(1, 50)] public int coinPickUps = 10;
 	[Range(5, 50)] public int transformPickUps = 5;
 
 	[Range(0, 5)] public int transformStartingAmoungt = 5;
+	[HideInInspector] public static int numberCollected = 0;
+	private bool ifOver = true;
+
 
 	[HideInInspector] public static List<GameObject> healthItems = new List<GameObject> ();
 	[HideInInspector] public static List<GameObject> transformerItems = new List<GameObject> ();
@@ -31,15 +34,45 @@ public class Items : MonoBehaviour {
 		CharacterMeshComplete.tranformNum = transformStartingAmoungt;
 
 		//createResetItems ();
-		createCoinItems();
+		createCoinItems ();
 		CreateHealthAndTransformItems ();
-		CreateCollectable ();
+		StartCoroutine(CreateCollectable ());
 
 	}
-	void Update(){
+	void Update()
+	{
 
-	
+		if (numberCollected > 10 && numberCollected < 12) 
+		{
+			if ( ifOver){
+				
+				AddNewCollectableItemPositon ();
+				print ("over 10");
+				ifOver = false;
+			}
+
+
+		}
+
 	}
+
+	private void AddNewCollectableItemPositon(){
+
+		Vector3 pos = new Vector3 (Random.Range(200f,800f), 100f, Random.Range(200f,800f));
+		GameObject c = (GameObject) Instantiate(collectors [1], pos, Quaternion.identity) as GameObject;
+
+		Vector3 scale = new Vector3 (Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f));
+		c.transform.localScale = scale;
+		c.transform.parent = this.transform;
+
+		c.GetComponent<Rigidbody> ().useGravity = true;
+
+		c.name = "CollectableItem";
+		c.tag = "RadarCollectable";
+
+		collectablesItems.Add (c);
+	}
+
 
 //	void createResetItems(){
 //		
@@ -60,7 +93,7 @@ public class Items : MonoBehaviour {
 //		}
 //
 //	}
-//
+
 	void createCoinItems(){
 
 		for (int r = 0; r < coinPickUps; r++) 
@@ -73,7 +106,7 @@ public class Items : MonoBehaviour {
 			b.transform.localRotation = Quaternion.Euler(90, 0f, 0f);
 			b.transform.parent = this.transform;
 
-			//b.GetComponent<Rigidbody> ().useGravity = false;
+			b.GetComponent<Rigidbody> ().useGravity = (Random.Range (0, 2) == 0);
 
 			b.name = "coinItem" + r;
 			coinItems.Add (b);
@@ -81,9 +114,14 @@ public class Items : MonoBehaviour {
 
 	}
 
-
-	public void CreateCollectable()
+	private IEnumerator CreateCollectable()
 	{
+		WaitForSeconds wait = new WaitForSeconds (2.0f);
+
+
+		//print (collectablesItemsPositions.Count);
+		yield return wait;
+
 		for (int col = 0; col < collectablesItemsPositions.Count; col++) {
 			//Vector3 pos = new Vector3(Random.Range (0, city.mapWidth), Random.Range (100.0f, city.mapHeight),Random.Range (0, city.mapWidth));
 			GameObject c = (GameObject) Instantiate(collectors [1], collectablesItemsPositions[col], Quaternion.identity) as GameObject;

@@ -33,6 +33,12 @@ public class GenerateCity : MonoBehaviour {
 	[Range(10, 100)] public int buildingsMaxHeight = 60;
 
 	[HideInInspector] public static List<GameObject> buildings = new List<GameObject>();
+	[HideInInspector] public static List<int> buildingsIndex = new List<int>();
+	[HideInInspector] public static int buildingsCurrentIndex = 0;
+	[HideInInspector] public static bool addOneBuilding = false;
+	private float lerpId = 0;
+
+
 	private List<GameObject> areas = new List<GameObject>();
 	private List<GameObject> areasIndexDelete = new List<GameObject>();
 	private List<Vector3> edgePoints = new List<Vector3>();
@@ -82,18 +88,38 @@ public class GenerateCity : MonoBehaviour {
 
 		this.transform.name = "City";
 		StartCoroutine(GenerateCityBuildings ());
-		AddCollectableItemPositon ();
+		//AddCollectableItemPositon ();
 	}
 	private void Update(){
 
 		UpdateColor ();
 
+		if (addOneBuilding) {
+
+			MakeBuilding (buildingsCurrentIndex);
+			//print ("buildings: "+buildings.Count);
+			addOneBuilding = false;
+		}
+
+		if (buildings.Count > 0) {
+
+			if (lerpId < 1.0f) {
+
+				lerpId += Time.deltaTime * (1.0f / 10.0f);
+			} 
+			foreach (GameObject b in buildings) 
+			{
+				b.transform.localScale = new Vector3 (
+					b.transform.localScale.x,
+					Mathf.Lerp (b.transform.localScale.y, 1.0f, Mathf.SmoothStep (0.0f, 1.0f, lerpId)),
+					b.transform.localScale.z);
+			}
+
+		}
+
+
 	}
 
-	private void AddCollectableItemPositon(){
-
-		Items.collectablesItemsPositions.Add (new Vector3 (mapWidth / 2, Random.Range (1f, 50f), mapWidth / 2));
-	}
 
 	private IEnumerator GenerateCityBuildings () 
 	//private void GenerateCityBuildings () 
@@ -146,83 +172,39 @@ public class GenerateCity : MonoBehaviour {
 
 		for (int i = 0; i < areas.Count; i++) {
 
-			xSize = (int)areas[i].GetComponent<MeshRenderer> ().bounds.size.x;
-			zSize = (int)areas[i].GetComponent<MeshRenderer> ().bounds.size.z;
-
-			float distanceToCenter = Vector3.Distance (new Vector3(mapWidth/2, 0, mapHeight/2), areas [i].transform.localPosition);
-
-			float distanceToMapEdge = Vector3.Distance (GetClosestEdge (areas [i].transform.localPosition, mapEdgePoints), areas [i].transform.localPosition);
-
-			//move from center
-			float xx = areas[i].transform.position.x - ((float)xSize/2.0f);
-			float zz = areas[i].transform.position.z - ((float)zSize/2.0f);
-
-			Vector3 pivotPoint = new Vector3 (xx,areas[i].transform.position.y, zz);
-
-
-			roundTop = (Random.Range (0, 2) == 0);
-
-			if (distanceToCenter < buildingsLimit) {
-
-				int splitSize = (int)buildingsLimit / buildingsFrequency;
-
-				if (xSize > splitSize || zSize > splitSize) {
-
-					int xCount = 1;
-					while (xSize / xCount > splitSize) {
-
-						xCount++;
-					}
-					float xOffset = xSize / xCount;
-
-					int zCount = 1;
-					while (zSize / zCount > splitSize) {
-						zCount++;
-					}
-					float zOffset = zSize / zCount;
-
-					List<Vector3> pointsInArea = new List<Vector3> ();
-					for (int s = 0; s < xCount; s++) {
-
-						float xP = pivotPoint.x + (s * xOffset);
-
-						for (int z = 0; z < zCount; z++) {
-
-							float zP = pivotPoint.z + (z * zOffset);
-
-							Vector3 finalP = new Vector3 (xP, pivotPoint.y, zP);
-							pointsInArea.Add (finalP);
-						}
-
-					}
-					xSize = (int)xOffset - (int)stretcher - 5;
-					zSize = (int)zOffset - (int)stretcher - 5;
-
-
-					for (int o = 0; o < pointsInArea.Count; o++) {
-
-						ySize = Random.Range(buildingsMinHeight,buildingsMaxHeight) + ((int)distanceToMapEdge / 4);
-						Vector3 buildingPos1 = new Vector3 (pointsInArea [o].x + (stretcher / 2), transform.localPosition.y, pointsInArea [o].z + (stretcher / 2));
-						AddBuilding ("building", buildingPos1);
-					}
-
-
-				} else {
-					
-					xSize -= (int)stretcher - 5;
-					ySize = Random.Range(buildingsMinHeight,buildingsMaxHeight) + ((int)distanceToMapEdge / 4);
-					zSize -= (int)stretcher - 5;
-					Vector3 buildingPos2 = new Vector3 (pivotPoint.x + (stretcher / 2), this.transform.position.y, pivotPoint.z + (stretcher / 2));
-
-					AddBuilding ("building", buildingPos2);
-				}
-
-			}
-			//yield return wait;
+			buildingsIndex.Add (i);
 		}
 
 
+		//print ("index: "+buildingsIndex.Count+"   areas: "+areas.Count);
 
+	}
+
+	public static void RemoveIntFromList(int num, List <int> numList)
+	{
+		//print ("list of items: "+numList.Count+" in and index: "+ num);
+
+		List <int> newList = new List<int> ();
+
+		for (int i = 0; i < numList.Count; i++) {
+
+			if (numList [i] == num) {
+
+				//print (numList [i]);
+
+				//numList.Remove(numList [i]);
+				//continue;
+
+			} else {
+
+				newList.Add (numList [i]);
+			}
+		}
+
+		numList.RemoveRange (0, numList.Count);
+		numList.AddRange (newList);
+
+		//print (numList.Count);
 	}
 
 	void UpdateColor (){
@@ -251,14 +233,99 @@ public class GenerateCity : MonoBehaviour {
 		GameObject building = CreateBuilding (position) as GameObject;
 		building.transform.parent = this.transform;
 		building.name = name;
-		building.transform.localScale = new Vector3 (Random.Range (0.4f, 0.7f), 1f, Random.Range (0.4f, 0.7f));
+		building.transform.localScale = new Vector3 (Random.Range (0.5f, 0.8f), 0f, Random.Range (0.5f, 0.8f));
 		buildings.Add (building);
 		building.AddComponent<MakeRadarObject> ();
 
 		builingsImage.color = buildingsTopColor;
 		building.GetComponent<MakeRadarObject> ().image = builingsImage;
 
+		lerpId = 0;
 	}
+
+	public void MakeBuilding(int i)
+	{
+			
+		//for (int i = 0; i < areas.Count; i++) {
+
+			xSize = (int)areas[i].GetComponent<MeshRenderer> ().bounds.size.x;
+			zSize = (int)areas[i].GetComponent<MeshRenderer> ().bounds.size.z;
+
+			float distanceToCenter = Vector3.Distance (new Vector3(mapWidth/2, 0, mapHeight/2), areas [i].transform.localPosition);
+			float distanceToMapEdge = Vector3.Distance (GetClosestEdge (areas [i].transform.localPosition, mapEdgePoints), areas [i].transform.localPosition);
+
+			//move from center
+			float xx = areas[i].transform.position.x - ((float)xSize/2.0f);
+			float zz = areas[i].transform.position.z - ((float)zSize/2.0f);
+
+			Vector3 pivotPoint = new Vector3 (xx,areas[i].transform.position.y, zz);
+
+			roundTop = (Random.Range (0, 2) == 0);
+
+			//if (distanceToCenter < buildingsLimit) {
+
+			int splitSize = 100;//(int)buildingsLimit / buildingsFrequency;
+
+			if (xSize > splitSize || zSize > splitSize) 
+			{
+
+				int xCount = 1;
+				while (xSize / xCount > splitSize) {
+
+					xCount++;
+				}
+				float xOffset = xSize / xCount;
+
+				int zCount = 1;
+				while (zSize / zCount > splitSize) {
+					zCount++;
+				}
+				float zOffset = zSize / zCount;
+
+				List<Vector3> pointsInArea = new List<Vector3> ();
+				for (int s = 0; s < xCount; s++) {
+
+					float xP = pivotPoint.x + (s * xOffset);
+
+					for (int z = 0; z < zCount; z++) {
+
+						float zP = pivotPoint.z + (z * zOffset);
+
+						Vector3 finalP = new Vector3 (xP, pivotPoint.y, zP);
+						pointsInArea.Add (finalP);
+					}
+
+				}
+				xSize = (int)xOffset - (int)stretcher - 5;
+				zSize = (int)zOffset - (int)stretcher - 5;
+
+
+				for (int o = 0; o < pointsInArea.Count; o++) 
+				{
+
+					ySize = Random.Range (buildingsMinHeight, buildingsMaxHeight) + ((int)distanceToMapEdge / 4);
+					Vector3 buildingPos1 = new Vector3 (pointsInArea [o].x + (stretcher / 2), transform.localPosition.y, pointsInArea [o].z + (stretcher / 2));
+					AddBuilding ("building", buildingPos1);
+
+				}
+
+
+			} else {
+
+				xSize -= (int)stretcher - 5;
+				ySize = Random.Range (buildingsMinHeight, buildingsMaxHeight) + ((int)distanceToMapEdge / 4);
+				zSize -= (int)stretcher - 5;
+				Vector3 buildingPos2 = new Vector3 (pivotPoint.x + (stretcher / 2), this.transform.position.y, pivotPoint.z + (stretcher / 2));
+
+				AddBuilding ("building", buildingPos2);
+			}
+
+			//}
+			//yield return wait;
+		//}
+	}
+
+
 
 
 ////-------------------------------------------------------------------------------------------------------------- map area

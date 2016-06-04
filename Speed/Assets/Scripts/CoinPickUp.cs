@@ -4,11 +4,18 @@ using System.Collections;
 public class CoinPickUp : MonoBehaviour {
 
 	public GameObject city = null;
-	
-	// Update is called once per frame
+
+	private Mesh mesh;
+	private MeshCollider mCollider;
+
+	void Start (){
+
+
+	}
 	void Update () {
 
 		this.transform.Rotate (0f, 0f, 5f);
+
 	}
 
 
@@ -23,8 +30,19 @@ public class CoinPickUp : MonoBehaviour {
 
 			if (Items.coinItems.Count > 0) {
 				//Destroy (this.gameObject);
-				GameManager.coinCollectableItems += 1;
+
 				Items.RemoveObjectFromHealthList (this.gameObject, Items.coinItems);
+
+				int pickBuildingIndex = Random.Range (0, GenerateCity.buildingsIndex.Count - 1);
+				print ("pick "+pickBuildingIndex);
+
+				GenerateCity.buildingsCurrentIndex = pickBuildingIndex;
+				GenerateCity.addOneBuilding = true;
+
+				GenerateCity.RemoveIntFromList (pickBuildingIndex, GenerateCity.buildingsIndex);
+
+				GameManager.coinCollectableItems += 1;
+
 			}
 
 		}
