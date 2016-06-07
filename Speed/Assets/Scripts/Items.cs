@@ -132,11 +132,13 @@ public class Items : MonoBehaviour {
 
 			c.GetComponent<Rigidbody> ().useGravity = false;
 
-			c.name = "CollectableItem";
+			c.name = "CollectableItem"+ col;
 			c.tag = "RadarCollectable";
 
 			collectablesItems.Add (c);
 		}
+
+		collectablesItems [2].transform.parent = GameObject.Find("Earth").transform;
 	}
 
 

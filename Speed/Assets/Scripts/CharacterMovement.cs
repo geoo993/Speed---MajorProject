@@ -48,16 +48,36 @@ public class CharacterMovement : MonoBehaviour
 
 	private string craftLevel = "idle";
 
+
+	Vector3 lastPosition;
+	bool isMoving ;
+	Transform myTransform;
+
+
 	void Awake(){
 
 		gameManagerScript = gameManager.GetComponent<GameManager> ();
 		craft = GetComponent<CharacterMeshComplete> ();
 		rigid = GetComponent<Rigidbody> ();
-	
+		myTransform = transform;
+		lastPosition = myTransform.position;
+		isMoving = false;
+
 	}
 
 	void Update () 
 	{
+		
+//		if(lastPosition == myTransform.position){
+//			Debug.Log("Did not move");
+//		}else{
+//			Debug.Log("Moved");
+//		}
+//		lastPosition = new Vector3 (Mathf.Round (myTransform.position.x), Mathf.Round (myTransform.position.y), Mathf.Round (myTransform.position.z));
+//
+//		print (lastPosition +"   "+myTransform.position);
+
+
 		VehicleTransition ();
 		RigidBodyControl ();
 		UpdateSpeed ();
@@ -306,8 +326,10 @@ public class CharacterMovement : MonoBehaviour
 			moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
 		}
 
-		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-		rigid.AddForce (movement * (speed * 10) * Time.deltaTime);
+		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical) * (speed * 10) * Time.deltaTime;
+
+		rigid.AddForce(movement);
+
 
 	}
 

@@ -28,13 +28,15 @@ public class EarthBall : MonoBehaviour {
 	}
 	private void AddCollectableItemPositon(){
 
-		Items.collectablesItemsPositions.Add (new Vector3(this.transform.position.x,
-			this.transform.position.y + (GetComponent<MeshRenderer>().bounds.size.y/2),this.transform.position.z));
+		Items.collectablesItemsPositions.Add (new Vector3(
+			this.transform.position.x ,
+			this.transform.position.y + (GetComponent<MeshRenderer>().bounds.size.y/2) + 20f,
+			this.transform.position.z));
 	}
 	void lightAndColor()
 	{
 
-		this.transform.Rotate (0.0f, 0.3f, 0.0f);
+		this.transform.Rotate (0.0f, 0.5f, 0.0f);
 
 		if (count < 1.0f) {
 
