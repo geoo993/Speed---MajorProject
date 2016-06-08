@@ -15,7 +15,7 @@ public class HealthPickUp : MonoBehaviour {
 			//Destroy (this.gameObject);
 			//print (gameObject.name + "  has collided with " + col.gameObject.name);
 
-			Items.RemoveObjectFromHealthList(this.gameObject, Items.healthItems);
+			Items.RemoveObjectFromList(this.gameObject, Items.healthItems);
 		}
 
 		//print ("health: " + GameManager.health);

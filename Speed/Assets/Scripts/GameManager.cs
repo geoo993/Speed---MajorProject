@@ -9,9 +9,10 @@ public class GameManager : MonoBehaviour {
 	private CharacterMeshComplete craftScript;
 
 	private int healthIconsAmount = 0;
-	public static float health = 80;
+	public static float health = 100;
 	public static int speedValue = 100;
 
+	public Image healthDamageImages;
 	public Slider[] sliderBars;
 	public Image[] fillBarsImages;
 
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour {
 	public static int coinCollectableItems = 0; 
 	public static int coinItemsAtStart = 0; 
 
+	public static bool disableSun = false;
 	private string iconState = "idle";
 
 	public enum ControlsType { Keyboard, Controller };
@@ -178,6 +180,18 @@ public class GameManager : MonoBehaviour {
 			health = 100f;
 		}
 
+		if (health >= 50f) {
+
+			healthDamageImages.color = new Color (healthDamageImages.color.r, healthDamageImages.color.g, healthDamageImages.color.b, 0.0f);
+
+		}else if (health < 50f && health > 25f) {
+			healthDamageImages.color = new Color (healthDamageImages.color.r, healthDamageImages.color.g, healthDamageImages.color.b, 0.3f);
+		} else if (health < 25f && health > 10f) {
+			healthDamageImages.color = new Color (healthDamageImages.color.r, healthDamageImages.color.g, healthDamageImages.color.b, 0.5f);
+		} else if (health < 10f) {
+			healthDamageImages.color = new Color (healthDamageImages.color.r, healthDamageImages.color.g, healthDamageImages.color.b, flashing (1.0f));
+		} 
+
 	}
 
 	void UpdateSpeedSlider()
@@ -186,8 +200,7 @@ public class GameManager : MonoBehaviour {
 		sliderBars[2].value = speedValue;
 
 	}
-
-
+		
 	void UpdateFillBars(){
 
 		//in transition
@@ -208,7 +221,7 @@ public class GameManager : MonoBehaviour {
 
 		mainTexts[0].text = "In Transition.";
 		mainTexts[0].color = new Color(interfaceColor.r,interfaceColor.g,interfaceColor.b, flashing(1.0f));
-		mainTexts[1].text = "Health ( "+health+" )";
+		mainTexts[1].text = "Health ( "+(int)health+" )";
 		mainTexts[2].text = "Speed ( "+Mathf.Round(CharacterMovement.speed)+" )";
 		mainTexts[3].text = "Points /Score ";
 

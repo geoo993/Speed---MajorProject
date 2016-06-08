@@ -25,7 +25,7 @@ public class TorusKnot : MonoBehaviour {
 
 	void Start ()
 	{
-		this.name = "TorusKnot";
+		this.name = "TorusArc";
 		this.transform.position = new Vector3 (500f, Random.Range (400f, 800f), 500f);
 		AddCollectableItemPositon ();
 	}

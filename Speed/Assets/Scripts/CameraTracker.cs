@@ -33,6 +33,13 @@ public class CameraTracker : MonoBehaviour {
 		craftMovement = target.GetComponent<CharacterMovement> ();
 
 	}
+		
+	void Update ()
+	{
+		
+		UpdateControls ();
+	}
+
 
 	private Vector3 lookTargetFromBehind()
 	{
@@ -42,12 +49,6 @@ public class CameraTracker : MonoBehaviour {
 		newPosition = new Vector3(newPosition.x, newPosY, newPosition.z);
 
 		return newPosition;
-
-	}
-	void Update ()
-	{
-		
-		UpdateControls ();
 
 	}
 

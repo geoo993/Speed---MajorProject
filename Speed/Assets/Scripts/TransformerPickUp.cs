@@ -13,7 +13,7 @@ public class TransformerPickUp : MonoBehaviour {
 			if (Items.transformerItems.Count > 0) {
 				CharacterMeshComplete.tranformNum += 1;
 				//Destroy (this.gameObject);
-				Items.RemoveObjectFromHealthList (this.gameObject, Items.transformerItems);
+				Items.RemoveObjectFromList (this.gameObject, Items.transformerItems);
 			}
 		}
 

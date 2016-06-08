@@ -28,8 +28,10 @@ public class Sun : MonoBehaviour {
 			{
 				GameManager.health -= 0.3f;
 			}
+		}
 
-			print (dist);
+		if (GameManager.disableSun == true) {
+			Destroy (this.gameObject);
 		}
 	}
 	private void AddCollectableItemPositon(){

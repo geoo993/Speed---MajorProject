@@ -21,8 +21,14 @@ public class CollectablesPickUp : MonoBehaviour {
 //
 //			this.transform.eulerAngles = new Vector3(Random.Range (0, 360),Random.Range (0, 360),Random.Range (0, 360));
 
+
 			GameManager.collectedItems += 1;
-			Items.RemoveObjectFromHealthList (this.gameObject, Items.collectablesItems);
+
+			if (this.gameObject.name == "CollectableItem5") {
+				GameManager.disableSun = true;
+			}
+
+			Items.RemoveObjectFromList (this.gameObject, Items.collectablesItems);
 			//print ("hit on enter");
 
 		}

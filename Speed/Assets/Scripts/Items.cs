@@ -40,16 +40,16 @@ public class Items : MonoBehaviour {
 	}
 	void Update()
 	{
+		int whenToGenerateBuildingsCollectable1 = GenerateCity.buildingsIndex.Count/2;
+		int whenToGenerateBuildingsCollectable2 = whenToGenerateBuildingsCollectable1 + 2;
 
-		if (numberCollected > 10 && numberCollected < 12) 
+		if (numberCollected > whenToGenerateBuildingsCollectable1 && numberCollected < whenToGenerateBuildingsCollectable2) 
 		{
 			if ( ifOver){
-				
 				AddNewCollectableItemPositon ();
-				print ("over 10");
+
 				ifOver = false;
 			}
-
 
 		}
 
@@ -127,6 +127,7 @@ public class Items : MonoBehaviour {
 
 			Vector3 scale = new Vector3 (Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f));
 			c.transform.localScale = scale;
+
 			if (col == 0) 
 			{
 				c.transform.parent = GameObject.Find ("SwirlPipeSystemEasy/collectablePipeParent").transform;
@@ -138,9 +139,20 @@ public class Items : MonoBehaviour {
 
 			}else if (col == 2) 
 			{
+				c.transform.parent = GameObject.Find ("Heart").transform;
+				c.GetComponent<BoxCollider> ().enabled = false;
+				c.transform.localPosition = Vector3.zero;
+
+			}else if (col == 3) 
+			{
 				c.transform.parent = GameObject.Find ("Earth").transform;
-			} else {
-				c.transform.parent = this.transform;
+
+			} else if (col == 4) 
+			{
+				c.transform.parent = GameObject.Find ("TorusArc").transform;
+
+			}else if (col == 5){
+				c.transform.parent = GameObject.Find ("Sun").transform;
 			}
 
 			c.GetComponent<Rigidbody> ().useGravity = false;
@@ -151,7 +163,9 @@ public class Items : MonoBehaviour {
 			collectablesItems.Add (c);
 		}
 
+		yield return wait;
 		//collectablesItems [2].transform.parent = GameObject.Find("Earth").transform;
+		collectablesItems [2].GetComponent<BoxCollider> ().enabled = true;
 	}
 
 
@@ -196,7 +210,7 @@ public class Items : MonoBehaviour {
 	}
 
 
-	public static void RemoveObjectFromHealthList(GameObject obj, List <GameObject> objectList)
+	public static void RemoveObjectFromList(GameObject obj, List <GameObject> objectList)
 	{
 		//print ("list of items: "+objectList.Count+" in and index: "+ objectList.IndexOf(obj));
 

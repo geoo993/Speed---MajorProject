@@ -31,7 +31,7 @@ public class CoinPickUp : MonoBehaviour {
 			if (Items.coinItems.Count > 0) {
 				//Destroy (this.gameObject);
 
-				Items.RemoveObjectFromHealthList (this.gameObject, Items.coinItems);
+				Items.RemoveObjectFromList (this.gameObject, Items.coinItems);
 
 				int pickBuildingIndex = Random.Range (0, GenerateCity.buildingsIndex.Count - 1);
 				print ("pick "+pickBuildingIndex);
