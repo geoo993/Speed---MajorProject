@@ -16,9 +16,8 @@ public class Items : MonoBehaviour {
 	[Range(5, 50)] public int transformPickUps = 5;
 
 	[Range(0, 5)] public int transformStartingAmoungt = 5;
-	[HideInInspector] public static int numberCollected = 0;
+	public static int numberCollected = 0;
 	private bool ifOver = true;
-
 
 	[HideInInspector] public static List<GameObject> healthItems = new List<GameObject> ();
 	[HideInInspector] public static List<GameObject> transformerItems = new List<GameObject> ();
@@ -128,7 +127,21 @@ public class Items : MonoBehaviour {
 
 			Vector3 scale = new Vector3 (Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f));
 			c.transform.localScale = scale;
-			c.transform.parent = this.transform;
+			if (col == 0) 
+			{
+				c.transform.parent = GameObject.Find ("SwirlPipeSystemEasy/collectablePipeParent").transform;
+				c.transform.localPosition = collectablesItemsPositions [col];
+			}else if (col == 1) 
+			{
+				c.transform.parent = GameObject.Find ("SwirlPipeSystemHard/collectablePipeParent").transform;
+				c.transform.localPosition = collectablesItemsPositions [col];
+
+			}else if (col == 2) 
+			{
+				c.transform.parent = GameObject.Find ("Earth").transform;
+			} else {
+				c.transform.parent = this.transform;
+			}
 
 			c.GetComponent<Rigidbody> ().useGravity = false;
 
@@ -138,7 +151,7 @@ public class Items : MonoBehaviour {
 			collectablesItems.Add (c);
 		}
 
-		collectablesItems [2].transform.parent = GameObject.Find("Earth").transform;
+		//collectablesItems [2].transform.parent = GameObject.Find("Earth").transform;
 	}
 
 

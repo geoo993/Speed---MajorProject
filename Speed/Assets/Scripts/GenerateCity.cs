@@ -176,7 +176,7 @@ public class GenerateCity : MonoBehaviour {
 		}
 
 
-		//print ("index: "+buildingsIndex.Count+"   areas: "+areas.Count);
+		print ("buildings index amount: "+buildingsIndex.Count+"   areas: "+areas.Count);
 
 	}
 

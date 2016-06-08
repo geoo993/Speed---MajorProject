@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 	private CharacterMeshComplete craftScript;
 
 	private int healthIconsAmount = 0;
-	public static int health = 80;
+	public static float health = 80;
 	public static int speedValue = 100;
 
 	public Slider[] sliderBars;
@@ -168,14 +168,14 @@ public class GameManager : MonoBehaviour {
 
 	void UpdateHealthSlider(){
 
-		sliderBars[1].value = health;
+		sliderBars[1].value = (int)health;
 
 		if (health <= 0) {
 			health = 0;
 		}
-		if (health >= 100) {
+		if (health >= 100f) {
 
-			health = 100;
+			health = 100f;
 		}
 
 	}

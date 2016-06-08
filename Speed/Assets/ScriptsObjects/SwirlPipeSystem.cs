@@ -39,8 +39,15 @@ public class SwirlPipeSystem : MonoBehaviour
 			SwirlPipe pipe = pipes[i];
 
 			Vector3 pos = pipe.transform.localPosition;
-			createCollectables (pos, pipe.CurveRadius, pipe.CurveAngle - pipe.pipeRadius, pipe.transform);
 
+			if (i == pipeCount / 2) 
+			{
+				pipe.name = "collectablePipeParent";
+				Items.collectablesItemsPositions.Add ( CircumferencePoint(pos, pipe.CurveAngle - pipe.pipeRadius, pipe.CurveRadius));
+
+			} else {
+				createCollectables (pos, pipe.CurveRadius, pipe.CurveAngle - pipe.pipeRadius, pipe.transform);
+			}
 
 			pipe.transform.SetParent(transform, false);
 
@@ -50,14 +57,9 @@ public class SwirlPipeSystem : MonoBehaviour
 			}
 		}
 
-		AddCollectableItemPositon ();
 
 	}
 
-	private void AddCollectableItemPositon(){
-
-		Items.collectablesItemsPositions.Add (this.transform.position);
-	}
 
 	Vector3 CircumferencePoint ( Vector3 center , float ang,  float radius  ){
 		Vector3 pos;

@@ -11,7 +11,8 @@ public class CharacterMovement : MonoBehaviour
 	public ParticleSystem rearParticle1 = null;
 	public ParticleSystem rearParticle2 = null;
 
-
+	///.............. balll...............
+	private float rollinglerp = 0.0f;
 	//.............. plane...............
     //Rotaton and position of our airplane
 	private static float rotationx = 0;
@@ -167,7 +168,7 @@ public class CharacterMovement : MonoBehaviour
 
 		if (craftLevel == "ball") {
 			rigid.useGravity = true;
-			rigid.mass = 1f;
+			//rigid.mass = 1f;
 
 		} else if (craftLevel == "car") {
 
@@ -326,9 +327,26 @@ public class CharacterMovement : MonoBehaviour
 			moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
 		}
 
-		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical) * (speed * 10) * Time.deltaTime;
+		//Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical) * (speed * 10) * Time.deltaTime;
+		//rigid.AddForce(movement);
 
-		rigid.AddForce(movement);
+		rigid.AddForce((Camera.main.gameObject.transform.forward ) * moveVertical * speed );
+
+		if (moveHorizontal == 0 && moveVertical == 0 && this.transform.position.y < 5f) {
+
+			if (rollinglerp < 1.0f) {
+
+				rollinglerp += Time.deltaTime * (1.0f / 10.0f);
+			}
+
+			rigid.velocity = Vector3.Lerp (rigid.velocity, Vector3.zero, rollinglerp);
+			rigid.angularVelocity = Vector3.Lerp (rigid.angularVelocity, Vector3.zero, rollinglerp);
+			rigid.mass = 1f;
+
+		} else {
+			rollinglerp = 0;
+			rigid.mass = 10f;
+		}
 
 
 	}
@@ -364,6 +382,7 @@ public class CharacterMovement : MonoBehaviour
 		} else {
 			//we aren't on the ground and dont want to just halt in the mid-air; reduce drag:
 			rigid.drag = 0;
+
 		}
 
 		////you can turn in the air or on the ground:
