@@ -388,7 +388,7 @@ public class CharacterMovement : MonoBehaviour
 			forwardForce = forwardForce * Time.deltaTime * rigid.mass;
 			rigid.AddForce (forwardForce);
 
-			print (moveVertical +"   R2: "+Input.GetAxis ("PS4_R2")+"   L2: "+Input.GetAxis ("PS4_L2"));
+			//print (moveVertical +"   R2: "+Input.GetAxis ("PS4_R2")+"   L2: "+Input.GetAxis ("PS4_L2"));
 
 		} else {
 			//we aren't on the ground and dont want to just halt in the mid-air; reduce drag:

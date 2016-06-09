@@ -106,7 +106,6 @@ public class Locator : MonoBehaviour {
 			} else {
 				p.SetActive (false);
 			}
-
 		}
 
 		this.transform.position = new Vector3 (

@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour {
 	public static bool disableSun = false;
 	private string iconState = "idle";
 	public bool showRadar = false;
+	public bool showHealth = false;
+	public bool showSpeed = false;
 
 	public enum ControlsType { Keyboard, Controller };
 	public ControlsType controlsType = ControlsType.Keyboard;
@@ -86,7 +88,6 @@ public class GameManager : MonoBehaviour {
 				im.SetActive(false);
 			}
 		}
-
 
 	}
 
@@ -215,7 +216,15 @@ public class GameManager : MonoBehaviour {
 		} else if (health < 10f) {
 			healthDamageImages.color = new Color (healthDamageImages.color.r, healthDamageImages.color.g, healthDamageImages.color.b, flashing (1.0f));
 		} 
-			
+
+		if (showHealth) {
+			sliderBars [1].gameObject.SetActive(true);
+			mainTexts [1].gameObject.SetActive(true);
+		} else {
+			sliderBars [1].gameObject.SetActive(false);
+			mainTexts [1].gameObject.SetActive(false);
+		}
+
 	}
 
 	void UpdateSpeedSlider()
@@ -223,6 +232,14 @@ public class GameManager : MonoBehaviour {
 		speedValue = (int)percentageValue (CharacterMovement.speed, 0.0f, 2000f);
 		sliderBars[2].value = speedValue;
 
+
+		if (showSpeed) {
+			sliderBars [2].gameObject.SetActive(true);
+			mainTexts [2].gameObject.SetActive(true);
+		} else {
+			sliderBars [2].gameObject.SetActive(false);
+			mainTexts [2].gameObject.SetActive(false);
+		}
 	}
 		
 	void UpdateFillBars(){
@@ -326,23 +343,6 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-//	public void ShowHideRadarLocatorIcon(int i){
-//
-//		foreach (Text textIcon in radarIconsTexts) {
-//			textIcon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
-//		}
-//		foreach (Image icon in gameIcons) 
-//		{
-//			icon.transform.localScale = Vector3.one;
-//			icon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
-//		}
-//
-
-//		gameIcons [i].transform.localScale = Vector3.one * 1.4f;
-//		gameIcons[i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b,  1.0f);
-//		radarIconsTexts[i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 1.0f);
-//	}
-
 	private void LerpScore()
 	{
 		
@@ -362,7 +362,6 @@ public class GameManager : MonoBehaviour {
 			flashCount += 1;
 		} else {
 			healthFlashImage.color = Color.clear;
-
 		}
 
 	}
