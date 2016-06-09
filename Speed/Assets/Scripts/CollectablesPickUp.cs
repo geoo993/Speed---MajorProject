@@ -21,6 +21,8 @@ public class CollectablesPickUp : MonoBehaviour {
 //
 //			this.transform.eulerAngles = new Vector3(Random.Range (0, 360),Random.Range (0, 360),Random.Range (0, 360));
 
+			GameManager.scoreCountDuration = 15.0f;
+			GameManager.scoreNum += 100;
 
 			GameManager.collectedItems += 1;
 

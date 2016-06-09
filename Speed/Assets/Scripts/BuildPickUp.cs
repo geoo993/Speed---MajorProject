@@ -12,7 +12,8 @@ public class BuildPickUp : MonoBehaviour {
 		if (col.gameObject.name == "Craft")
 		{
 			//Destroy (this.gameObject);
-
+			GameManager.scoreCountDuration = 10.0f;
+			GameManager.scoreNum += 10;
 			GameManager.coinCollectableItems += 1;
 
 			Items.RemoveObjectFromList (this.gameObject, Items.coinItems);

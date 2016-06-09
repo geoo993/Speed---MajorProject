@@ -14,7 +14,7 @@ public class Items : MonoBehaviour {
 	//[Range(1, 10)] public int resetPickUps = 5;
 	[Range(1, 100)] public int coinPickUps = 10;
 	[Range(0, 50)] public int transformPickUps = 5;
-	public static int collectablePickUps = 10;
+	public static int collectablePickUps = 12;
 
 	[Range(0, 5)] public int transformStartingAmoungt = 5;
 	public static int numberCollected = 0;
@@ -123,7 +123,7 @@ public class Items : MonoBehaviour {
 		}
 
 
-		Vector3 center = craft.transform.position;
+		Vector3 center = new Vector3(0,10,0);
 		int numberOfItemsInCircles = 10; 
 
 		for (int i = (coinItems.Count - numberOfItemsInCircles); i < coinItems.Count; i++) {
@@ -144,11 +144,11 @@ public class Items : MonoBehaviour {
 		//print (collectablesItemsPositions.Count);
 		yield return wait;
 
-		for (int col = 0; col < 10; col++) {
+		for (int col = 0; col < collectablePickUps; col++) {
 			//Vector3 pos = new Vector3(Random.Range (0, city.mapWidth), Random.Range (100.0f, city.mapHeight),Random.Range (0, city.mapWidth));
 			GameObject c = (GameObject) Instantiate(collectors [1], Vector3.zero, Quaternion.identity) as GameObject;
 
-			Vector3 scale = new Vector3 (Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f));
+			Vector3 scale = Vector3.one * 10;
 			c.transform.localScale = scale;
 
 			if (col == 0) 
@@ -166,6 +166,7 @@ public class Items : MonoBehaviour {
 				c.transform.parent = GameObject.Find ("Heart").transform;
 				c.GetComponent<BoxCollider> ().enabled = false;
 				c.transform.localPosition = Vector3.zero;
+				c.GetComponent<Rigidbody> ().isKinematic = true;
 
 			}else if (col == 3){
 				c.transform.parent = GameObject.Find ("Sun").transform;
@@ -184,8 +185,33 @@ public class Items : MonoBehaviour {
 			{
 				c.transform.parent = GameObject.Find ("Earth").transform;
 				c.transform.localPosition = new Vector3(0.6f, 0.0f, 0.0f);
-			}
+			}else if (col == 7)
+			{
+				c.transform.parent = this.transform;
+				c.transform.localPosition = new Vector3(0, 25, 0);
+				c.GetComponent<Rigidbody> ().isKinematic = true;
 
+			}else if (col == 8)
+			{
+				c.transform.parent = this.transform;
+				c.transform.localPosition = new Vector3(0, 25, 500);
+
+			}else if (col == 9)
+			{
+				c.transform.parent = this.transform;
+				c.transform.localPosition = new Vector3(0, 25, 1000);
+
+			}else if (col == 10)
+			{
+				c.transform.parent = this.transform;
+				c.transform.localPosition = new Vector3(1000, 40, 1000);
+
+			}
+			else if (col == 11)
+			{
+				c.transform.parent = this.transform;
+				c.transform.localPosition = new Vector3(1000, 60, 0);
+			}
 
 
 			c.GetComponent<Rigidbody> ().useGravity = false;
@@ -221,7 +247,6 @@ public class Items : MonoBehaviour {
 			transformerItems.Add (a);
 
 		}
-
 
 
 		//health objects // capsule

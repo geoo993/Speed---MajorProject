@@ -293,7 +293,7 @@ public class GenerateCity : MonoBehaviour {
 				for (int o = 0; o < pointsInArea.Count; o++) 
 				{
 
-					ySize = Random.Range (buildingsMinHeight, buildingsMaxHeight) + ((int)distanceToMapEdge / 4);
+					ySize = Random.Range (buildingsMinHeight, buildingsMaxHeight) + ((int)distanceToMapEdge / 2);
 					Vector3 buildingPos1 = new Vector3 (pointsInArea [o].x + (stretcher / 2), transform.localPosition.y, pointsInArea [o].z + (stretcher / 2));
 					AddBuilding ("building", buildingPos1);
 
@@ -303,12 +303,13 @@ public class GenerateCity : MonoBehaviour {
 			} else {
 
 				xSize -= (int)stretcher - 5;
-				ySize = Random.Range (buildingsMinHeight, buildingsMaxHeight) + ((int)distanceToMapEdge / 4);
+				ySize = Random.Range (buildingsMinHeight, buildingsMaxHeight) + ((int)distanceToMapEdge / 2);
 				zSize -= (int)stretcher - 5;
 				Vector3 buildingPos2 = new Vector3 (pivotPoint.x + (stretcher / 2), this.transform.position.y, pivotPoint.z + (stretcher / 2));
 
 				AddBuilding ("building", buildingPos2);
 			}
+
 
 			//}
 			//yield return wait;
@@ -320,6 +321,7 @@ public class GenerateCity : MonoBehaviour {
 		if (addOneBuilding) {
 
 			MakeBuilding (buildingsCurrentIndex);
+
 			//print ("buildings: "+buildings.Count);
 			addOneBuilding = false;
 		}

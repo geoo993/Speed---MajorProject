@@ -8,11 +8,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject craft = null;
 	private CharacterMeshComplete craftScript;
 
-	private int healthIconsAmount = 0;
-	public static float health = 80;
-	public static int speedValue = 100;
-
 	public Image healthDamageImages;
+	public Image healthFlashImage;
 	public Slider[] sliderBars;
 	public Image[] fillBarsImages;
 
@@ -26,6 +23,16 @@ public class GameManager : MonoBehaviour {
 	public GameObject[] radarImages = null;
 
 	public Color interfaceColor = Color.cyan;
+
+	public static int scoreNum = 0;
+	public static float currentScoreCount = 0;
+	public static float scoreCountDuration = 0;
+	public static float timerCount = 0;
+
+	private int healthIconsAmount = 0;
+	public static float health = 80;
+	public static int speedValue = 100;
+	public static int flashCount = 120;
 
 	public static float inTransitionNum = 100;
 
@@ -64,24 +71,23 @@ public class GameManager : MonoBehaviour {
 		UpdateTexts ();
 		UpdateIcons ();
 		PS4Controls ();
-
+		FlashHealth ();
+		LerpScore ();
 
 	}
 
 	void UpdateRadar(){
 
 		foreach (GameObject im in radarImages) {
-			
 			if (showRadar) {
-
 				im.SetActive(true);
 
 			}else{
 				im.SetActive(false);
 			}
-
-
 		}
+
+
 	}
 
 
@@ -198,18 +204,18 @@ public class GameManager : MonoBehaviour {
 			health = 100f;
 		}
 
-		if (health >= 50f) {
+		if (health >= 40f) {
 
 			healthDamageImages.color = new Color (healthDamageImages.color.r, healthDamageImages.color.g, healthDamageImages.color.b, 0.0f);
 
-		}else if (health < 50f && health > 25f) {
+		}else if (health < 40f && health > 25f) {
 			healthDamageImages.color = new Color (healthDamageImages.color.r, healthDamageImages.color.g, healthDamageImages.color.b, 0.3f);
 		} else if (health < 25f && health > 10f) {
 			healthDamageImages.color = new Color (healthDamageImages.color.r, healthDamageImages.color.g, healthDamageImages.color.b, 0.5f);
 		} else if (health < 10f) {
 			healthDamageImages.color = new Color (healthDamageImages.color.r, healthDamageImages.color.g, healthDamageImages.color.b, flashing (1.0f));
 		} 
-
+			
 	}
 
 	void UpdateSpeedSlider()
@@ -241,7 +247,8 @@ public class GameManager : MonoBehaviour {
 		mainTexts[0].color = new Color(interfaceColor.r,interfaceColor.g,interfaceColor.b, flashing(1.0f));
 		mainTexts[1].text = "Health ( "+(int)health+" )";
 		mainTexts[2].text = "Speed ( "+Mathf.Round(CharacterMovement.speed)+" )";
-		mainTexts[3].text = "Points /Score ";
+		mainTexts[3].text = "Points: "+(int)currentScoreCount;
+		mainTexts[4].text = Timer();
 
 		for (int i = 1; i < mainTexts.Length; i++) {
 			mainTexts [i].color = interfaceColor;
@@ -254,7 +261,7 @@ public class GameManager : MonoBehaviour {
 		radarIconsTexts [3].text = ""+collectedItems + " /" +Items.collectablePickUps;
 
 		foreach (Text textIcon in radarIconsTexts) {
-			textIcon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
+			textIcon.color = interfaceColor;
 		}
 	}
 
@@ -335,7 +342,39 @@ public class GameManager : MonoBehaviour {
 //		gameIcons[i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b,  1.0f);
 //		radarIconsTexts[i].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 1.0f);
 //	}
+
+	private void LerpScore()
+	{
 		
+		if (currentScoreCount < (float)scoreNum) {
+			
+			currentScoreCount += scoreCountDuration * Time.deltaTime;
+		}
+		//print ((int)currentScoreCount);
+
+	}
+	private void FlashHealth(){
+
+		if (flashCount < 100) {
+
+			healthFlashImage.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, flashing (0.5f));
+
+			flashCount += 1;
+		} else {
+			healthFlashImage.color = Color.clear;
+
+		}
+
+	}
+
+	private string Timer (){
+
+		timerCount += Time.deltaTime;
+		string minutes = Mathf.Floor(timerCount / 60).ToString("00");
+		string seconds = (timerCount % 60).ToString("00");
+
+		return minutes +" : "+seconds;
+	}
 	private void ShowHideCraftIcon(int i){
 
 		foreach (Image icon in craftIcons) {

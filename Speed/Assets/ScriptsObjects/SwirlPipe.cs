@@ -191,4 +191,22 @@ public class SwirlPipe : MonoBehaviour {
 
 	}
 
+
+	void OnCollisionEnter(Collision col){
+
+		//print (gameObject.name + "  has collided with " + col.gameObject.name);
+
+		if (col.gameObject.name == "Craft")
+		{
+			//Destroy (this.gameObject);
+			float impact = 	Vector3.Magnitude(GameObject.Find("Craft").GetComponent<Rigidbody>().velocity);
+
+			//print (gameObject.name + "  has collided with " + col.gameObject.name);
+	
+			GameManager.health -= (int)impact ;
+		}
+
+	}
+
+
 }

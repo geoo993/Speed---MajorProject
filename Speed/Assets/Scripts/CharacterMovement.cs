@@ -50,10 +50,10 @@ public class CharacterMovement : MonoBehaviour
 	private string craftLevel = "idle";
 
 
-	Vector3 lastPosition;
-	bool isMoving ;
-	Transform myTransform;
-
+	private Vector3 lastPosition;
+	private bool isMoving ;
+	private Transform myTransform;
+	private Vector3 forwardForce;
 
 	void Awake(){
 
@@ -355,6 +355,7 @@ public class CharacterMovement : MonoBehaviour
 	{
 		speed = 300f;
 
+//		Vector3 forwardForce;
 
 		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
 			moveVertical = Input.GetAxis ("Vertical");
@@ -371,13 +372,23 @@ public class CharacterMovement : MonoBehaviour
 			////we are on the ground; enable the accelartor and increase drag:
 			rigid.drag = 1;
 
-			////calculate forward force:
-			Vector3 forwardForce = transform.forward * (speed * 10) * moveVertical;
+
+			if ((Input.GetAxis ("PS4_L2") > 0.0f)) {
+				////calculate forward force:
+				forwardForce = transform.forward * (speed * 100) * -Input.GetAxis ("PS4_L2");
+			} else if ((Input.GetAxis ("PS4_R2") > 0.0f)) {
+				////calculate forward force:
+				forwardForce = transform.forward * (speed * 100) * Input.GetAxis ("PS4_R2");
+			} else {
+				forwardForce = Vector3.zero;
+			}
+
 
 			////correct the force for deltatime and vehical mass:
 			forwardForce = forwardForce * Time.deltaTime * rigid.mass;
 			rigid.AddForce (forwardForce);
 
+			print (moveVertical +"   R2: "+Input.GetAxis ("PS4_R2")+"   L2: "+Input.GetAxis ("PS4_L2"));
 
 		} else {
 			//we aren't on the ground and dont want to just halt in the mid-air; reduce drag:
@@ -552,7 +563,6 @@ public class CharacterMovement : MonoBehaviour
 				
 				speed += Time.deltaTime * 240;
 			if ((Input.GetAxis ("PS4_L2") > 0.0f) && (speed > minSpeed))//(speed > 600))  ///600
-				
 				speed -= Time.deltaTime * 240;
 
 		}

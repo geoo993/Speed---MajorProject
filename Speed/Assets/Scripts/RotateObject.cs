@@ -3,14 +3,15 @@ using System.Collections;
 
 public class RotateObject : MonoBehaviour {
 
-	// Use this for initialization
+	public float speed = 20f;
+
+
 	void Start () {
 	
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 	
-		this.transform.Rotate (0.0f, 0.2f, 0.0f);
+		this.transform.Rotate (0.0f, speed * Time.deltaTime, 0.0f);
 	}
 }
