@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 	private CharacterMeshComplete craftScript;
 
 	private int healthIconsAmount = 0;
-	public static float health = 100;
+	public static float health = 80;
 	public static int speedValue = 100;
 
 	public Image healthDamageImages;
@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
 	public Text[] radarIconsTexts = null;
 	public Text[] mainTexts = null;
 	public Image[] scoreIcons = null;
+	public GameObject[] radarImages = null;
 
 	public Color interfaceColor = Color.cyan;
 
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour {
 
 	public static bool disableSun = false;
 	private string iconState = "idle";
+	public bool showRadar = false;
 
 	public enum ControlsType { Keyboard, Controller };
 	public ControlsType controlsType = ControlsType.Keyboard;
@@ -53,6 +55,7 @@ public class GameManager : MonoBehaviour {
 
 	void Update () {
 	
+		UpdateRadar ();
 		UpdateHealthSlider ();
 		UpdateInTransitionSlider ();
 		UpdateSpeedSlider ();
@@ -65,6 +68,21 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+	void UpdateRadar(){
+
+		foreach (GameObject im in radarImages) {
+			
+			if (showRadar) {
+
+				im.SetActive(true);
+
+			}else{
+				im.SetActive(false);
+			}
+
+
+		}
+	}
 
 
 	void PS4Controls()
@@ -77,10 +95,10 @@ public class GameManager : MonoBehaviour {
 //				healthCollectableItems -= 1;
 //			}
 
-			if (healthCollectableItems > 0 ) {
-				health += 20;
-				healthCollectableItems -= 1;
-			}
+//			if (healthCollectableItems > 0 ) {
+//				health += 20;
+//				healthCollectableItems -= 1;
+//			}
 
 
 //			if (resetCollectableItems > 0 && radarIcon == 2) {
@@ -233,7 +251,7 @@ public class GameManager : MonoBehaviour {
 		radarIconsTexts [1].text = ""+healthCollectableItems + " /" + city.GetComponent<Items>().healthPickUps;
 		//radarIconsTexts [2].text = ""+resetCollectableItems + " /" + city.GetComponent<Items>().resetPickUps;
 		radarIconsTexts [2].text = ""+coinCollectableItems + " /" + coinItemsAtStart;
-		radarIconsTexts [3].text = ""+collectedItems + " /" +Items.collectablesItemsPositions.Count;
+		radarIconsTexts [3].text = ""+collectedItems + " /" +Items.collectablePickUps;
 
 		foreach (Text textIcon in radarIconsTexts) {
 			textIcon.color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, 0.2f);
@@ -351,9 +369,5 @@ public class GameManager : MonoBehaviour {
 		return amplitude;
 	}
 
-
-	public static void CreateSwirl(){
-
-	}
 
 }

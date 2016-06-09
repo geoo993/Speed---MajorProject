@@ -881,7 +881,8 @@ public class CharacterMeshComplete : MonoBehaviour {
 		JetAnimation ();
 		NasaPlaneAnimation ();
 
-		if ((Input.GetKeyDown ("2") || Input.GetButton ("PS4_R1")) && GameManager.radarIcon == 0 && moveState == "idle" && tranformNum > 0) {
+		if ((Input.GetKeyDown ("2") || Input.GetButton ("PS4_R1")) && moveState == "idle") //&& tranformNum > 0 && GameManager.radarIcon == 0) 
+		{
 
 				prevAnim = false;
 				tranformNum --;
@@ -915,7 +916,8 @@ public class CharacterMeshComplete : MonoBehaviour {
 				//print("moveState:  "+ moveState+"   count: "+animateCount +" prev: "+prevAnim+"  next: "+nextAnim);
 		}
 
-		if ((Input.GetKeyDown ("1") || Input.GetButton ("PS4_L1")) && GameManager.radarIcon == 0 && moveState == "idle" && tranformNum > 0) {
+		if ((Input.GetKeyDown ("1") || Input.GetButton ("PS4_L1")) && moveState == "idle")// && tranformNum > 0 && GameManager.radarIcon == 0) 
+		{
 				nextAnim = false;
 				tranformNum --;
 
@@ -948,9 +950,6 @@ public class CharacterMeshComplete : MonoBehaviour {
 				//print("moveState:  "+ moveState+"   count: "+animateCount +" prev: "+prevAnim+"  next: "+nextAnim);
 			}
 			
-
-
-
 	}
 
 	void ClearAll(){

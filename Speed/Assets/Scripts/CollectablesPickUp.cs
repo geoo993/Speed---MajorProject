@@ -24,7 +24,7 @@ public class CollectablesPickUp : MonoBehaviour {
 
 			GameManager.collectedItems += 1;
 
-			if (this.gameObject.name == "CollectableItem5") {
+			if (this.gameObject.name == "CollectableItem3") {
 				GameManager.disableSun = true;
 			}
 

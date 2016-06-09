@@ -22,7 +22,7 @@ public class BuildPickUp : MonoBehaviour {
 				Items.numberCollected += 1;
 				int pickBuildingIndex = Random.Range (0, GenerateCity.buildingsIndex.Count - 1);
 				//print ("pick "+pickBuildingIndex);
-
+				GenerateCity.buildingsRemovedAreaIndex.Add(pickBuildingIndex);
 				GenerateCity.buildingsCurrentIndex = pickBuildingIndex;
 				GenerateCity.addOneBuilding = true;
 

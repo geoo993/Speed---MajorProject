@@ -14,6 +14,7 @@ public class GenerateCity : MonoBehaviour {
 
 	public Color buildingsTopColor = Color.white;
 	private Color buildingsBottomColor = Color.black;
+	public Color buildingsAreaColor = Color.white;
 
 	public Image builingsImage = null;
 	public GameObject spotlight = null;
@@ -34,6 +35,7 @@ public class GenerateCity : MonoBehaviour {
 
 	[HideInInspector] public static List<GameObject> buildings = new List<GameObject>();
 	[HideInInspector] public static List<int> buildingsIndex = new List<int>();
+	[HideInInspector] public static List<int> buildingsRemovedAreaIndex = new List<int>();
 	[HideInInspector] public static int buildingsCurrentIndex = 0;
 	[HideInInspector] public static bool addOneBuilding = false;
 	private float lerpId = 0;
@@ -93,32 +95,11 @@ public class GenerateCity : MonoBehaviour {
 	private void Update(){
 
 		UpdateColor ();
-
-		if (addOneBuilding) {
-
-			MakeBuilding (buildingsCurrentIndex);
-			//print ("buildings: "+buildings.Count);
-			addOneBuilding = false;
-		}
-
-		if (buildings.Count > 0) {
-
-			if (lerpId < 1.0f) {
-
-				lerpId += Time.deltaTime * (1.0f / 10.0f);
-			} 
-			foreach (GameObject b in buildings) 
-			{
-				b.transform.localScale = new Vector3 (
-					b.transform.localScale.x,
-					Mathf.Lerp (b.transform.localScale.y, 1.0f, Mathf.SmoothStep (0.0f, 1.0f, lerpId)),
-					b.transform.localScale.z);
-			}
-
-		}
+		GrowBuilding ();
 
 
 	}
+
 
 
 	private IEnumerator GenerateCityBuildings () 
@@ -211,9 +192,17 @@ public class GenerateCity : MonoBehaviour {
 
 		buildingsBottomColor = mainCamera.gameObject.GetComponent<Skybox> ().bc;
 
-		for (int i = 0; i < areas.Count; i++) {
+		//for (int i = 0; i < areas.Count; i++) {
+		for (int i = 0; i < buildingsIndex.Count; i++) {	
 			areas [i].GetComponent<MeshRenderer> ().material.color = buildingsBottomColor;//Color.clear;//Color.black;
+
 		}
+
+		for (int b = 0; b < buildingsRemovedAreaIndex.Count; b++) {	
+			areas [buildingsRemovedAreaIndex[b]].GetComponent<MeshRenderer> ().material.color = buildingsAreaColor;
+
+		}
+
 		UpdateTextureColor ();
 
 	}
@@ -235,10 +224,11 @@ public class GenerateCity : MonoBehaviour {
 		building.name = name;
 		building.transform.localScale = new Vector3 (Random.Range (0.5f, 0.8f), 0f, Random.Range (0.5f, 0.8f));
 		buildings.Add (building);
-		building.AddComponent<MakeRadarObject> ();
 
-		builingsImage.color = buildingsTopColor;
-		building.GetComponent<MakeRadarObject> ().image = builingsImage;
+		//building.AddComponent<MakeRadarObject> ();
+
+		//builingsImage.color = buildingsTopColor;
+		//building.GetComponent<MakeRadarObject> ().image = builingsImage;
 
 		lerpId = 0;
 	}
@@ -325,7 +315,31 @@ public class GenerateCity : MonoBehaviour {
 		//}
 	}
 
+	private void GrowBuilding(){
 
+		if (addOneBuilding) {
+
+			MakeBuilding (buildingsCurrentIndex);
+			//print ("buildings: "+buildings.Count);
+			addOneBuilding = false;
+		}
+
+		if (buildings.Count > 0) {
+
+			if (lerpId < 1.0f) {
+
+				lerpId += Time.deltaTime * (1.0f / 10.0f);
+			} 
+			foreach (GameObject b in buildings) 
+			{
+				b.transform.localScale = new Vector3 (
+					b.transform.localScale.x,
+					Mathf.Lerp (b.transform.localScale.y, 1.0f, Mathf.SmoothStep (0.0f, 1.0f, lerpId)),
+					b.transform.localScale.z);
+			}
+		}
+
+	}
 
 
 ////-------------------------------------------------------------------------------------------------------------- map area
@@ -1008,7 +1022,7 @@ public class GenerateCity : MonoBehaviour {
 
 			building.GetComponent<MeshRenderer> ().material.SetColor ("_ColorTop", buildingsTopColor);
 			building.GetComponent<MeshRenderer> ().material.SetColor ("_ColorMid", buildingsTopColor);
-			building.GetComponent<MeshRenderer> ().material.SetColor ("_ColorBot", buildingsBottomColor);
+			building.GetComponent<MeshRenderer> ().material.SetColor ("_ColorBot", buildingsAreaColor);//buildingsBottomColor);
 			building.GetComponent<MeshRenderer> ().material.SetFloat ("_Middle", colorHeight);
 
 			builingsImage.color = buildingsTopColor;

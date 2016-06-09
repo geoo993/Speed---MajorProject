@@ -8,7 +8,6 @@ public class Sun : MonoBehaviour {
 
 	void Start () {
 
-		AddCollectableItemPositon ();
 	}
 
 
@@ -34,10 +33,7 @@ public class Sun : MonoBehaviour {
 			Destroy (this.gameObject);
 		}
 	}
-	private void AddCollectableItemPositon(){
 
-		Items.collectablesItemsPositions.Add (this.transform.position);
-	}
 
 
 }

@@ -40,15 +40,21 @@ public class CharacterCollider : MonoBehaviour {
 			///GameManager.health -= healthDamage;
 		}
 
-		if (col.gameObject.name == "TorusKnot") 
+		if (col.gameObject.name == "TorusArc") 
 		{
-			print (" hit Torus knot");
-			GameManager.health -= (int)impact / healthDamage;
+			//float impact = Vector3.Dot (col.contacts [0].normal, col.relativeVelocity) * GetComponent<Rigidbody>().mass;
+			//float impact = healthDamage * col.relativeVelocity.magnitude; 
+			//float impact = 	Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
+
+			print (" hit TorusArc");
+			GameManager.health -= (int)impact;
 		}
 		if (col.gameObject.name == "Earth") 
 		{
 			print (" hit earth ball");
 			GameManager.health -= (int)impact ;
+
+
 		}
 
 

@@ -21,22 +21,32 @@ public class TorusKnot : MonoBehaviour {
 	[Range(1, 10)] public int q = 6;
 
 	private Color color;
-	int i = 0;
+	private int i = 0;
+
+	private float dist = 0;
+
 
 	void Start ()
 	{
 		this.name = "TorusArc";
 		this.transform.position = new Vector3 (500f, Random.Range (400f, 800f), 500f);
-		AddCollectableItemPositon ();
-	}
-	private void AddCollectableItemPositon(){
 
-		Items.collectablesItemsPositions.Add (this.transform.position);
 	}
+
 
 	private void Update ()
 	{
-		this.transform.Rotate (0.5f, 0.3f, 0.0f);
+
+		dist = Vector3.Distance(GameObject.Find("Craft").transform.position,this.transform.position);
+
+		if (dist < 200f)
+		{
+			this.transform.Rotate (5.5f, 5.3f, 0.0f);
+
+		}else {
+			this.transform.Rotate (0.5f, 0.3f, 0.0f);
+		}
+
 
 
 		//CreateTorusKnot ();

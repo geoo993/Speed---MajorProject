@@ -16,7 +16,6 @@ public class EarthBall : MonoBehaviour {
 
 		this.name = "Earth";
 
-		AddCollectableItemPositon ();
 	}
 
 	// Update is called once per frame
@@ -26,13 +25,8 @@ public class EarthBall : MonoBehaviour {
 		lightAndColor ();
 
 	}
-	private void AddCollectableItemPositon(){
 
-		Items.collectablesItemsPositions.Add (new Vector3(
-			this.transform.position.x ,
-			this.transform.position.y + (GetComponent<MeshRenderer>().bounds.size.y/2) + 20f,
-			this.transform.position.z));
-	}
+
 	void lightAndColor()
 	{
 

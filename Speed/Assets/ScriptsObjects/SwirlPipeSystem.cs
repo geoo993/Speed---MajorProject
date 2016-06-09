@@ -43,7 +43,7 @@ public class SwirlPipeSystem : MonoBehaviour
 			if (i == pipeCount / 2) 
 			{
 				pipe.name = "collectablePipeParent";
-				Items.collectablesItemsPositions.Add ( CircumferencePoint(pos, pipe.CurveAngle - pipe.pipeRadius, pipe.CurveRadius));
+				Items.pipeCollectablesItemsPositions.Add ( CircumferencePoint(pos, pipe.CurveAngle - pipe.pipeRadius, pipe.CurveRadius));
 
 			} else {
 				createCollectables (pos, pipe.CurveRadius, pipe.CurveAngle - pipe.pipeRadius, pipe.transform);
