@@ -34,8 +34,7 @@ public class Items : MonoBehaviour {
 
 		CharacterMeshComplete.tranformNum = transformStartingAmoungt;
 
-		//createResetItems ();
-		createCoinItems ();
+	
 		CreateHealthAndTransformItems ();
 		StartCoroutine(CreateCollectable ());
 
@@ -77,26 +76,6 @@ public class Items : MonoBehaviour {
 	}
 
 
-//	void createResetItems(){
-//		
-//		//resetItems objects // cube
-//		for (int r = 0; r < resetPickUps; r++) 
-//		{
-//			Vector3 pos = new Vector3(Random.Range (0, city.mapWidth), Random.Range (0.0f, city.mapHeight ), Random.Range (0, city.mapWidth));
-//			GameObject b = (GameObject) Instantiate(collectors [0], pos, Quaternion.identity);
-//
-//			Vector3 scale = new Vector3 (Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f));
-//			b.transform.localScale = scale;
-//			b.transform.parent = this.transform;
-//
-//			b.GetComponent<Rigidbody> ().useGravity = false;
-//
-//			b.name = "resetItem" + r;
-//			resetItems.Add (b);
-//		}
-//
-//	}
-
 	Vector3 CircularPoint(Vector3 center, float angle, float radius) { 
 		float x = Mathf.Sin(angle) * radius;
 		float z = Mathf.Cos(angle) * radius;
@@ -125,7 +104,6 @@ public class Items : MonoBehaviour {
 
 		Vector3 center = new Vector3(0,10,0);
 		int numberOfItemsInCircles = 10; 
-
 		for (int i = (coinItems.Count - numberOfItemsInCircles); i < coinItems.Count; i++) {
 			
 			float chunk = (i * 1.0f) / numberOfItemsInCircles;
@@ -135,6 +113,35 @@ public class Items : MonoBehaviour {
 			coinItems[i].GetComponent<Rigidbody> ().useGravity = true;
 		}
 
+		int fromm1 = (coinItems.Count - 20);
+		int too1 = coinItems.Count - 10;
+		float v1 = 1;
+		for (int ii = fromm1; ii < too1; ii++) {
+
+			coinItems[ii].transform.position = AlignObjects(collectablesItems[7].transform.position, collectablesItems[8].transform.position, (v1 * 0.5f) );
+			coinItems[ii].GetComponent<Rigidbody> ().useGravity = true;
+			v1+= 1f;
+		}
+
+
+		int fromm2 = (coinItems.Count - 30);
+		int too2 = coinItems.Count - 20;
+		float v2 = 1;
+		for (int iii = fromm2; iii < too2; iii++) {
+
+			coinItems[iii].transform.position = AlignObjects(collectablesItems[8].transform.position, collectablesItems[9].transform.position, (v2 * 0.5f) );
+			coinItems[iii].GetComponent<Rigidbody> ().useGravity = true;
+			v2+= 1f;
+		}
+
+
+
+
+	}
+
+	Vector3 AlignObjects(Vector3 pos1, Vector3 pos2, float step)
+	{
+		return (pos1 + pos2) / step ;
 	}
 
 	private IEnumerator CreateCollectable()
@@ -195,22 +202,25 @@ public class Items : MonoBehaviour {
 			{
 				c.transform.parent = this.transform;
 				c.transform.localPosition = new Vector3(0, 25, 500);
+				c.GetComponent<Rigidbody> ().isKinematic = true;
 
 			}else if (col == 9)
 			{
 				c.transform.parent = this.transform;
 				c.transform.localPosition = new Vector3(0, 25, 1000);
+				c.GetComponent<Rigidbody> ().isKinematic = true;
 
 			}else if (col == 10)
 			{
 				c.transform.parent = this.transform;
 				c.transform.localPosition = new Vector3(1000, 40, 1000);
-
+				c.GetComponent<Rigidbody> ().isKinematic = true;
 			}
 			else if (col == 11)
 			{
 				c.transform.parent = this.transform;
 				c.transform.localPosition = new Vector3(1000, 60, 0);
+				c.GetComponent<Rigidbody> ().isKinematic = true;
 			}
 
 
@@ -225,6 +235,8 @@ public class Items : MonoBehaviour {
 		yield return wait;
 		//collectablesItems [2].transform.parent = GameObject.Find("Earth").transform;
 		collectablesItems [2].GetComponent<BoxCollider> ().enabled = true;
+
+		createCoinItems ();
 	}
 
 
