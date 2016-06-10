@@ -227,7 +227,7 @@ public class CharacterMovement : MonoBehaviour
 
 	private void UpdateWindParticle(float withSpeed, float withoutSpeed, float slowingDown){
 
-		travelerParticle.startColor = GameManager.interfaceColor;
+		travelerParticle.startColor = gameManagerScript.interfaceColor;
 
 		if (Input.GetKey ("z") || (Input.GetAxis ("PS4_R2") > 0.0f)) {
 			
@@ -252,8 +252,8 @@ public class CharacterMovement : MonoBehaviour
 			ParticleSystemExtension.SetEmissionRate (rearParticle1, withSpeed);
 			ParticleSystemExtension.SetEmissionRate (rearParticle2, withSpeed);
 
-			rearParticle1.startColor = GameManager.interfaceColor;
-			rearParticle2.startColor = GameManager.interfaceColor;
+			rearParticle1.startColor = gameManagerScript.interfaceColor;
+			rearParticle2.startColor = gameManagerScript.interfaceColor;
 
 
 		}else if (Input.GetKey ("x") || (Input.GetAxis ("PS4_L2") > 0.0f)) {

@@ -25,7 +25,7 @@ public class BuildPickUp : MonoBehaviour {
 				//print ("pick "+pickBuildingIndex);
 				GenerateCity.buildingsRemovedAreaIndex.Add(pickBuildingIndex);
 				GenerateCity.buildingsCurrentIndex = pickBuildingIndex;
-				GenerateCity.addOneBuilding = true;
+				//GenerateCity.addOneBuilding = true;
 
 				GenerateCity.RemoveIntFromList (pickBuildingIndex, GenerateCity.buildingsIndex);
 			}

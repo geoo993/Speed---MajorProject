@@ -15,7 +15,7 @@ public class Items : MonoBehaviour {
 	//[Range(1, 10)] public int resetPickUps = 5;
 	[Range(1, 100)] public int coinPickUps = 10;
 	[Range(0, 50)] public int transformPickUps = 5;
-	public static int collectablePickUps = 12;
+	public static int collectablePickUps = 10;
 
 	[Range(0, 5)] public int transformStartingAmoungt = 5;
 	public static int numberCollected = 0;
@@ -33,7 +33,6 @@ public class Items : MonoBehaviour {
 	[HideInInspector] public static List<Vector3> fourPoints2 = new List<Vector3>();
 	[HideInInspector] public static List<Vector3> fourPoints3 = new List<Vector3>();
 	[HideInInspector] public static List<Vector3> fourPoints4 = new List<Vector3>();
-	[HideInInspector] public static List<Vector3> fourPoints5 = new List<Vector3>();
 
 	void Start () {
 
@@ -44,12 +43,9 @@ public class Items : MonoBehaviour {
 		CreateHealthAndTransformItems ();
 		StartCoroutine(CreateCollectable ());
 
-
-
 	}
 	void Update()
 	{
-
 
 
 //		int whenToGenerateBuildingsCollectable1 = GenerateCity.buildingsIndex.Count/2;
@@ -132,7 +128,6 @@ public class Items : MonoBehaviour {
 			v1+= 1f;
 		}
 
-
 		int fromm2 = (coinItems.Count - 30);
 		int too2 = coinItems.Count - 20;
 		float v2 = 1;
@@ -142,8 +137,6 @@ public class Items : MonoBehaviour {
 			coinItems[iii].GetComponent<Rigidbody> ().useGravity = true;
 			v2+= 1f;
 		}
-
-
 
 
 	}
@@ -172,10 +165,14 @@ public class Items : MonoBehaviour {
 				c.transform.parent = GameObject.Find ("SwirlPipeSystemEasy/collectablePipeParent").transform;
 				c.transform.localPosition = pipeCollectablesItemsPositions[0];
 
+				c.GetComponent<Rigidbody> ().useGravity = false;
+
 			}else if (col == 1) 
 			{
 				c.transform.parent = GameObject.Find ("SwirlPipeSystemHard/collectablePipeParent").transform;
 				c.transform.localPosition = pipeCollectablesItemsPositions[1];
+
+				c.GetComponent<Rigidbody> ().useGravity = false;
 
 			}else if (col == 2) 
 			{
@@ -184,56 +181,53 @@ public class Items : MonoBehaviour {
 				c.transform.localPosition = Vector3.zero;
 				c.GetComponent<Rigidbody> ().isKinematic = true;
 
+				c.GetComponent<Rigidbody> ().useGravity = false;
+
 			}else if (col == 3){
 				c.transform.parent = GameObject.Find ("Sun").transform;
 				c.transform.localPosition = Vector3.zero;
+
+				c.GetComponent<Rigidbody> ().useGravity = false;
 
 			}else if (col == 4) 
 			{
 				c.transform.parent = GameObject.Find ("TorusArc").transform;
 				c.transform.localPosition = Vector3.zero;
 
+				c.GetComponent<Rigidbody> ().useGravity = false;
+
 			}else if (col == 5 ) 
 			{
 				c.transform.parent = GameObject.Find ("Earth").transform;
 				c.transform.localPosition = new Vector3(-0.6f, 0.0f, 0.0f);
+
+				c.GetComponent<Rigidbody> ().useGravity = false;
 			}else if (col == 6 ) 
 			{
 				c.transform.parent = GameObject.Find ("Earth").transform;
 				c.transform.localPosition = new Vector3(0.6f, 0.0f, 0.0f);
+
+				c.GetComponent<Rigidbody> ().useGravity = false;
 			}else if (col == 7)
 			{
 				c.transform.parent = this.transform;
 				c.transform.localPosition = new Vector3(0, 25, 0);
-				c.GetComponent<Rigidbody> ().isKinematic = true;
+
+				c.GetComponent<Rigidbody> ().useGravity = false;
 
 			}else if (col == 8)
 			{
 				c.transform.parent = this.transform;
-				c.transform.localPosition = new Vector3(0, 25, 500);
-				c.GetComponent<Rigidbody> ().isKinematic = true;
+				c.transform.localPosition = new Vector3(0, 40, 1000);
 
+				c.GetComponent<Rigidbody> ().useGravity = false;
 			}else if (col == 9)
 			{
 				c.transform.parent = this.transform;
-				c.transform.localPosition = new Vector3(0, 25, 1000);
-				c.GetComponent<Rigidbody> ().isKinematic = true;
-
-			}else if (col == 10)
-			{
-				c.transform.parent = this.transform;
-				c.transform.localPosition = new Vector3(1000, 40, 1000);
-				c.GetComponent<Rigidbody> ().isKinematic = true;
-			}
-			else if (col == 11)
-			{
-				c.transform.parent = this.transform;
-				c.transform.localPosition = new Vector3(1000, 60, 0);
-				c.GetComponent<Rigidbody> ().isKinematic = true;
+				c.transform.localPosition = new Vector3 (Random.Range(200f,800f), 100f, Random.Range(200f,800f));;
+				c.GetComponent<Rigidbody> ().useGravity = true;
 			}
 
-
-			c.GetComponent<Rigidbody> ().useGravity = false;
 
 			c.name = "CollectableItem"+ col;
 			c.tag = "RadarCollectable";
@@ -346,6 +340,7 @@ public class Items : MonoBehaviour {
 
 
 		GameObject newObj = new GameObject ();
+		newObj.name = "curve items";
 		newObj.AddComponent<LineRenderer>();
 		LineRenderer lineRenderer = newObj.GetComponent<LineRenderer> ();
 
@@ -381,13 +376,14 @@ public class Items : MonoBehaviour {
 				item.transform.localPosition = position;
 
 				item.transform.LookAt(position + GetDirection(p * stepSize, points));
-				item.transform.parent = transform;
+				item.transform.parent = newObj.transform;
 
 				item.GetComponent<Rigidbody> ().isKinematic = true;
 				coinItems.Add (item);
 			}
 		}
 
+		lineRenderer.enabled = false;
 
 	}
 

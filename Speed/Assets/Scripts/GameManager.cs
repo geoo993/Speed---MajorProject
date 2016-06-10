@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 	public Image[] scoreIcons = null;
 	public GameObject[] radarImages = null;
 
-	public static Color interfaceColor = Color.cyan;
+	public Color interfaceColor = Color.cyan;
 
 	public static int scoreNum = 0;
 	public static float currentScoreCount = 0;
