@@ -29,8 +29,10 @@ public class SwirlPipeSystem : MonoBehaviour
 
 		} else if (pipeType == PipeType.hard) {
 			pipePos = new Vector3 (0.0f, Random.Range (1000.0f, 2000.0f), -Random.Range (1000.0f, 1500.0f));
+
 		}
 		this.transform.position = pipePos;
+
 
 		pipes = new SwirlPipe[pipeCount];
 		for (int i = 0; i < pipeCount; i++) 
@@ -58,6 +60,19 @@ public class SwirlPipeSystem : MonoBehaviour
 		}
 
 
+		if (pipeType == PipeType.easy) {
+
+			int lastIndex = pipes.Length - 1;
+			Items.fourPoints2.Add (CircumferencePoint (pipes [0].transform.position, pipes [0].CurveAngle - pipes [0].pipeRadius, pipes [0].CurveRadius));
+			Items.fourPoints3.Add (CircumferencePoint (pipes [lastIndex].transform.position, pipes [lastIndex].CurveAngle - pipes [lastIndex].pipeRadius, pipes [lastIndex].CurveRadius));
+
+		}
+		if (pipeType == PipeType.hard) {
+
+			int lastIndex = pipes.Length - 1;
+			Items.fourPoints1.Add (CircumferencePoint (pipes [0].transform.position, pipes [0].CurveAngle - pipes [0].pipeRadius, pipes [0].CurveRadius));
+			Items.fourPoints4.Add (CircumferencePoint (pipes [lastIndex].transform.position, pipes [lastIndex].CurveAngle - pipes [lastIndex].pipeRadius, pipes [lastIndex].CurveRadius));
+		}
 	}
 
 

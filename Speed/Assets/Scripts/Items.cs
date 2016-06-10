@@ -10,6 +10,7 @@ public class Items : MonoBehaviour {
 	public GameObject craft = null;
 	public GameObject[] collectors = null; 
 
+	[Range(10,50)] public int curvesItemsFrequency = 10;
 	[Range(1, 50)] public int healthPickUps = 5;
 	//[Range(1, 10)] public int resetPickUps = 5;
 	[Range(1, 100)] public int coinPickUps = 10;
@@ -28,19 +29,27 @@ public class Items : MonoBehaviour {
 	//[HideInInspector] public static List<GameObject> resetItems = new List<GameObject> ();
 	[HideInInspector] public static List<GameObject> coinItems = new List<GameObject> ();
 
+	[HideInInspector] public static List<Vector3> fourPoints1 = new List<Vector3>();
+	[HideInInspector] public static List<Vector3> fourPoints2 = new List<Vector3>();
+	[HideInInspector] public static List<Vector3> fourPoints3 = new List<Vector3>();
+	[HideInInspector] public static List<Vector3> fourPoints4 = new List<Vector3>();
+	[HideInInspector] public static List<Vector3> fourPoints5 = new List<Vector3>();
+
 	void Start () {
 
 		city = GetComponent<GenerateCity> ();
 
 		CharacterMeshComplete.tranformNum = transformStartingAmoungt;
 
-	
 		CreateHealthAndTransformItems ();
 		StartCoroutine(CreateCollectable ());
+
+
 
 	}
 	void Update()
 	{
+
 
 
 //		int whenToGenerateBuildingsCollectable1 = GenerateCity.buildingsIndex.Count/2;
@@ -237,6 +246,26 @@ public class Items : MonoBehaviour {
 		collectablesItems [2].GetComponent<BoxCollider> ().enabled = true;
 
 		createCoinItems ();
+
+		fourPoints1.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
+		fourPoints1.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
+		fourPoints1.Add (new Vector3(0, 10, 1000));
+		AddCurves (fourPoints1, collectors [0]);
+
+		fourPoints2.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
+		fourPoints2.Add (new Vector3(1000, 60, 1000));
+		fourPoints2.Add (new Vector3(0, 10, 1000));
+		AddCurves (fourPoints2, collectors [0]);
+
+		fourPoints3.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
+		fourPoints3.Add (new Vector3(1000, 60, 1000));
+		fourPoints3.Add (new Vector3(1000, 80, 0));
+		AddCurves (fourPoints3, collectors [0]);
+
+		fourPoints4.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
+		fourPoints4.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
+		fourPoints4.Add (new Vector3(1000, 40, 1000));
+		AddCurves (fourPoints4, collectors [0]);
 	}
 
 
@@ -302,6 +331,135 @@ public class Items : MonoBehaviour {
 		objectList.AddRange (newList);
 
 		//print (" count the list" + objectList.Count);
+	}
+
+
+
+
+//	................. curves......................
+
+	private void AddCurves( List<Vector3> points, GameObject obj)
+	{
+
+		List<GameObject> items = new List<GameObject>();
+		const float directionScale = 0.5f;
+
+
+		GameObject newObj = new GameObject ();
+		newObj.AddComponent<LineRenderer>();
+		LineRenderer lineRenderer = newObj.GetComponent<LineRenderer> ();
+
+		Material mat = new Material(Shader.Find("Particles/Additive"));
+		lineRenderer.material = mat;
+		lineRenderer.SetColors(Color.red, Color.green);
+		lineRenderer.SetWidth(1f, 1f);
+
+		int curveSteps = 10 ;
+		lineRenderer.SetVertexCount(curveSteps + 1);
+		Vector3 lineStart = GetPoint(0f, points);
+		lineRenderer.SetPosition(0, lineStart + GetDirection(0f, points) * directionScale);
+
+		for (int i = 1; i <= curveSteps; i++) {
+			Vector3 lineEnd = GetPoint(i / (float)curveSteps, points);
+			lineRenderer.SetPosition (i  , lineEnd + GetDirection(i / (float)curveSteps, points) * directionScale);
+		}
+			
+	
+		items.Add (obj);
+
+		if (curvesItemsFrequency <= 0 || items == null || items.Count == 0) {
+			return;
+		}
+		float stepSize = curvesItemsFrequency * items.Count;
+		stepSize = 1f / (stepSize - 1);
+
+		for (int p = 0, f = 0; f < curvesItemsFrequency; f++) {
+			for (int i = 0; i < items.Count; i++, p++) {
+
+				GameObject item = Instantiate(items[i]) as GameObject;
+				Vector3 position = GetPoint(p * stepSize, points);
+				item.transform.localPosition = position;
+
+				item.transform.LookAt(position + GetDirection(p * stepSize, points));
+				item.transform.parent = transform;
+
+				item.GetComponent<Rigidbody> ().isKinematic = true;
+				coinItems.Add (item);
+			}
+		}
+
+
+	}
+
+
+	public Vector3 GetPoint (float t,List<Vector3> curvePoints) {
+
+		int i;
+		if (t >= 1f) {
+			t = 1f;
+			i = curvePoints.Count - 4;
+		}
+		else {
+			t = Mathf.Clamp01(t) ;
+			i = (int)t;
+			t -= i;
+			i *= 3;
+		}
+		return transform.TransformPoint (
+			GetPointForCubicCurve (
+				curvePoints [i], 
+				curvePoints [i + 1], 
+				curvePoints [i + 2],
+				curvePoints [i + 3], t));
+
+	}
+
+	public Vector3 GetVelocity (float t, List<Vector3> curvePoints) {
+
+		int i;
+		if (t >= 1f) {
+			t = 1f;
+			i = curvePoints.Count - 4;
+		}
+		else {
+			t = Mathf.Clamp01(t) ;
+			i = (int)t;
+			t -= i;
+			i *= 3;
+		}
+
+		return transform.TransformPoint(
+			GetFirstDerivativeForCubicCurve(
+				curvePoints[i], 
+				curvePoints[i + 1], 
+				curvePoints[i + 2], 
+				curvePoints[i + 3], t)) - 
+			transform.position;
+
+
+	}
+
+	////reduces the velocity line 
+	public Vector3 GetDirection (float t, List<Vector3> curvePoints) {
+		return GetVelocity(t, curvePoints).normalized;
+	}
+
+	public static Vector3 GetPointForCubicCurve (Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t) {
+		t = Mathf.Clamp01(t);
+		float oneMinusT = 1f - t;
+		return
+			oneMinusT * oneMinusT * oneMinusT * p0 +
+			3f * oneMinusT * oneMinusT * t * p1 +
+			3f * oneMinusT * t * t * p2 +
+			t * t * t * p3;
+	}
+	public static Vector3 GetFirstDerivativeForCubicCurve  (Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t) {
+		t = Mathf.Clamp01(t);
+		float oneMinusT = 1f - t;
+		return
+			3f * oneMinusT * oneMinusT * (p1 - p0) +
+			6f * oneMinusT * t * (p2 - p1) +
+			3f * t * t * (p3 - p2);
 	}
 
 
