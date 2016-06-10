@@ -11,6 +11,8 @@ public class CharacterMovement : MonoBehaviour
 	public ParticleSystem rearParticle1 = null;
 	public ParticleSystem rearParticle2 = null;
 
+
+
 	///.............. balll...............
 	private float rollinglerp = 0.0f;
 	//.............. plane...............
@@ -54,6 +56,7 @@ public class CharacterMovement : MonoBehaviour
 	private bool isMoving ;
 	private Transform myTransform;
 	private Vector3 forwardForce;
+
 
 	void Awake(){
 
@@ -159,8 +162,6 @@ public class CharacterMovement : MonoBehaviour
 			airSate = true;
 		}
 
-
-
 	}
 
 	void RigidBodyControl()
@@ -189,7 +190,6 @@ public class CharacterMovement : MonoBehaviour
 			rigid.useGravity = false;
 			rigid.mass = 150f;
 		}
-
 
 	}
 
@@ -227,7 +227,7 @@ public class CharacterMovement : MonoBehaviour
 
 	private void UpdateWindParticle(float withSpeed, float withoutSpeed, float slowingDown){
 
-		travelerParticle.startColor = gameManagerScript.interfaceColor;
+		travelerParticle.startColor = GameManager.interfaceColor;
 
 		if (Input.GetKey ("z") || (Input.GetAxis ("PS4_R2") > 0.0f)) {
 			
@@ -252,8 +252,8 @@ public class CharacterMovement : MonoBehaviour
 			ParticleSystemExtension.SetEmissionRate (rearParticle1, withSpeed);
 			ParticleSystemExtension.SetEmissionRate (rearParticle2, withSpeed);
 
-			rearParticle1.startColor = gameManagerScript.interfaceColor;
-			rearParticle2.startColor = gameManagerScript.interfaceColor;
+			rearParticle1.startColor = GameManager.interfaceColor;
+			rearParticle2.startColor = GameManager.interfaceColor;
 
 
 		}else if (Input.GetKey ("x") || (Input.GetAxis ("PS4_L2") > 0.0f)) {
@@ -327,13 +327,33 @@ public class CharacterMovement : MonoBehaviour
 			moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
 		}
 
-		//Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical) * (speed * 10) * Time.deltaTime;
-		//rigid.AddForce(movement);
 
-		rigid.AddForce((Camera.main.gameObject.transform.forward ) * moveVertical * speed );
+		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
 
-		if (moveHorizontal == 0 && moveVertical == 0 && this.transform.position.y < 5f) {
+			//Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical) * (speed * 10) * Time.deltaTime;
+			//rigid.AddForce(movement);
 
+			forwardForce = (Camera.main.gameObject.transform.forward) * moveVertical * speed; 
+
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+			
+			if ((Input.GetAxis ("PS4_L2") > 0.0f)) 
+			{
+				forwardForce = (Camera.main.gameObject.transform.forward) * -Input.GetAxis ("PS4_L2") * (speed * 10); 
+
+			} else if ((Input.GetAxis ("PS4_R2") > 0.0f)) {
+				
+				forwardForce = (Camera.main.gameObject.transform.forward) * Input.GetAxis ("PS4_R2") * (speed * 10); 
+			} else {
+				forwardForce = Vector3.zero;
+			}
+
+		}
+
+		rigid.AddForce(forwardForce);
+
+		if (moveHorizontal == 0 && moveVertical == 0 && (Input.GetAxis ("PS4_L2") <= 0.0f) && (Input.GetAxis ("PS4_R2") <= 0.0f) && this.transform.position.y < 5f) 
+		{
 			if (rollinglerp < 1.0f) {
 
 				rollinglerp += Time.deltaTime * (1.0f / 10.0f);
@@ -362,8 +382,15 @@ public class CharacterMovement : MonoBehaviour
 			moveHorizontal = Input.GetAxis ("Horizontal");
 
 		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+			
 			moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
-			moveHorizontal = Input.GetAxis ("PS4_RightAnalogHorizontal");
+
+			if (gameManagerScript.switchAnalogStick) {
+				moveHorizontal = Input.GetAxis ("PS4_LeftAnalogHorizontal");
+			} else {
+				moveHorizontal = Input.GetAxis ("PS4_RightAnalogHorizontal");
+			}
+
 		}
 
 
@@ -373,16 +400,22 @@ public class CharacterMovement : MonoBehaviour
 			rigid.drag = 1;
 
 
-			if ((Input.GetAxis ("PS4_L2") > 0.0f)) {
-				////calculate forward force:
-				forwardForce = transform.forward * (speed * 100) * -Input.GetAxis ("PS4_L2");
-			} else if ((Input.GetAxis ("PS4_R2") > 0.0f)) {
-				////calculate forward force:
-				forwardForce = transform.forward * (speed * 100) * Input.GetAxis ("PS4_R2");
-			} else {
-				forwardForce = Vector3.zero;
-			}
+			if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
 
+				forwardForce = transform.forward * (speed * 10) * moveVertical;
+
+			} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+				
+				if ((Input.GetAxis ("PS4_L2") > 0.0f)) {
+					////calculate forward force:
+					forwardForce = transform.forward * (speed * 100) * -Input.GetAxis ("PS4_L2");
+				} else if ((Input.GetAxis ("PS4_R2") > 0.0f)) {
+					////calculate forward force:
+					forwardForce = transform.forward * (speed * 100) * Input.GetAxis ("PS4_R2");
+				} else {
+					forwardForce = Vector3.zero;
+				}
+			}
 
 			////correct the force for deltatime and vehical mass:
 			forwardForce = forwardForce * Time.deltaTime * rigid.mass;
@@ -428,8 +461,14 @@ public class CharacterMovement : MonoBehaviour
 			moveHorizontal = Input.GetAxis ("Horizontal");
 
 		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
-			moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
-			moveHorizontal = Input.GetAxis ("PS4_LeftAnalogHorizontal");
+
+			if (gameManagerScript.switchAnalogStick) {
+				moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
+				moveHorizontal = Input.GetAxis ("PS4_LeftAnalogHorizontal");
+			} else {
+				moveVertical = Input.GetAxis ("PS4_RightAnalogVertical");
+				moveHorizontal = Input.GetAxis ("PS4_RightAnalogHorizontal");
+			}
 		}
 
 		// Turn variables to rotation and position of the object

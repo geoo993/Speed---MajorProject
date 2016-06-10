@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 	public Image[] scoreIcons = null;
 	public GameObject[] radarImages = null;
 
-	public Color interfaceColor = Color.cyan;
+	public static Color interfaceColor = Color.cyan;
 
 	public static int scoreNum = 0;
 	public static float currentScoreCount = 0;
@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour {
 	public bool showRadar = false;
 	public bool showHealth = false;
 	public bool showSpeed = false;
+
+	public bool switchAnalogStick = false;
 
 	public enum ControlsType { Keyboard, Controller };
 	public ControlsType controlsType = ControlsType.Keyboard;

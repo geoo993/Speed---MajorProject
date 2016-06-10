@@ -279,8 +279,8 @@ public class DiamondShape : MonoBehaviour {
 //
 		boxCollider = gameObject.AddComponent<BoxCollider>();
 		boxCollider.center = Vector3.zero;
-		Vector3 tempSize = boxCollider.size * 1.5f;
-		boxCollider.size = tempSize;
+		//Vector3 tempSize = boxCollider.size * 1.5f;
+		//boxCollider.size = tempSize;
 
 		//meshCollider = GetComponent<BoxCollider>();
 		//meshCollider.size = new Vector3(xSize, ySize, zSize);

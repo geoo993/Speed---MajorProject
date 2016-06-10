@@ -199,7 +199,7 @@ public class GenerateCity : MonoBehaviour {
 		}
 
 		for (int b = 0; b < buildingsRemovedAreaIndex.Count; b++) {	
-			areas [buildingsRemovedAreaIndex[b]].GetComponent<MeshRenderer> ().material.color = buildingsAreaColor;
+			areas [buildingsRemovedAreaIndex [b]].GetComponent<MeshRenderer> ().material.color = GameManager.interfaceColor;//buildingsAreaColor;
 
 		}
 
@@ -1024,7 +1024,7 @@ public class GenerateCity : MonoBehaviour {
 
 			building.GetComponent<MeshRenderer> ().material.SetColor ("_ColorTop", buildingsTopColor);
 			building.GetComponent<MeshRenderer> ().material.SetColor ("_ColorMid", buildingsTopColor);
-			building.GetComponent<MeshRenderer> ().material.SetColor ("_ColorBot", buildingsAreaColor);//buildingsBottomColor);
+			building.GetComponent<MeshRenderer> ().material.SetColor ("_ColorBot", GameManager.interfaceColor);//buildingsAreaColor);//buildingsBottomColor);
 			building.GetComponent<MeshRenderer> ().material.SetFloat ("_Middle", colorHeight);
 
 			builingsImage.color = buildingsTopColor;

@@ -62,8 +62,13 @@ public class CameraTracker : MonoBehaviour {
 
 		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) 
 		{
-			currentX += Input.GetAxis ("PS4_RightAnalogVertical");
-			currentY += Input.GetAxis ("PS4_RightAnalogHorizontal");
+			if (gameManagerScript.switchAnalogStick) {
+				currentX += Input.GetAxis ("PS4_LeftAnalogVertical");
+				currentY += Input.GetAxis ("PS4_LeftAnalogHorizontal");
+			} else {
+				currentX += Input.GetAxis ("PS4_RightAnalogVertical");
+				currentY += Input.GetAxis ("PS4_RightAnalogHorizontal");
+			}
 		}
 	}
 	void LateUpdate () {

@@ -38,7 +38,7 @@ public class CirclePlane : MonoBehaviour {
 		Circle ();
 
 		UpdateColor ();
-		UpdateCollider ();
+		//UpdateCollider ();
 	}
 
 //	private void OnDrawGizmos () {
@@ -131,14 +131,14 @@ public class CirclePlane : MonoBehaviour {
 		meshRenderer.material.color = Camera.main.gameObject.GetComponent<Skybox> ().bc;
 	}
 
-	void UpdateCollider(){
-
-		if (craft.GetComponent<CharacterMovement> ().ballState || craft.GetComponent<CharacterMovement> ().groundState) 
-		{
-			meshCollider.sharedMesh = mesh;
-
-		} else if (craft.GetComponent<CharacterMovement> ().airSate) {
-			meshCollider.sharedMesh = null;
-		}
-	}
+//	void UpdateCollider(){
+//
+//		if (craft.GetComponent<CharacterMovement> ().ballState || craft.GetComponent<CharacterMovement> ().groundState) 
+//		{
+//			meshCollider.sharedMesh = mesh;
+//
+//		} else if (craft.GetComponent<CharacterMovement> ().airSate) {
+//			meshCollider.sharedMesh = null;
+//		}
+//	}
 }
