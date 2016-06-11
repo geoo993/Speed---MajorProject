@@ -266,7 +266,7 @@ public class GameManager : MonoBehaviour {
 		mainTexts[0].color = new Color(interfaceColor.r,interfaceColor.g,interfaceColor.b, flashing(1.0f));
 		mainTexts[1].text = "Health ( "+(int)health+" )";
 		mainTexts[2].text = "Speed ( "+Mathf.Round(CharacterMovement.speed)+" )";
-		mainTexts[3].text = "Points: "+(int)currentScoreCount;
+		mainTexts[3].text = " "+(int)currentScoreCount;
 		mainTexts[4].text = Timer();
 
 		for (int i = 1; i < mainTexts.Length; i++) {

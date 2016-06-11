@@ -211,9 +211,8 @@ public class Items : MonoBehaviour {
 			}else if (col == 7)
 			{
 				c.transform.parent = this.transform;
-				c.transform.localPosition = new Vector3(0, 25, 0);
-
-				c.GetComponent<Rigidbody> ().useGravity = false;
+				c.transform.localPosition = new Vector3 (Random.Range(200f,800f), 100f, Random.Range(200f,800f));;
+				c.GetComponent<Rigidbody> ().useGravity = true;
 
 			}else if (col == 8)
 			{
@@ -224,8 +223,9 @@ public class Items : MonoBehaviour {
 			}else if (col == 9)
 			{
 				c.transform.parent = this.transform;
-				c.transform.localPosition = new Vector3 (Random.Range(200f,800f), 100f, Random.Range(200f,800f));;
-				c.GetComponent<Rigidbody> ().useGravity = true;
+				c.transform.localPosition = new Vector3(0, 25, 0);
+
+				c.GetComponent<Rigidbody> ().useGravity = false;
 			}
 
 
