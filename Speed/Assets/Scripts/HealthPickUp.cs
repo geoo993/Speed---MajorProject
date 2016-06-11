@@ -10,6 +10,10 @@ public class HealthPickUp : MonoBehaviour {
 
 		if (col.gameObject.name == "Craft")
 		{
+			GameObject e = (GameObject)Instantiate(Resources.Load ("HealthExplosionBurstParticle"), col.contacts[0].point, Quaternion.identity);
+			Destroy (e, 2.0f);
+
+
 			GameManager.scoreCountDuration = 10.0f;
 			GameManager.scoreNum += 20;
 

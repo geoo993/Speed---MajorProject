@@ -11,6 +11,12 @@ public class BuildPickUp : MonoBehaviour {
 
 		if (col.gameObject.name == "Craft")
 		{
+
+			GameObject e = (GameObject)Instantiate(Resources.Load ("CoinExplosionBurstParticle"), col.contacts[0].point, Quaternion.identity);
+			Destroy (e, 2.0f);
+
+
+
 			//Destroy (this.gameObject);
 			GameManager.scoreCountDuration = 10.0f;
 			GameManager.scoreNum += 10;

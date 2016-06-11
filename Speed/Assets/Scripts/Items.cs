@@ -294,7 +294,7 @@ public class Items : MonoBehaviour {
 			a.transform.localScale = scale;
 			a.transform.parent = this.transform;
 
-			a.GetComponent<Rigidbody> ().isKinematic = (Random.Range (0, 2) == 0);
+			a.GetComponent<Rigidbody> ().useGravity = (Random.Range (0, 2) == 0);
 
 			a.name = "Health" + h;
 			healthItems.Add (a);
