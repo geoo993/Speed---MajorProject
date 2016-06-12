@@ -71,22 +71,13 @@ public class CharacterMovement : MonoBehaviour
 
 	void Update () 
 	{
-		
-//		if(lastPosition == myTransform.position){
-//			Debug.Log("Did not move");
-//		}else{
-//			Debug.Log("Moved");
-//		}
-//		lastPosition = new Vector3 (Mathf.Round (myTransform.position.x), Mathf.Round (myTransform.position.y), Mathf.Round (myTransform.position.z));
-//
-//		print (lastPosition +"   "+myTransform.position);
-
 
 		VehicleTransition ();
 		RigidBodyControl ();
 		UpdateSpeed ();
 		SetParticles ();
 		SetFieldView ();
+
 	}
 
 	void FixedUpdate ()
@@ -375,7 +366,6 @@ public class CharacterMovement : MonoBehaviour
 	{
 		speed = 300f;
 
-//		Vector3 forwardForce;
 
 		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
 			moveVertical = Input.GetAxis ("Vertical");

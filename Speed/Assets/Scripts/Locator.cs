@@ -33,13 +33,16 @@ public class Locator : MonoBehaviour {
 	private Vector3 targetToLocate = Vector3.zero;
 
 
+
 	void Start(){
 
 		this.name = "Locator";
 
 	}
+
 	void Update()
 	{
+
 		UpdateArrow ();
 	}
 	void LateUpdate(){
@@ -67,7 +70,7 @@ public class Locator : MonoBehaviour {
 				//print ("On Screen  ");
 
 				Image targetInd = GetTarget ();
-				targetInd.color = showTargetIndicator ? Color.red : Color.clear;
+				targetInd.color = showTargetIndicator ? GameObject.Find("GameManager").GetComponent<GameManager>().interfaceColor: Color.clear;
 				targetInd.transform.localPosition = new Vector3( screenPos.x, screenPos.y , 0.0f);
 
 
@@ -119,18 +122,16 @@ public class Locator : MonoBehaviour {
 				////remove coordinate translation
 				screenPos += screenCenter;
 
-
 				Image arrowInd = GetArrow ();
-
+				
+				//float dist = Vector3.Distance (craft.transform.position, (Items.collectablesItems[Items.collectablesItems.Count - 1].transform.position));
 				float dist = Vector3.Distance (craft.transform.position, d.transform.position);
 				Color col = Color.Lerp (Color.green, Color.red, dist / radarRange);
 				arrowInd.color = showArrowIndicator ? col : Color.clear;
 				arrowInd.transform.localPosition = new Vector3( screenPos.x , screenPos.y , 0.0f);
 
-
 				arrowInd.transform.localRotation = Quaternion.Euler (0.0f, 0.0f, angle * Mathf.Deg2Rad);
-
-
+				
 			}
 
 		}
@@ -206,9 +207,13 @@ public class Locator : MonoBehaviour {
 			craft.transform.position.x, 
 			craft.transform.position.y + 8, 
 			craft.transform.position.z);
-		
-		targetToLocate = GetClosestIcon (craft.transform.position, Items.collectablesItems);
-		FocusOnTarget (targetToLocate);
+
+		if (Items.collectablesItems.Count > 0) {
+			targetToLocate = Items.collectablesItems [Items.collectablesItems.Count - 1].transform.position; //GetClosestIcon (craft.transform.position, Items.collectablesItems);
+			FocusOnTarget (targetToLocate);
+		}
+
+
 	}
 	void FocusOnTarget( Vector3 target){
 

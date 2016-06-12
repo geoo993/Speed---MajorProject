@@ -21,6 +21,9 @@ public class SwirlPipeSystem : MonoBehaviour
 
 	private Vector3 pipePos;
 
+	private int smallCount = 1;
+	private int hardCount = 1;
+
 	private void Awake () 
 	{
 		if (pipeType == PipeType.easy) {
@@ -42,14 +45,38 @@ public class SwirlPipeSystem : MonoBehaviour
 
 			Vector3 pos = pipe.transform.localPosition;
 
-			if (i == pipeCount / 2) 
-			{
-				pipe.name = "collectablePipeParent";
-				Items.pipeCollectablesItemsPositions.Add ( CircumferencePoint(pos, pipe.CurveAngle - pipe.pipeRadius, pipe.CurveRadius));
 
-			} else {
-				createCollectables (pos, pipe.CurveRadius, pipe.CurveAngle - pipe.pipeRadius, pipe.transform);
-			}
+				
+			if (pipeType == PipeType.easy) 
+			{
+				
+				if (i == 15 || i == 30) 
+				{
+					pipe.name = "easyPipeParent"+smallCount;
+					Items.easyPipeCollectablesItemsPositions.Add (CircumferencePoint (pos, pipe.CurveAngle - pipe.pipeRadius, pipe.CurveRadius));
+					smallCount++;
+
+				} else {
+					createCollectables (pos, pipe.CurveRadius, pipe.CurveAngle - pipe.pipeRadius, pipe.transform);
+				}
+
+			} 
+
+			if (pipeType == PipeType.hard) {
+
+				if (i == 10 || i == 30 || i == 50 || i == 70) {
+					
+					pipe.name = "hardPipeParent"+hardCount;
+					Items.hardPipeCollectablesItemsPositions.Add (CircumferencePoint (pos, pipe.CurveAngle - pipe.pipeRadius, pipe.CurveRadius));
+					hardCount++;
+
+				} else {
+					
+					createCollectables (pos, pipe.CurveRadius, pipe.CurveAngle - pipe.pipeRadius, pipe.transform);
+				}
+			} 
+
+			
 
 			pipe.transform.SetParent(transform, false);
 

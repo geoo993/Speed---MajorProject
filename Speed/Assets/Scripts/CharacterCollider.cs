@@ -42,10 +42,7 @@ public class CharacterCollider : MonoBehaviour {
 
 		if (col.gameObject.name == "TorusArc") 
 		{
-			//float impact = Vector3.Dot (col.contacts [0].normal, col.relativeVelocity) * GetComponent<Rigidbody>().mass;
-			//float impact = healthDamage * col.relativeVelocity.magnitude; 
-			//float impact = 	Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
-
+			
 			print (" hit TorusArc");
 			GameManager.health -= (int)impact;
 		}

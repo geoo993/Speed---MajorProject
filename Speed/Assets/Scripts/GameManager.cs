@@ -35,8 +35,9 @@ public class GameManager : MonoBehaviour {
 	public static int flashCount = 120;
 
 	public static float inTransitionNum = 100;
-
-	public static int radarIcon = 0; 
+	private float minutesTime = 0;
+	private float secondsTime = 0;
+	private float lerpInfotext = 0;
 
 	public static int collectedItems = 0; 
 	public static int healthCollectableItems = 0; 
@@ -96,26 +97,6 @@ public class GameManager : MonoBehaviour {
 
 	void PS4Controls()
 	{
-
-		if (Input.GetKeyDown ("7") || Input.GetButtonDown ("PS4_X")) {
-
-//			if (healthCollectableItems > 0 && radarIcon == 1) {
-//				health += 20;
-//				healthCollectableItems -= 1;
-//			}
-
-//			if (healthCollectableItems > 0 ) {
-//				health += 20;
-//				healthCollectableItems -= 1;
-//			}
-
-
-//			if (resetCollectableItems > 0 && radarIcon == 2) {
-//				
-//				resetCollectableItems -= 1;
-//			}
-
-		}
 
 		////Axis
 //		print("Right Analog Horizontal: "+ Input.GetAxis ("PS4_RightAnalogHorizontal") +
@@ -264,12 +245,26 @@ public class GameManager : MonoBehaviour {
 
 		mainTexts[0].text = "In Transition.";
 		mainTexts[0].color = new Color(interfaceColor.r,interfaceColor.g,interfaceColor.b, flashing(1.0f));
+
 		mainTexts[1].text = "Health ( "+(int)health+" )";
 		mainTexts[2].text = "Speed ( "+Mathf.Round(CharacterMovement.speed)+" )";
 		mainTexts[3].text = " "+(int)currentScoreCount;
 		mainTexts[4].text = Timer();
 
-		for (int i = 1; i < mainTexts.Length; i++) {
+		mainTexts[5].text = "COLLECT  THE  DIAMONDS";
+		if (secondsTime >= 0 && secondsTime <= 10.0f) {
+			mainTexts [5].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, flashing (1.5f));
+
+			lerpInfotext = 0f;
+		} else {
+			
+			if (lerpInfotext < 1.0f) {
+				lerpInfotext += Time.deltaTime * (1 / 5.0f); //This will increment tParam based on Time.deltaTime multiplied by a speed multiplier
+			}
+			mainTexts [5].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, Mathf.Lerp(mainTexts [5].color.a, 0.0f,  lerpInfotext));
+		}
+
+		for (int i = 1; i < mainTexts.Length - 1; i++) {
 			mainTexts [i].color = interfaceColor;
 		}
 
@@ -371,8 +366,11 @@ public class GameManager : MonoBehaviour {
 	private string Timer (){
 
 		timerCount += Time.deltaTime;
-		string minutes = Mathf.Floor(timerCount / 60).ToString("00");
-		string seconds = (timerCount % 60).ToString("00");
+
+		minutesTime = Mathf.Floor (timerCount / 60);
+		secondsTime = timerCount % 60;
+		string minutes = (minutesTime).ToString("00");
+		string seconds = (secondsTime).ToString("00");
 
 		return minutes +" : "+seconds;
 	}
