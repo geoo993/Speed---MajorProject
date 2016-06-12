@@ -258,8 +258,7 @@ public class Items : MonoBehaviour {
 		}
 
 		yield return wait;
-		//collectablesItems [2].transform.parent = GameObject.Find("Earth").transform;
-		collectablesItems [2].GetComponent<BoxCollider> ().enabled = true;
+		collectablesItems [1].GetComponent<BoxCollider> ().enabled = true;
 
 		createCoinItems ();
 

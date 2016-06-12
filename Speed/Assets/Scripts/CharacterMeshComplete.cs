@@ -883,7 +883,6 @@ public class CharacterMeshComplete : MonoBehaviour {
 
 		if ((Input.GetKeyDown ("2") || Input.GetButton ("PS4_R1")) && moveState == "idle") //&& tranformNum > 0 && GameManager.radarIcon == 0) 
 		{
-
 				prevAnim = false;
 				tranformNum --;
 

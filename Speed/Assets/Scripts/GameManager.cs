@@ -56,13 +56,14 @@ public class GameManager : MonoBehaviour {
 	public enum ControlsType { Keyboard, Controller };
 	public ControlsType controlsType = ControlsType.Keyboard;
 
+	public Animator gameOverClip;
+	public static float restartDelay = 0.0f;
 
 	void Start () {
 
 		craftScript = craft.GetComponent<CharacterMeshComplete>();
 		coinItemsAtStart = Items.coinItems.Count;
-
-
+		restartDelay = 0.0f;
 	}
 
 	void Update () {
@@ -78,6 +79,7 @@ public class GameManager : MonoBehaviour {
 		PS4Controls ();
 		FlashHealth ();
 		LerpScore ();
+		GameOver ();
 
 	}
 
@@ -165,6 +167,11 @@ public class GameManager : MonoBehaviour {
 //		}
 
 	}
+
+	void GameOver(){
+
+
+	}
 	void UpdateInTransitionSlider(){
 
 		sliderBars[0].value = inTransitionNum;
@@ -181,8 +188,15 @@ public class GameManager : MonoBehaviour {
 		sliderBars[1].value = (int)health;
 
 		if (health <= 0) {
+
+			gameOverClip.SetTrigger ("GameOver");
+
+			if (restartDelay < 10f) {
+
+			}
+
 			health = 0;
-		}
+		} 
 		if (health >= 100f) {
 
 			health = 100f;
@@ -250,10 +264,10 @@ public class GameManager : MonoBehaviour {
 		mainTexts[2].text = "Speed ( "+Mathf.Round(CharacterMovement.speed)+" )";
 		mainTexts[3].text = " "+(int)currentScoreCount;
 		mainTexts[4].text = Timer();
-
-		mainTexts[5].text = "COLLECT  THE  DIAMONDS";
+		mainTexts[5].text = "G A M E    O V E R";
+		mainTexts[6].text = "COLLECT  THE  DIAMONDS";
 		if (secondsTime >= 0 && secondsTime <= 10.0f) {
-			mainTexts [5].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, flashing (1.5f));
+			mainTexts [6].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, flashing (1.5f));
 
 			lerpInfotext = 0f;
 		} else {
@@ -261,7 +275,7 @@ public class GameManager : MonoBehaviour {
 			if (lerpInfotext < 1.0f) {
 				lerpInfotext += Time.deltaTime * (1 / 5.0f); //This will increment tParam based on Time.deltaTime multiplied by a speed multiplier
 			}
-			mainTexts [5].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, Mathf.Lerp(mainTexts [5].color.a, 0.0f,  lerpInfotext));
+			mainTexts [6].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, Mathf.Lerp(mainTexts [5].color.a, 0.0f,  lerpInfotext));
 		}
 
 		for (int i = 1; i < mainTexts.Length - 1; i++) {
