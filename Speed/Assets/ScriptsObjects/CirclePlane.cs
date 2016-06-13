@@ -126,13 +126,13 @@ public class CirclePlane : MonoBehaviour {
 
 	void UpdateCollider(){
 
+		if (GameObject.Find ("Craft") != null) {
+			if (GameObject.Find ("Craft").GetComponent<CharacterMovement> ().ballState || GameObject.Find ("Craft").GetComponent<CharacterMovement> ().groundState) {
+				meshCollider.sharedMesh = mesh;
 
-		if (GameObject.Find("Craft").GetComponent<CharacterMovement> ().ballState || GameObject.Find("Craft").GetComponent<CharacterMovement> ().groundState) 
-		{
-			meshCollider.sharedMesh = mesh;
-
-		} else if (GameObject.Find("Craft").GetComponent<CharacterMovement> ().airSate) {
-			meshCollider.sharedMesh = null;
+			} else if (GameObject.Find ("Craft").GetComponent<CharacterMovement> ().airSate) {
+				meshCollider.sharedMesh = null;
+			}
 		}
 	}
 }

@@ -4,8 +4,6 @@ using System.Collections;
 public class CameraTracker : MonoBehaviour {
 
 	private Transform target;
-	private GameManager gameManagerScript;
-
 	private float distance = 50.0f;
 	private float currentX = 0.0f;
 	private float currentY = 0.0f;
@@ -16,28 +14,21 @@ public class CameraTracker : MonoBehaviour {
 
 	private Vector3 positionVelocity;
 	private Vector3 offset;
-	private CharacterMovement craftMovement;
 
 	private string getPos = "ball";
 
 	private Vector3 prevPos;
 	private float groundTimer = 0.0f;
 
-
-
-	void Awake ()
-	{
-		gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager> ();
-
-
-
+	void Start (){
+		this.name = "Main Camera";
 	}
-		
+
 	void Update ()
 	{
+		
 		target = GameObject.Find ("Craft").transform;
-		craftMovement = target.GetComponent<CharacterMovement> ();
-
+		
 		UpdateControls ();
 	}
 
@@ -55,15 +46,14 @@ public class CameraTracker : MonoBehaviour {
 
 	void UpdateControls(){
 
-		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) 
+		if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.Keyboard) 
 		{
-			
 			currentX += Input.GetAxis ("VerticalSW");
 			currentY += Input.GetAxis ("HorizontalAD");
 
-		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) 
+		} else if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.Controller) 
 		{
-			if (gameManagerScript.switchAnalogStick) {
+			if (GameObject.Find("GameManager").GetComponent<GameManager>().switchAnalogStick) {
 				currentX += Input.GetAxis ("PS4_LeftAnalogVertical");
 				currentY += Input.GetAxis ("PS4_LeftAnalogHorizontal");
 			} else {
@@ -72,16 +62,19 @@ public class CameraTracker : MonoBehaviour {
 			}
 		}
 	}
+
 	void LateUpdate () {
 
-		if (craftMovement.ballState == true) {
+		if (target != null) {
+			if (target.GetComponent<CharacterMovement> ().ballState == true) {
 			
-			FollowTargetWhenRolling ();
+				FollowTargetWhenRolling ();
 
-		} else if (craftMovement.groundState == true || craftMovement.airSate == true) {
+			} else if (target.GetComponent<CharacterMovement> ().groundState == true || target.GetComponent<CharacterMovement> ().airSate == true) {
 
-			FollowTargetOnGroundAir ();
-
+				FollowTargetOnGroundAir ();
+	
+			}
 		}
 
 	}

@@ -31,8 +31,6 @@ public class GenerateCity : MonoBehaviour {
 	[HideInInspector] public static List<int> buildingsRemovedAreaIndex = new List<int>();
 	[HideInInspector] public static int buildingsCurrentIndex = 0;
 	[HideInInspector] public static bool addOneBuilding = false;
-	private float lerpId = 0;
-
 
 	private List<GameObject> areas = new List<GameObject>();
 	private List<GameObject> areasIndexDelete = new List<GameObject>();
@@ -40,43 +38,11 @@ public class GenerateCity : MonoBehaviour {
 	private List<Vector3> mapEdgePoints = new List<Vector3>();
 
 	private int xSize, ySize, zSize, gameObjectCount ;
-	public int roundness = 6;
-	private bool roundTop = false;
-	public bool roundFront, roundBack, roundSides = false;
 
-	[Range(0, 16)] public int textureIndex = 2;
 	[Range(0.02f, 0.98f)] public float colorHeight = 0.3f;
-
+	public static float lerpId = 0;
 	public bool addTexture = false;
 	private Texture[] stripes;
-
-
-	private List <Vector3> verticesCopy = new List<Vector3> ();
-	private List<int[]> controlPoints = new List<int[]>();
-	private List<int> listOfVerticesIndexes = new List<int>();
-	private List<int> pivotControlPoint= new List<int>();
-	private List<int> topControlPointIndexes = new List<int>();
-	private List<int> frontControlPointIndexes = new List<int>();
-	private List<int> backControlPointIndexes = new List<int>();
-	private List<int> sidesControlPointIndexes = new List<int>();
-	private List<Vector3> vertices = new List<Vector3>();
-	private List<Vector3> normals = new List<Vector3>();
-	private List<Vector2> uv = new List<Vector2>();
-	private int[] triangles; 
-
-	private static int
-	SetQuad (int[] triangles, int i, int v00, int v10, int v01, int v11) {
-
-		triangles[i] = v00;
-		triangles[i + 4] = v01;
-		triangles[i + 1] = triangles[i + 4];
-		triangles[i + 3] = v10;
-		triangles[i + 2] = triangles[i + 3];
-		triangles[i + 5] = v11;
-
-		return i + 6;
-	}
-
 
 
 	private void Awake () {
@@ -84,16 +50,36 @@ public class GenerateCity : MonoBehaviour {
 		this.transform.name = "City";
 		//StartCoroutine(GenerateCityBuildings ());
 		GenerateCityBuildings();
-
+		MakeBuilding ();
 	}
 	private void Update(){
 
 		GrowBuilding ();
 		UpdateAreasColor ();
 		UpdateBuildingsColor ();
+
 	}
 
+	public void ResetCity (){
 
+		buildingsRemovedAreaIndex.Clear ();
+		buildingsIndex.Clear ();
+
+		for (int i = 0; i < areas.Count; i++) {
+			buildingsIndex.Add (i);
+	
+			if (areas [i].transform.childCount > 0) {
+
+				foreach (Transform child in areas [i].GetComponentsInChildren<Transform>()) {
+
+					child.transform.localScale = new Vector3 (child.transform.localScale.x, 0.0f, child.transform.localScale.z);
+					child.GetComponent<MeshRenderer> ().enabled = false;
+				}
+			}
+		}
+
+		print ("buildings index amount: "+buildingsIndex.Count+"   areas: "+areas.Count);
+	}
 
 	//private IEnumerator GenerateCityBuildings () 
 	private void GenerateCityBuildings () 
@@ -144,11 +130,10 @@ public class GenerateCity : MonoBehaviour {
 
 		//yield return wait;
 
-		for (int i = 0; i < areas.Count; i++) {
-
-			buildingsIndex.Add (i);
-		}
-
+//		for (int i = 0; i < areas.Count; i++) {
+//
+//			buildingsIndex.Add (i);
+//		}
 
 		//print ("buildings index amount: "+buildingsIndex.Count+"   areas: "+areas.Count);
 
@@ -182,28 +167,14 @@ public class GenerateCity : MonoBehaviour {
 	}
 		
 
-	private void AddBuilding(string name, Vector3 position, int x, int y, int z){
-
-		GameObject building = GetComponent<Building>().CreateBuilding (position, x, y, z) as GameObject;
-		building.transform.parent = this.transform;
-		building.name = name;
-		building.transform.localScale = new Vector3 (Random.Range (0.5f, 0.8f), 0f, Random.Range (0.5f, 0.8f));
-		buildings.Add (building);
-
-		//building.AddComponent<MakeRadarObject> ();
-
-		//builingsImage.color = buildingsTopColor;
-		//building.GetComponent<MakeRadarObject> ().image = builingsImage;
-
-		lerpId = 0;
-	}
 
 
-	public void MakeBuilding(int i)
+	//public void MakeBuilding(int i)
+	public void MakeBuilding()
 	{
 
-		//for (int i = 0; i < areas.Count; i++) 
-		//{
+		for (int i = 0; i < areas.Count; i++) 
+		{
 
 			xSize = (int)areas[i].GetComponent<MeshRenderer> ().bounds.size.x;
 			zSize = (int)areas[i].GetComponent<MeshRenderer> ().bounds.size.z;
@@ -217,11 +188,9 @@ public class GenerateCity : MonoBehaviour {
 
 			Vector3 pivotPoint = new Vector3 (xx,areas[i].transform.position.y, zz);
 
-			roundTop = (Random.Range (0, 2) == 0);
-
 			if (distanceToCenter < buildingsLimit) {
 
-				buildingsRemovedAreaIndex.Add(i);
+//				buildingsRemovedAreaIndex.Add(i);
 
 				int splitSize = 100;//(int)buildingsLimit / buildingsFrequency;
 
@@ -261,10 +230,9 @@ public class GenerateCity : MonoBehaviour {
 					for (int o = 0; o < pointsInArea.Count; o++) {
 						ySize = Random.Range (buildingsMinHeight, buildingsMaxHeight) + ((int)distanceToMapEdge / 2);
 						Vector3 buildingPos1 = new Vector3 (pointsInArea [o].x + (stretcher / 2), transform.localPosition.y, pointsInArea [o].z + (stretcher / 2));
-						AddBuilding ("building", buildingPos1, xSize, ySize, zSize);
+						AddBuilding ("building", areas[i], buildingPos1, xSize, ySize, zSize);
 
 					}
-
 
 				} else {
 
@@ -273,11 +241,93 @@ public class GenerateCity : MonoBehaviour {
 					zSize -= (int)stretcher - 5;
 					Vector3 buildingPos2 = new Vector3 (pivotPoint.x + (stretcher / 2), this.transform.position.y, pivotPoint.z + (stretcher / 2));
 
-					AddBuilding ("building", buildingPos2,xSize, ySize, zSize);
+					AddBuilding ("building", areas[i], buildingPos2,xSize, ySize, zSize);
 				}
 
-			//}
-			//yield return wait;
+			}
+
+		}
+
+	}
+
+	private void AddBuilding(string name, GameObject parent, Vector3 position, int x, int y, int z){
+
+		GameObject building = GetComponent<Building>().CreateBuilding (position, x, y, z) as GameObject;
+		building.name = name;
+		building.transform.localScale = new Vector3 (Random.Range (0.5f, 0.8f), 0f, Random.Range (0.5f, 0.8f));
+		buildings.Add (building);
+
+		building.transform.parent = parent.transform;
+
+		building.GetComponent<MeshRenderer> ().enabled = false;
+		//building.AddComponent<MakeRadarObject> ();
+
+		//builingsImage.color = buildingsTopColor;
+		//building.GetComponent<MakeRadarObject> ().image = builingsImage;
+		lerpId = 0;
+	}
+
+
+	private void GrowBuilding(){
+
+
+		if (addOneBuilding) {
+
+			//MakeBuilding (buildingsCurrentIndex);
+			//print("index: "+buildingsCurrentIndex+"   children: "+areas [buildingsCurrentIndex].transform.childCount);
+
+			if (areas [buildingsCurrentIndex].transform.childCount > 0) {
+				buildingsRemovedAreaIndex.Add (buildingsCurrentIndex);
+			}
+
+			lerpId = 0;
+			addOneBuilding = false;
+
+		}
+
+		if (buildings.Count > 0) {
+
+			if (lerpId < 1.0f) {
+
+				lerpId += Time.deltaTime * (1.0f / 10.0f);
+			} 
+//			foreach (GameObject b in buildings) 
+//			{
+//				b.transform.localScale = new Vector3 (
+//					b.transform.localScale.x,
+//					Mathf.Lerp (b.transform.localScale.y, 1.0f, Mathf.SmoothStep (0.0f, 1.0f, lerpId)),
+//					b.transform.localScale.z);
+//			}
+
+//			for(int i = 0; i < areas [buildingsCurrentIndex].transform.childCount; i++) {
+//				Transform child = areas [buildingsCurrentIndex].GetComponentsInChildren<Transform>()[i];
+//
+//				print (i);
+//				child.transform.localScale = new Vector3 (
+//					child.transform.localScale.x,
+//					Mathf.Lerp (child.transform.localScale.y, 1.0f, Mathf.SmoothStep (0.0f, 1.0f, lerpId)),
+//					child.transform.localScale.z);
+
+//			}
+//
+			for (int i = 0; i < buildingsRemovedAreaIndex.Count; i++) 
+			{
+				if (areas [buildingsRemovedAreaIndex[i]].transform.childCount > 0) {
+				
+					foreach (Transform child in areas [buildingsRemovedAreaIndex[i]].GetComponentsInChildren<Transform>()) {
+				
+						child.GetComponent<MeshRenderer> ().enabled = true;
+						child.transform.localScale = new Vector3 (
+							child.transform.localScale.x,
+							Mathf.Lerp (child.transform.localScale.y, 1.0f, Mathf.SmoothStep (0.0f, 1.0f, lerpId)),
+							child.transform.localScale.z);
+
+					}
+				}
+			}
+
+
+
 
 		}
 
@@ -313,32 +363,6 @@ public class GenerateCity : MonoBehaviour {
 		}
 	}
 
-	private void GrowBuilding(){
-
-
-		if (addOneBuilding) {
-
-			MakeBuilding (buildingsCurrentIndex);
-
-			addOneBuilding = false;
-		}
-
-		if (buildings.Count > 0) {
-
-			if (lerpId < 1.0f) {
-
-				lerpId += Time.deltaTime * (1.0f / 10.0f);
-			} 
-			foreach (GameObject b in buildings) 
-			{
-				b.transform.localScale = new Vector3 (
-					b.transform.localScale.x,
-					Mathf.Lerp (b.transform.localScale.y, 1.0f, Mathf.SmoothStep (0.0f, 1.0f, lerpId)),
-					b.transform.localScale.z);
-			}
-		}
-
-	}
 
 
 ////-------------------------------------------------------------------------------------------------------------- map area

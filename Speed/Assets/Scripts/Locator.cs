@@ -35,7 +35,6 @@ public class Locator : MonoBehaviour {
 
 	void Update()
 	{
-
 		UpdateArrow ();
 	}
 	void LateUpdate(){

@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour {
 	public static float timerCount = 0;
 
 	private int healthIconsAmount = 0;
-	public static float health = 80;
+	public static float health = 0;
 	public static int speedValue = 100;
 	public static int flashCount = 120;
 
@@ -54,22 +54,60 @@ public class GameManager : MonoBehaviour {
 	public enum ControlsType { Keyboard, Controller };
 	public ControlsType controlsType = ControlsType.Keyboard;
 
-	public Animator gameOverClip;
-
 	private bool startGame = false;
+	public static bool resetGame = false;
+	public static string gameOver = "idle";
 
 	void Start () {
+
+		Instantiate( Resources.Load ("CircularGround") );
+		Instantiate( Resources.Load ("CityObject") );
 
 		StartCoroutine (StartGame ());
 
 	}
+	void Update () {
+
+		if (startGame) 
+		{
+			Game ();
+		}
+	}
+
+
 	private IEnumerator StartGame () 
 	{
 		WaitForSeconds wait = new WaitForSeconds (0.01f);
 
-		Instantiate( Resources.Load ("CircularGround") );
+		GameObject.Find("City").GetComponent<Items> ().enabled = true;
+
+		Items.fourPoints1.Clear ();
+		Items.fourPoints2.Clear ();
+		Items.fourPoints3.Clear ();
+		Items.fourPoints4.Clear ();
+
+		foreach (GameObject health in Items.healthItems) {
+			Destroy (health);
+		}
+		Items.healthItems.Clear ();
+
+		foreach (GameObject col in Items.collectablesItems) {
+			Destroy (col);
+		}
+		Items.collectablesItems.Clear ();
+
+		foreach (GameObject coin in Items.coinItems) {
+			Destroy (coin);
+		}
+		Items.coinItems.Clear ();
+
+		Items.easyPipeCollectablesItemsPositions.Clear ();
+		Items.hardPipeCollectablesItemsPositions.Clear ();
+
+		yield return wait;
+
+		Instantiate( Resources.Load ("MainCamera") );
 		Instantiate( Resources.Load ("CraftObject") );
-		Instantiate( Resources.Load ("CityObject") );
 		Instantiate( Resources.Load ("SunObject") );
 		Instantiate( Resources.Load ("TorusKnotObject") );
 		Instantiate( Resources.Load ("HeartObject") );
@@ -83,34 +121,106 @@ public class GameManager : MonoBehaviour {
 
 		yield return wait;
 
-		GameObject.Find("City").GetComponent<Items> ().enabled = true;
-
 		craftScript = GameObject.Find("Craft").GetComponent<CharacterMeshComplete>();
 
 		coinItemsAtStart = Items.coinItems.Count;
 
 		yield return wait;
+
+		StartCoroutine (GameObject.Find ("City").GetComponent<Items> ().CreateCollectable ());
+		GameObject.Find ("City").GetComponent<GenerateCity> ().ResetCity ();
+
+		yield return wait;
+
+		collectedItems = 0; 
+		healthCollectableItems = 0; 
+		coinCollectableItems = 0; 
+		coinItemsAtStart = 0;
+
+		disableSun = false;
+		minutesTime = 0;
+		secondsTime = 0;
+		scoreNum = 0;
+		currentScoreCount = 0;
+		timerCount = 0;
+		health = 80; 
+		gameOver = "idle";
+
+		yield return wait;
+
 		startGame = true;
 	}
-	void Update () {
-	
-		if (startGame) 
-		{
-			UpdateRadar ();
-			UpdateHealthSlider ();
-			UpdateInTransitionSlider ();
-			UpdateSpeedSlider ();
 
-			UpdateFillBars ();
-			UpdateTexts ();
-			UpdateIcons ();
-			PS4Controls ();
-			FlashHealth ();
-			LerpScore ();
-			GameOver ();
+
+	void Game(){
+
+		UpdateRadar ();
+		UpdateHealthSlider ();
+		UpdateInTransitionSlider ();
+		UpdateSpeedSlider ();
+
+		UpdateFillBars ();
+		UpdateTexts ();
+		UpdateIcons ();
+		PS4Controls ();
+		FlashHealth ();
+		LerpScore ();
+
+	}
+	void GameOver(){
+
+		if (gameOver == "idle") {
+
+			Instantiate( Resources.Load ("Menu") );
+			GameObject.Find ("Canvas/MenuBoard").GetComponent<Animator> ().SetTrigger ("GameOver");
+			gameOver = "stop game";
+		}
+
+		GameObject.Find ("Craft").GetComponent<CharacterMeshComplete> ().enabled = false;
+		GameObject.Find ("Craft").GetComponent<CharacterMovement> ().enabled = false;
+
+		if (Input.GetKeyDown ("space") || Input.GetButton ("PS4_Options")) {
+			Restart ();
 		}
 
 	}
+	void Restart(){
+
+		resetGame = true;
+
+
+		if (resetGame){
+
+			Camera.main.gameObject.GetComponent<CameraTracker> ().enabled = false;
+			GameObject.Find("City").GetComponent<Items> ().enabled = false;
+
+			startGame = false;
+
+			Destroy (GameObject.Find ("Craft"));
+			Destroy (GameObject.Find ("Sun"));
+			Destroy (GameObject.Find ("TorusArc"));
+			Destroy (GameObject.Find ("Heart"));
+			Destroy (GameObject.Find ("Earth"));
+			Destroy (GameObject.Find ("FloatingBubbles"));
+			Destroy (GameObject.Find ("SwirlPipeSystemEasy"));
+			Destroy (GameObject.Find ("SwirlPipeSystemHard"));
+			Destroy (GameObject.Find ("Locator"));
+			Destroy (GameObject.Find ("Curve1"));
+			Destroy (GameObject.Find ("Curve2"));
+			Destroy (GameObject.Find ("Curve3"));
+			Destroy (GameObject.Find ("Curve4"));
+			Destroy (GameObject.Find ("MenuBoard"));
+			Destroy (GameObject.Find ("Main Camera"));
+
+			StartCoroutine (StartGame ());
+
+			resetGame = false;
+		}
+
+		print (health);
+
+	}
+
 
 	void UpdateRadar(){
 
@@ -196,11 +306,7 @@ public class GameManager : MonoBehaviour {
 //		}
 
 	}
-
-	void GameOver(){
-
-
-	}
+		
 	void UpdateInTransitionSlider(){
 
 		sliderBars[0].value = inTransitionNum;
@@ -218,8 +324,7 @@ public class GameManager : MonoBehaviour {
 
 		if (health <= 0) {
 
-			gameOverClip.SetTrigger ("GameOver");
-
+			GameOver ();
 			health = 0;
 		} 
 		if (health >= 100f) {
@@ -253,7 +358,6 @@ public class GameManager : MonoBehaviour {
 	{
 		speedValue = (int)percentageValue (CharacterMovement.speed, 0.0f, 2000f);
 		sliderBars[2].value = speedValue;
-
 
 		if (showSpeed) {
 			sliderBars [2].gameObject.SetActive(true);
@@ -289,21 +393,24 @@ public class GameManager : MonoBehaviour {
 		mainTexts[2].text = "Speed ( "+Mathf.Round(CharacterMovement.speed)+" )";
 		mainTexts[3].text = " "+(int)currentScoreCount;
 		mainTexts[4].text = Timer();
-		mainTexts[5].text = "G A M E    O V E R";
-		mainTexts[6].text = "COLLECT  THE  DIAMONDS";
-		if (secondsTime >= 0 && secondsTime <= 10.0f) {
-			mainTexts [6].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, flashing (1.5f));
+		mainTexts[5].text = "COLLECT  THE  DIAMONDS";
 
+		if (secondsTime >= 0 && secondsTime <= 10.0f) 
+		{
+			
+			mainTexts [5].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, flashing (1.5f));
 			lerpInfotext = 0f;
+
 		} else {
 			
 			if (lerpInfotext < 1.0f) {
 				lerpInfotext += Time.deltaTime * (1 / 5.0f); //This will increment tParam based on Time.deltaTime multiplied by a speed multiplier
 			}
-			mainTexts [6].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, Mathf.Lerp(mainTexts [5].color.a, 0.0f,  lerpInfotext));
+			mainTexts [5].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, Mathf.Lerp(mainTexts [5].color.a, 0.0f,  lerpInfotext));
 		}
 
-		for (int i = 1; i < mainTexts.Length - 1; i++) {
+		for (int i = 1; i < mainTexts.Length - 1; i++) 
+		{
 			mainTexts [i].color = interfaceColor;
 		}
 
@@ -404,7 +511,10 @@ public class GameManager : MonoBehaviour {
 
 	private string Timer (){
 
-		timerCount += Time.deltaTime;
+		if(gameOver == "idle")
+		{
+			timerCount += Time.deltaTime;
+		}
 
 		minutesTime = Mathf.Floor (timerCount / 60);
 		secondsTime = timerCount % 60;

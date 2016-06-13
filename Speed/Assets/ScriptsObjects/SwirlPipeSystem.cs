@@ -32,7 +32,7 @@ public class SwirlPipeSystem : MonoBehaviour
 
 		} else if (pipeType == PipeType.hard) {
 			this.name = "SwirlPipeSystemHard";
-			pipePos = new Vector3 (0.0f, Random.Range (1000.0f, 2000.0f), -Random.Range (1000.0f, 1500.0f));
+			pipePos = new Vector3 (0.0f, Random.Range (1500.0f, 2500.0f), -Random.Range (1000.0f, 1500.0f));
 
 		}
 		this.transform.position = pipePos;

@@ -10,7 +10,7 @@ public class Building : MonoBehaviour {
 
 	private static int xSize, ySize, zSize ;
 	private int roundness = 6;
-
+	private bool roundTop = false;
 	private List <Vector3> verticesCopy = new List<Vector3> ();
 	private List<int[]> controlPoints = new List<int[]>();
 	private List<int> listOfVerticesIndexes = new List<int>();
@@ -43,6 +43,9 @@ public class Building : MonoBehaviour {
 		xSize = x;
 		ySize = y;
 		zSize = z;
+
+		roundTop = (Random.Range (0, 2) == 0);
+
 
 		verticesCopy.Clear();
 		controlPoints.Clear();
@@ -392,9 +395,14 @@ public class Building : MonoBehaviour {
 		}
 		else if (y > ySize - roundness) {
 			// top rounder
-			inner.y = ySize; 
-
+			//inner.y = 0;
+			if (roundTop) {
+				inner.y = ySize - roundness;
+			} else {
+				inner.y = ySize; 
+			}
 		}
+
 
 		////front and back
 		if (z < roundness) {

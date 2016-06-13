@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class Items : MonoBehaviour {
 
 
-	private GenerateCity city;
 	public GameObject[] collectors = null; 
 
 	[Range(10,50)] public int curvesItemsFrequency = 10;
@@ -18,7 +17,6 @@ public class Items : MonoBehaviour {
 
 	[Range(0, 5)] public int transformStartingAmoungt = 5;
 	public static int numberCollected = 0;
-	private bool ifOver = true;
 
 	public static List<Vector3> easyPipeCollectablesItemsPositions = new List<Vector3>();
 	public static List<Vector3> hardPipeCollectablesItemsPositions = new List<Vector3>();
@@ -36,89 +34,15 @@ public class Items : MonoBehaviour {
 
 	void Start () {
 
-		city = GetComponent<GenerateCity> ();
 
 		//CharacterMeshComplete.tranformNum = transformStartingAmoungt;
 
-		StartCoroutine(CreateCollectable ());
+		//StartCoroutine(CreateCollectable ());
 
 	}
 
-	private void AddNewCollectableItemPositon(){
 
-		Vector3 pos = new Vector3 (Random.Range(200f,800f), 100f, Random.Range(200f,800f));
-		GameObject c = (GameObject) Instantiate(collectors [1], pos, Quaternion.identity) as GameObject;
-
-		Vector3 scale = new Vector3 (Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f), Random.Range (8.0f, 14.0f));
-		c.transform.localScale = scale;
-		c.transform.parent = this.transform;
-
-		c.GetComponent<Rigidbody> ().useGravity = true;
-
-		c.name = "CollectableItem";
-		c.tag = "RadarCollectable";
-
-		collectablesItems.Add (c);
-	}
-
-
-	Vector3 CircularPoint(Vector3 center, float angle, float radius) { 
-		float x = Mathf.Sin(angle) * radius;
-		float z = Mathf.Cos(angle) * radius;
-		Vector3 pos = new Vector3(x, 0, z) + center;
-		return pos; 
-	}
-		
-	void createCoinItems(){
-
-		for (int r = 0; r < coinPickUps; r++) 
-		{
-			Vector3 pos = new Vector3(Random.Range (0, city.mapWidth), Random.Range (5.0f, city.mapHeight ), Random.Range (0, city.mapWidth));
-			GameObject b = (GameObject) Instantiate(collectors [0], pos, Quaternion.identity);
-
-			//Vector3 scale = new Vector3 (Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f));
-			//b.transform.localScale = scale;
-			b.transform.localRotation = Quaternion.Euler(90, 0f, 0f);
-			b.transform.parent = this.transform;
-
-			b.GetComponent<Rigidbody> ().useGravity = (Random.Range (0, 2) == 0);
-
-			b.name = "coinItem" + r;
-			coinItems.Add (b);
-		}
-
-
-		Vector3 center = new Vector3(0,10,0);
-		int numberOfItemsInCircles = 10; 
-		for (int i = (coinItems.Count - numberOfItemsInCircles); i < coinItems.Count; i++) {
-			
-			float chunk = (i * 1.0f) / numberOfItemsInCircles;
-			float angle = chunk * Mathf.PI * 2;
-
-			coinItems[i].transform.position = CircularPoint (center, angle, 50.0f);
-			coinItems[i].GetComponent<Rigidbody> ().useGravity = true;
-		}
-
-		int fromm1 = (coinItems.Count - 20);
-		int too1 = coinItems.Count - 10;
-		float v1 = 1;
-		for (int ii = fromm1; ii < too1; ii++) {
-
-			coinItems[ii].transform.position = AlignObjects(collectablesItems[13].transform.position, collectablesItems[12].transform.position, (v1 * 0.25f) );
-			coinItems[ii].GetComponent<Rigidbody> ().useGravity = true;
-			v1+= 1f;
-		}
-
-
-
-	}
-
-	Vector3 AlignObjects(Vector3 pos1, Vector3 pos2, float step)
-	{
-		return (pos1 + pos2) / step ;
-	}
-
-	private IEnumerator CreateCollectable()
+	public IEnumerator CreateCollectable()
 	{
 		WaitForSeconds wait = new WaitForSeconds (2.0f);
 
@@ -246,24 +170,89 @@ public class Items : MonoBehaviour {
 		fourPoints1.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
 		fourPoints1.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
 		fourPoints1.Add (new Vector3(0, 10, 1000));
-		AddCurves (fourPoints1, collectors [0]);
+		AddCurves (fourPoints1, collectors [0],1);
 
 		fourPoints2.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
 		fourPoints2.Add (new Vector3(1000, 60, 1000));
 		fourPoints2.Add (new Vector3(0, 10, 1000));
-		AddCurves (fourPoints2, collectors [0]);
+		AddCurves (fourPoints2, collectors [0],2);
 
 		fourPoints3.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
 		fourPoints3.Add (new Vector3(1000, 60, 1000));
 		fourPoints3.Add (new Vector3(1000, 80, 0));
-		AddCurves (fourPoints3, collectors [0]);
+		AddCurves (fourPoints3, collectors [0],3);
 
 		fourPoints4.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
 		fourPoints4.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
 		fourPoints4.Add (new Vector3(1000, 40, 1000));
-		AddCurves (fourPoints4, collectors [0]);
+		AddCurves (fourPoints4, collectors [0],4);
+
+
+//		print ("coins: "+ coinItems.Count);
+//		print ("health: "+ healthItems.Count);
+//		print ("collectables: "+ collectablesItems.Count);
+//		print ("fourPoints1: "+ fourPoints1.Count);
+//		print ("fourPoints2: "+ fourPoints2.Count);
+//		print ("fourPoints3: "+ fourPoints3.Count);
+//		print ("fourPoints4: "+ fourPoints4.Count);
+
 	}
 
+	Vector3 CircularPoint(Vector3 center, float angle, float radius) { 
+		float x = Mathf.Sin(angle) * radius;
+		float z = Mathf.Cos(angle) * radius;
+		Vector3 pos = new Vector3(x, 0, z) + center;
+		return pos; 
+	}
+
+	void createCoinItems(){
+
+		for (int r = 0; r < coinPickUps; r++) 
+		{
+			Vector3 pos = new Vector3(Random.Range (0, 1000f), Random.Range (5.0f, 1000f ), Random.Range (0, 1000f));
+			GameObject b = (GameObject) Instantiate(collectors [0], pos, Quaternion.identity);
+
+			//Vector3 scale = new Vector3 (Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f));
+			//b.transform.localScale = scale;
+			b.transform.localRotation = Quaternion.Euler(90, 0f, 0f);
+			b.transform.parent = this.transform;
+
+			b.GetComponent<Rigidbody> ().useGravity = (Random.Range (0, 2) == 0);
+
+			b.name = "coinItem" + r;
+			coinItems.Add (b);
+		}
+
+
+		Vector3 center = new Vector3(0,10,0);
+		int numberOfItemsInCircles = 10; 
+		for (int i = (coinItems.Count - numberOfItemsInCircles); i < coinItems.Count; i++) {
+
+			float chunk = (i * 1.0f) / numberOfItemsInCircles;
+			float angle = chunk * Mathf.PI * 2;
+
+			coinItems[i].transform.position = CircularPoint (center, angle, 50.0f);
+			coinItems[i].GetComponent<Rigidbody> ().useGravity = true;
+		}
+
+		int fromm1 = (coinItems.Count - 20);
+		int too1 = coinItems.Count - 10;
+		float v1 = 1;
+		for (int ii = fromm1; ii < too1; ii++) {
+
+			coinItems[ii].transform.position = AlignObjects(collectablesItems[13].transform.position, collectablesItems[12].transform.position, (v1 * 0.25f) );
+			coinItems[ii].GetComponent<Rigidbody> ().useGravity = true;
+			v1+= 1f;
+		}
+
+
+
+	}
+
+	Vector3 AlignObjects(Vector3 pos1, Vector3 pos2, float step)
+	{
+		return (pos1 + pos2) / step ;
+	}
 
 	void CreateHealthAndTransformItems()
 	{
@@ -289,7 +278,7 @@ public class Items : MonoBehaviour {
 		//health objects // capsule
 		for (int h = 0; h < healthPickUps; h++) {
 
-			Vector3 pos = new Vector3 (Random.Range (0, city.mapWidth), Random.Range (0.0f, city.mapHeight), Random.Range (0, city.mapWidth));
+			Vector3 pos = new Vector3 (Random.Range (0, 1000f), Random.Range (0.0f, 1000f), Random.Range (0, 1000f));
 			GameObject a = (GameObject)Instantiate (collectors [3], pos, Quaternion.identity);
 
 			Vector3 scale = new Vector3 (Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f), Random.Range (10.0f, 15.0f));
@@ -334,7 +323,7 @@ public class Items : MonoBehaviour {
 
 //	................. curves......................
 
-	private void AddCurves( List<Vector3> points, GameObject obj)
+	private void AddCurves( List<Vector3> points, GameObject obj, int id)
 	{
 
 		List<GameObject> items = new List<GameObject>();
@@ -342,7 +331,7 @@ public class Items : MonoBehaviour {
 
 
 		GameObject newObj = new GameObject ();
-		newObj.name = "curve items";
+		newObj.name = "Curve"+id;
 		newObj.AddComponent<LineRenderer>();
 		LineRenderer lineRenderer = newObj.GetComponent<LineRenderer> ();
 
