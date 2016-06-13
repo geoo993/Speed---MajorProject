@@ -4,7 +4,6 @@ using System.Collections;
 public class CharacterMovement : MonoBehaviour 
 {
 
-	public GameObject gameManager;
 	private GameManager gameManagerScript;
 
 	public ParticleSystem travelerParticle = null;
@@ -60,7 +59,7 @@ public class CharacterMovement : MonoBehaviour
 
 	void Awake(){
 
-		gameManagerScript = gameManager.GetComponent<GameManager> ();
+		gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager> ();
 		craft = GetComponent<CharacterMeshComplete> ();
 		rigid = GetComponent<Rigidbody> ();
 		myTransform = transform;

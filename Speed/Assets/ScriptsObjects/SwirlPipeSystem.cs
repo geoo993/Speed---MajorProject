@@ -27,10 +27,11 @@ public class SwirlPipeSystem : MonoBehaviour
 	private void Awake () 
 	{
 		if (pipeType == PipeType.easy) {
-			
+			this.name = "SwirlPipeSystemEasy";
 			pipePos = new Vector3 (0.0f, Random.Range (1000.0f, 2000.0f), Random.Range (1000.0f, 1500.0f));
 
 		} else if (pipeType == PipeType.hard) {
+			this.name = "SwirlPipeSystemHard";
 			pipePos = new Vector3 (0.0f, Random.Range (1000.0f, 2000.0f), -Random.Range (1000.0f, 1500.0f));
 
 		}

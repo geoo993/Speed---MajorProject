@@ -3,15 +3,7 @@ using System.Collections;
 
 public class CoinPickUp : MonoBehaviour {
 
-	public GameObject city = null;
 
-	private Mesh mesh;
-	private MeshCollider mCollider;
-
-	void Start (){
-
-
-	}
 	void Update () {
 
 		this.transform.Rotate (0f, 0f, 5f);
@@ -27,6 +19,9 @@ public class CoinPickUp : MonoBehaviour {
 		if (col.gameObject.name == "Craft")
 		{
 			//Destroy (this.gameObject);
+			GameObject e = (GameObject)Instantiate(Resources.Load ("CoinExplosionBurstParticle"), col.contacts[0].point, Quaternion.identity);
+			Destroy (e, 2.0f);
+
 
 			if (Items.coinItems.Count > 0) {
 				//Destroy (this.gameObject);
@@ -49,15 +44,6 @@ public class CoinPickUp : MonoBehaviour {
 
 	}
 
-	void OnCollisionExit(Collision col){
 
-		//print (gameObject.name + "  has collided with " + col.gameObject.name);
-
-		if (col.gameObject.name == "craft")
-		{
-
-		}
-
-	}
 
 }

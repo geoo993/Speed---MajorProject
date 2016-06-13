@@ -18,16 +18,13 @@ public class EarthBall : MonoBehaviour {
 
 	}
 
-	// Update is called once per frame
 	void Update () {
 
-
-		lightAndColor ();
+		LightAndColor ();
 
 	}
 
-
-	void lightAndColor()
+	void LightAndColor()
 	{
 
 		this.transform.Rotate (0.0f, 0.5f, 0.0f);

@@ -16,19 +16,12 @@ public class Locator : MonoBehaviour {
 
 	private int range = 200;
 
-	public GameObject city = null;
-	public GameObject craft = null;
-
 	public GameObject[] arrowParts = null;
-	public Image playerImage;
-	[Range(100f, 1500f)] public float radarRange = 600;
+	[Range(100f, 1500f)] public float radarRange = 800;
 
 	public bool showArrow = false;
 	public bool showArrowIndicator = false;
 	public bool showTargetIndicator = false;
-
-	public enum ItemsToLocate { Transformers, Health, Coin, Collectables };
-	public ItemsToLocate itemsToLocate = ItemsToLocate.Collectables;
 
 	private Vector3 targetToLocate = Vector3.zero;
 
@@ -125,7 +118,7 @@ public class Locator : MonoBehaviour {
 				Image arrowInd = GetArrow ();
 				
 				//float dist = Vector3.Distance (craft.transform.position, (Items.collectablesItems[Items.collectablesItems.Count - 1].transform.position));
-				float dist = Vector3.Distance (craft.transform.position, d.transform.position);
+				float dist = Vector3.Distance (GameObject.Find("Craft").transform.position, d.transform.position);
 				Color col = Color.Lerp (Color.green, Color.red, dist / radarRange);
 				arrowInd.color = showArrowIndicator ? col : Color.clear;
 				arrowInd.transform.localPosition = new Vector3( screenPos.x , screenPos.y , 0.0f);
@@ -204,9 +197,9 @@ public class Locator : MonoBehaviour {
 	void UpdateArrow(){
 
 		this.transform.position = new Vector3 (
-			craft.transform.position.x, 
-			craft.transform.position.y + 8, 
-			craft.transform.position.z);
+			GameObject.Find("Craft").transform.position.x, 
+			GameObject.Find("Craft").transform.position.y + 8, 
+			GameObject.Find("Craft").transform.position.z);
 
 		if (Items.collectablesItems.Count > 0) {
 			targetToLocate = Items.collectablesItems [Items.collectablesItems.Count - 1].transform.position; //GetClosestIcon (craft.transform.position, Items.collectablesItems);
@@ -217,10 +210,9 @@ public class Locator : MonoBehaviour {
 	}
 	void FocusOnTarget( Vector3 target){
 
-		float dist = Vector3.Distance (craft.transform.position, target);
+		float dist = Vector3.Distance (GameObject.Find("Craft").transform.position, target);
 		Color col = Color.Lerp (Color.green, Color.red, dist / radarRange);
 
-		playerImage.color =  col;
 		foreach (GameObject p in arrowParts) {
 			if (showArrow) {
 				p.SetActive (true);

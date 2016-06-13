@@ -3,9 +3,7 @@ using System.Collections;
 
 public class CameraTracker : MonoBehaviour {
 
-	public GameObject gameManager;
-	public Transform target;
-
+	private Transform target;
 	private GameManager gameManagerScript;
 
 	private float distance = 50.0f;
@@ -29,14 +27,17 @@ public class CameraTracker : MonoBehaviour {
 
 	void Awake ()
 	{
-		gameManagerScript = gameManager.GetComponent<GameManager> ();
-		craftMovement = target.GetComponent<CharacterMovement> ();
+		gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager> ();
+
+
 
 	}
 		
 	void Update ()
 	{
-		
+		target = GameObject.Find ("Craft").transform;
+		craftMovement = target.GetComponent<CharacterMovement> ();
+
 		UpdateControls ();
 	}
 

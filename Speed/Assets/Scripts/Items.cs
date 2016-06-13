@@ -7,7 +7,6 @@ public class Items : MonoBehaviour {
 
 
 	private GenerateCity city;
-	public GameObject craft = null;
 	public GameObject[] collectors = null; 
 
 	[Range(10,50)] public int curvesItemsFrequency = 10;
@@ -39,28 +38,9 @@ public class Items : MonoBehaviour {
 
 		city = GetComponent<GenerateCity> ();
 
-		CharacterMeshComplete.tranformNum = transformStartingAmoungt;
+		//CharacterMeshComplete.tranformNum = transformStartingAmoungt;
 
-		CreateHealthAndTransformItems ();
 		StartCoroutine(CreateCollectable ());
-
-	}
-	void Update()
-	{
-
-
-//		int whenToGenerateBuildingsCollectable1 = GenerateCity.buildingsIndex.Count/2;
-//		int whenToGenerateBuildingsCollectable2 = whenToGenerateBuildingsCollectable1 + 2;
-//
-//		if (numberCollected > whenToGenerateBuildingsCollectable1 && numberCollected < whenToGenerateBuildingsCollectable2) 
-//		{
-//			if ( ifOver){
-//				AddNewCollectableItemPositon ();
-//
-//				ifOver = false;
-//			}
-//
-//		}
 
 	}
 
@@ -260,6 +240,7 @@ public class Items : MonoBehaviour {
 		yield return wait;
 		collectablesItems [1].GetComponent<BoxCollider> ().enabled = true;
 
+		CreateHealthAndTransformItems ();
 		createCoinItems ();
 
 		fourPoints1.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
@@ -288,22 +269,22 @@ public class Items : MonoBehaviour {
 	{
 
 		//transformers objects // sphere
-		for (int t = 0; t < transformPickUps - transformStartingAmoungt; t++) {
-
-			Vector3 pos = new Vector3 (Random.Range (0, city.mapWidth), Random.Range (0.0f, city.mapHeight), Random.Range (0, city.mapWidth));
-			GameObject a = (GameObject)Instantiate (collectors [2], pos, Quaternion.identity);
-
-			Vector3 scale = new Vector3 (Random.Range (10.0f, 18.0f), Random.Range (10.0f, 18.0f), Random.Range (10.0f, 18.0f));
-			a.transform.localScale = scale;
-			a.transform.parent = this.transform;
-
-			a.GetComponent<Rigidbody> ().useGravity = (Random.Range (0, 2) == 0);
-
-			a.name = "transformers" + t;
-			transformerItems.Add (a);
-
-		}
-
+//		for (int t = 0; t < transformPickUps - transformStartingAmoungt; t++) {
+//
+//			Vector3 pos = new Vector3 (Random.Range (0, city.mapWidth), Random.Range (0.0f, city.mapHeight), Random.Range (0, city.mapWidth));
+//			GameObject a = (GameObject)Instantiate (collectors [2], pos, Quaternion.identity);
+//
+//			Vector3 scale = new Vector3 (Random.Range (10.0f, 18.0f), Random.Range (10.0f, 18.0f), Random.Range (10.0f, 18.0f));
+//			a.transform.localScale = scale;
+//			a.transform.parent = this.transform;
+//
+//			a.GetComponent<Rigidbody> ().useGravity = (Random.Range (0, 2) == 0);
+//
+//			a.name = "transformers" + t;
+//			transformerItems.Add (a);
+//
+//		}
+//
 
 		//health objects // capsule
 		for (int h = 0; h < healthPickUps; h++) {

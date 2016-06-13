@@ -3,8 +3,6 @@ using System.Collections;
 
 public class BuildPickUp : MonoBehaviour {
 
-	public GameObject city = null;
-
 	void OnCollisionEnter(Collision col){
 
 		//print (gameObject.name + "  has collided with " + col.gameObject.name);
@@ -14,7 +12,6 @@ public class BuildPickUp : MonoBehaviour {
 
 			GameObject e = (GameObject)Instantiate(Resources.Load ("CoinExplosionBurstParticle"), col.contacts[0].point, Quaternion.identity);
 			Destroy (e, 2.0f);
-
 
 
 			//Destroy (this.gameObject);
@@ -29,9 +26,9 @@ public class BuildPickUp : MonoBehaviour {
 				Items.numberCollected += 1;
 				int pickBuildingIndex = Random.Range (0, GenerateCity.buildingsIndex.Count - 1);
 				//print ("pick "+pickBuildingIndex);
-				GenerateCity.buildingsRemovedAreaIndex.Add(pickBuildingIndex);
+
 				GenerateCity.buildingsCurrentIndex = pickBuildingIndex;
-				//GenerateCity.addOneBuilding = true;
+				GenerateCity.addOneBuilding = true;
 
 				GenerateCity.RemoveIntFromList (pickBuildingIndex, GenerateCity.buildingsIndex);
 			}
@@ -40,16 +37,6 @@ public class BuildPickUp : MonoBehaviour {
 
 	}
 
-	void OnTriggerEnter  ( Collider other ) {
-
-		//print (other.name);
-
-
-	}
-
-	void OnTriggerExit  ( Collider other ) {
-
-	}
 
 
 }

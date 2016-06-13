@@ -27,16 +27,8 @@ public class CharacterCollider : MonoBehaviour {
 			GameManager.health -= (int)impact / healthDamage;
 		}
 
-		if (col.gameObject.name == "ground") {
-			//GameManager.health -= healthDamage;
-		}
 
 		if (col.gameObject.name == "CircularGround") {
-			///GameManager.health -= healthDamage;
-		}
-
-		if (col.gameObject.name == "Pyramid") {
-			print (" hit pyramid");
 			///GameManager.health -= healthDamage;
 		}
 

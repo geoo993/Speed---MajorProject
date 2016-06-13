@@ -3,13 +3,15 @@ using System.Collections;
 
 public class HeartPulse : MonoBehaviour {
 
-	public GameObject city = null;
 
 	void Start () {
 
-		transform.position = new Vector3 (city.GetComponent<GenerateCity> ().transform.position.x + city.GetComponent<GenerateCity> ().mapWidth/2, 
-			city.GetComponent<GenerateCity> ().mapHeight * 2.5f, 
-			city.GetComponent<GenerateCity> ().transform.position.z + city.GetComponent<GenerateCity> ().mapWidth/2);
+		this.name = "Heart";
+
+		transform.position = new Vector3 (
+			GameObject.Find("City").GetComponent<GenerateCity> ().transform.position.x + 500f, 
+			GameObject.Find("City").GetComponent<GenerateCity> ().mapHeight * 2.5f, 
+			GameObject.Find("City").GetComponent<GenerateCity> ().transform.position.z + 500f);
 
 
 	}

@@ -4,8 +4,6 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-	public GameObject city = null;
-	public GameObject craft = null;
 	private CharacterMeshComplete craftScript;
 
 	public Image healthDamageImages;
@@ -57,29 +55,60 @@ public class GameManager : MonoBehaviour {
 	public ControlsType controlsType = ControlsType.Keyboard;
 
 	public Animator gameOverClip;
-	public static float restartDelay = 0.0f;
+
+	private bool startGame = false;
 
 	void Start () {
 
-		craftScript = craft.GetComponent<CharacterMeshComplete>();
-		coinItemsAtStart = Items.coinItems.Count;
-		restartDelay = 0.0f;
-	}
+		StartCoroutine (StartGame ());
 
+	}
+	private IEnumerator StartGame () 
+	{
+		WaitForSeconds wait = new WaitForSeconds (0.01f);
+
+		Instantiate( Resources.Load ("CircularGround") );
+		Instantiate( Resources.Load ("CraftObject") );
+		Instantiate( Resources.Load ("CityObject") );
+		Instantiate( Resources.Load ("SunObject") );
+		Instantiate( Resources.Load ("TorusKnotObject") );
+		Instantiate( Resources.Load ("HeartObject") );
+		Instantiate( Resources.Load ("EarthBallObject") );
+		Instantiate( Resources.Load ("Bubbles") );
+		Instantiate( Resources.Load ("EasyPipe") );
+		Instantiate( Resources.Load ("HardPipe") );
+		Instantiate( Resources.Load ("ArrowLocator") );
+	
+		Camera.main.gameObject.GetComponent<CameraTracker> ().enabled = true;
+
+		yield return wait;
+
+		GameObject.Find("City").GetComponent<Items> ().enabled = true;
+
+		craftScript = GameObject.Find("Craft").GetComponent<CharacterMeshComplete>();
+
+		coinItemsAtStart = Items.coinItems.Count;
+
+		yield return wait;
+		startGame = true;
+	}
 	void Update () {
 	
-		UpdateRadar ();
-		UpdateHealthSlider ();
-		UpdateInTransitionSlider ();
-		UpdateSpeedSlider ();
+		if (startGame) 
+		{
+			UpdateRadar ();
+			UpdateHealthSlider ();
+			UpdateInTransitionSlider ();
+			UpdateSpeedSlider ();
 
-		UpdateFillBars ();
-		UpdateTexts ();
-		UpdateIcons ();
-		PS4Controls ();
-		FlashHealth ();
-		LerpScore ();
-		GameOver ();
+			UpdateFillBars ();
+			UpdateTexts ();
+			UpdateIcons ();
+			PS4Controls ();
+			FlashHealth ();
+			LerpScore ();
+			GameOver ();
+		}
 
 	}
 
@@ -191,10 +220,6 @@ public class GameManager : MonoBehaviour {
 
 			gameOverClip.SetTrigger ("GameOver");
 
-			if (restartDelay < 10f) {
-
-			}
-
 			health = 0;
 		} 
 		if (health >= 100f) {
@@ -282,8 +307,8 @@ public class GameManager : MonoBehaviour {
 			mainTexts [i].color = interfaceColor;
 		}
 
-		radarIconsTexts [0].text = ""+CharacterMeshComplete.tranformNum  + " /" + city.GetComponent<Items>().transformPickUps;
-		radarIconsTexts [1].text = ""+healthCollectableItems + " /" + city.GetComponent<Items>().healthPickUps;
+		radarIconsTexts [0].text = ""+CharacterMeshComplete.tranformNum  + " /" + GameObject.Find("City").GetComponent<Items>().transformPickUps;
+		radarIconsTexts [1].text = ""+healthCollectableItems + " /" + GameObject.Find("City").GetComponent<Items>().healthPickUps;
 		//radarIconsTexts [2].text = ""+resetCollectableItems + " /" + city.GetComponent<Items>().resetPickUps;
 		radarIconsTexts [2].text = ""+coinCollectableItems + " /" + coinItemsAtStart;
 		radarIconsTexts [3].text = ""+collectedItems + " /" +Items.collectablePickUps;
