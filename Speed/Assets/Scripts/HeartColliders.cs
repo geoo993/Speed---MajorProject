@@ -33,7 +33,7 @@ public class HeartColliders : MonoBehaviour {
 			float impact = 	Vector3.Magnitude(col.gameObject.GetComponent<Rigidbody>().velocity);
 
 			print ("impact " + impact);
-			GameManager.health -= (int)impact ;
+			GameManager.health -= (int)impact / CharacterCollider.healthDamage;
 		}
 
 

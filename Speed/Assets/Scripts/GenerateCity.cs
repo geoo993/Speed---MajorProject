@@ -327,16 +327,15 @@ public class GenerateCity : MonoBehaviour {
 			}
 
 
-
-
 		}
 
 	}
 
 	void UpdateAreasColor (){
 
-		buildingsBottomColor = Camera.main.gameObject.GetComponent<Skybox> ().bc;
-
+		if (GameObject.Find ("Main Camera") != null) {
+			buildingsBottomColor = Camera.main.gameObject.GetComponent<Skybox> ().bc;
+		}
 		//for (int i = 0; i < areas.Count; i++) {
 		for (int i = 0; i < buildingsIndex.Count; i++) {	
 			areas [i].GetComponent<MeshRenderer> ().material.color = buildingsBottomColor;//Color.clear;//Color.black;

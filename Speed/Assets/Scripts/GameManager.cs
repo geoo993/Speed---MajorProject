@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour {
 	public static float timerCount = 0;
 
 	private int healthIconsAmount = 0;
-	public static float health = 0;
+	public static float health = 80;
 	public static int speedValue = 100;
 	public static int flashCount = 120;
 

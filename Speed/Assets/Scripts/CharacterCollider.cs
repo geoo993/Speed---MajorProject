@@ -5,7 +5,7 @@ using System.Collections;
 public class CharacterCollider : MonoBehaviour {
 
 
-	[Range(1,10)] public int healthDamage = 2;
+	[Range(1,10)] public static int healthDamage = 2;
 
 
 	void OnCollisionEnter(Collision col){

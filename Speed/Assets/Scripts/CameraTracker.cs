@@ -21,6 +21,7 @@ public class CameraTracker : MonoBehaviour {
 	private float groundTimer = 0.0f;
 
 	void Start (){
+		
 		this.name = "Main Camera";
 	}
 

@@ -121,7 +121,9 @@ public class CirclePlane : MonoBehaviour {
 
 	void UpdateColor (){
 
-		meshRenderer.material.color = Camera.main.gameObject.GetComponent<Skybox> ().bc;
+		if (GameObject.Find("Main Camera") != null){
+			meshRenderer.material.color = Camera.main.gameObject.GetComponent<Skybox> ().bc;
+		}
 	}
 
 	void UpdateCollider(){
