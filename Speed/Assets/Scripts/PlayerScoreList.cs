@@ -7,7 +7,7 @@ public class PlayerScoreList : MonoBehaviour {
 
 	public GameObject playerScoreEntry = null;
 
-	ScoreLeaderboard scoreLeaderboard;
+	private ScoreLeaderboard scoreLeaderboard;
 
 	private int lastChangeCounter = 0;
 

@@ -11,10 +11,11 @@ public class ScoreLeaderboard : MonoBehaviour {
 	public static int bestScore = 0;
 
 	private string playerName = "";
-	private int playerTime = 0;
 	private int playerScore = 0;
 
 	private int changeManager = 0;
+
+	public string newPlayer = "";
 
 	void Start () {
 
@@ -26,28 +27,30 @@ public class ScoreLeaderboard : MonoBehaviour {
 		SetScore ("Abudl", "minutes", 3);
 		SetScore ("Abudl", "seconds", 20);
 
+		SetScore ("Jenny", "score", 24004);
+		SetScore ("Jenny", "minutes", 2);			
+		SetScore ("Jenny", "seconds", 56);
 
 	}
 
 	void Update () {
 	
-		if (Input.GetKeyDown ("space")) {
+//		if (Input.GetKeyDown ("space")) {
+//
+//			playerScore = Random.Range (0, 10000);
+//
+//			SetScore ("Jenny", "score", playerScore);
+//			SetScore ("Jenny", "minutes", 2);
+//			SetScore ("Jenny", "seconds", 56);
+//
+//			print ("Best Score: " + bestScore + "   score: " + playerScore);
+//		}
 
-			playerScore = Random.Range (0, 10000);
+//		if (Input.GetKeyDown ("p")) {
+//
+//			SetScore (newPlayer, "score", 0);
+//		}
 
-
-			if (bestScore < playerScore) {
-
-				bestScore = playerScore;
-
-			}
-
-			SetScore ("Jenny", "score", playerScore);
-			SetScore ("Jenny", "minutes", 2);
-			SetScore ("Jenny", "seconds", 56);
-
-			print ("Best Score: " + bestScore + "   score: " + playerScore);
-		}
 	}
 	void ScoreInit(){
 
