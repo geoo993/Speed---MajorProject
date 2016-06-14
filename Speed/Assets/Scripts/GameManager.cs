@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour {
 	public Text[] mainTexts = null;
 	public Image[] scoreIcons = null;
 	public GameObject[] radarImages = null;
-
 	public Color interfaceColor = Color.cyan;
 
 	public static int scoreNum = 0;
@@ -58,6 +57,10 @@ public class GameManager : MonoBehaviour {
 	public static bool resetGame = false;
 	public static string gameOver = "idle";
 
+	public static string currentPlayer;
+
+	public GameObject ScoreBoardPanel = null;
+
 	void Start () {
 
 		Instantiate( Resources.Load ("CircularGround") );
@@ -68,10 +71,49 @@ public class GameManager : MonoBehaviour {
 	}
 	void Update () {
 
-		if (startGame) 
-		{
+
+		if (startGame) {
 			Game ();
+		} 
+		if(!startGame)
+		{
+			
+			UpdateTexts ();
+			UpdateIcons ();
+
+			collectedItems = 0; 
+			healthCollectableItems = 0; 
+			coinCollectableItems = 0; 
+			coinItemsAtStart = 0;
+
+			disableSun = false;
+			minutesTime = 0;
+			secondsTime = 0;
+			scoreNum = 0;
+			currentScoreCount = 0;
+			timerCount = 0;
+			health = 80; 
+			gameOver = "idle";
+
+			ScoreBoardPanel.SetActive(true);
+
+			if (GameObject.Find("Canvas").GetComponent<ScoreLeaderboard>().currentPlayerIcon != null && Input.GetButton ("PS4_Options") || Input.GetKeyDown ("0")) {
+
+				currentPlayer = GameObject.Find ("Canvas/ScoreBoardPanel/SelectedPlayer").GetComponent<Text> ().text;
+
+				ScoreBoardPanel.SetActive(false);
+				GameObject.Find("Craft").GetComponent<CharacterMovement>().enabled = true;
+
+				startGame = true;
+
+				//print ("select object is active");
+			} else {
+				//print ("select object is null");
+			}
+
 		}
+
+		//print (startGame);
 	}
 
 
@@ -125,6 +167,8 @@ public class GameManager : MonoBehaviour {
 
 		coinItemsAtStart = Items.coinItems.Count;
 
+		GameObject.Find("Craft").GetComponent<CharacterMovement>().enabled = false;
+
 		yield return wait;
 
 		StartCoroutine (GameObject.Find ("City").GetComponent<Items> ().CreateCollectable ());
@@ -132,29 +176,11 @@ public class GameManager : MonoBehaviour {
 
 		yield return wait;
 
-		collectedItems = 0; 
-		healthCollectableItems = 0; 
-		coinCollectableItems = 0; 
-		coinItemsAtStart = 0;
-
-		disableSun = false;
-		minutesTime = 0;
-		secondsTime = 0;
-		scoreNum = 0;
-		currentScoreCount = 0;
-		timerCount = 0;
-		health = 80; 
-		gameOver = "idle";
-
-		yield return wait;
-
-		startGame = true;
+		startGame = false;
 	}
-
 
 	void Game(){
 
-		UpdateRadar ();
 		UpdateHealthSlider ();
 		UpdateInTransitionSlider ();
 		UpdateSpeedSlider ();
@@ -162,14 +188,19 @@ public class GameManager : MonoBehaviour {
 		UpdateFillBars ();
 		UpdateTexts ();
 		UpdateIcons ();
-		PS4Controls ();
 		FlashHealth ();
 		LerpScore ();
 
 	}
+
+
 	void GameOver(){
 
 		if (gameOver == "idle") {
+
+			GameObject.Find ("Canvas").GetComponent<ScoreLeaderboard> ().SetScore (currentPlayer, "score", (int)currentScoreCount);
+			GameObject.Find ("Canvas").GetComponent<ScoreLeaderboard> ().SetScore (currentPlayer, "minutes", (int)minutesTime);
+			GameObject.Find ("Canvas").GetComponent<ScoreLeaderboard> ().SetScore (currentPlayer, "seconds", (int)secondsTime);
 
 			Instantiate( Resources.Load ("Menu") );
 			GameObject.Find ("Canvas/MenuBoard").GetComponent<Animator> ().SetTrigger ("GameOver");
@@ -188,12 +219,10 @@ public class GameManager : MonoBehaviour {
 
 		resetGame = true;
 
-
 		if (resetGame){
 
 			Camera.main.gameObject.GetComponent<CameraTracker> ().enabled = false;
 			GameObject.Find("City").GetComponent<Items> ().enabled = false;
-
 			startGame = false;
 
 			Destroy (GameObject.Find ("Craft"));
@@ -216,8 +245,6 @@ public class GameManager : MonoBehaviour {
 
 			resetGame = false;
 		}
-
-		print (health);
 
 	}
 
@@ -394,10 +421,10 @@ public class GameManager : MonoBehaviour {
 		mainTexts[3].text = " "+(int)currentScoreCount;
 		mainTexts[4].text = Timer();
 		mainTexts[5].text = "COLLECT  THE  DIAMONDS";
+		mainTexts[6].color =	new Color(interfaceColor.r,interfaceColor.g,interfaceColor.b, flashing(1.5f));
 
 		if (secondsTime >= 0 && secondsTime <= 10.0f) 
 		{
-			
 			mainTexts [5].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, flashing (1.5f));
 			lerpInfotext = 0f;
 
@@ -409,7 +436,7 @@ public class GameManager : MonoBehaviour {
 			mainTexts [5].color = new Color (interfaceColor.r, interfaceColor.g, interfaceColor.b, Mathf.Lerp(mainTexts [5].color.a, 0.0f,  lerpInfotext));
 		}
 
-		for (int i = 1; i < mainTexts.Length - 1; i++) 
+		for (int i = 1; i < mainTexts.Length - 2; i++) 
 		{
 			mainTexts [i].color = interfaceColor;
 		}

@@ -9,13 +9,13 @@ public class InputText : MonoBehaviour {
 
 	void Awake () {
 		
-		GetComponent<Button> ().onClick.AddListener( () => {myFunctionForOnClickEvent("stringValue", 4.5f);} ); 
+		GetComponent<Button> ().onClick.AddListener( () => {OnClickEvent();} ); 
 
 		scoreLeaderboard = GameObject.FindObjectOfType<ScoreLeaderboard> ();
 	}
 
 
-	void myFunctionForOnClickEvent(string argument1, float argument2)
+	void OnClickEvent()
 	{
 		if(scoreLeaderboard == null){
 			Debug.LogError (" no score leaderboard");

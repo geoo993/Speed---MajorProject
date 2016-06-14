@@ -1,57 +1,135 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
-public class ScoreLeaderboard : MonoBehaviour {
+public class ScoreLeaderboard : MonoBehaviour, IPointerClickHandler {
 
 
-	private Dictionary < string, Dictionary<string, int> > playerScores;
-
-	public static int bestScore = 0;
-
-	private string playerName = "";
-	private int playerScore = 0;
+	private Dictionary < string, Dictionary<string, int> > playerScores = new Dictionary<string, Dictionary<string, int>>();
 
 	private int changeManager = 0;
+	public InputField newPlayerInput;
+	public Button newPlayerButton;
 
-	public string newPlayer = "";
+	public Text currentPlayer = null;
+	[HideInInspector] public GameObject currentPlayerIcon = null;
+
+	private GameObject currentObject = null;
+
+	//private int scoeee = 0;
+
+	void Awake () {
+
+		newPlayerButton.GetComponent<Button>().onClick.AddListener( () => {OnClickEvent();} ); 
+
+	}
+
+	void OnClickEvent()
+	{
+
+		if (newPlayerInput.text.Length > 1) {
+
+			if (playerScores.Keys.Count > 0) {
+				
+				foreach (string key in playerScores.Keys) {
+					
+					if (key != newPlayerInput.text) {
+						SetScore (newPlayerInput.text, "score", 0);
+					}
+					print ("key: " + key + "   newPlayerInput: " + newPlayerInput);
+				}
+
+			} else {
+				SetScore (newPlayerInput.text, "score", 0);
+			}
+			
+
+		}
+
+	}
+
+	public void OnPointerClick(PointerEventData eventData)
+	{
+		
+		currentObject = eventData.pointerPressRaycast.gameObject;
+
+		if (currentObject.transform.childCount > 0) {
+
+			//print("name: "+currentObject.name+"   pos: "+currentObject.transform.position);
+
+			Destroy (currentPlayerIcon);
+			currentPlayerIcon = (GameObject)Instantiate (Resources.Load ("SelectedPlayerIcon")); 
+			currentPlayerIcon.transform.SetParent (currentObject.transform);
+
+			currentPlayerIcon.transform.localPosition = new Vector3(
+				currentObject.GetComponent<RectTransform>().rect.width/2, 0.0f, 0.0f);
+				
+			foreach (Transform child in currentObject.GetComponentsInChildren<Transform>()) {
+				//print (child.name);
+
+				if (child.name == "Name"){
+
+					currentPlayer.text = child.GetComponent<Text> ().text;
+					//print("name in text: "+child.GetComponent<Text> ().text);
+
+				}
+			}
+		}
+		//print (eventData.pointerPressRaycast.gameObject.name +"  children: "+currentObject.transform.childCount);
+
+	}
 
 	void Start () {
 
-		SetScore ("George", "score", 5400);
-		SetScore ("George", "minutes", 1);
-		SetScore ("George", "seconds", 40);
-
-		SetScore ("Abudl", "score", 105400);
-		SetScore ("Abudl", "minutes", 3);
-		SetScore ("Abudl", "seconds", 20);
-
-		SetScore ("Jenny", "score", 24004);
-		SetScore ("Jenny", "minutes", 2);			
-		SetScore ("Jenny", "seconds", 56);
-
+		//		SetScore ("George", "score", 5400);
+		//		SetScore ("George", "minutes", 1);
+		//		SetScore ("George", "seconds", 40);
+		//
+		//		SetScore ("Abudl", "score", 105400);
+		//		SetScore ("Abudl", "minutes", 3);
+		//		SetScore ("Abudl", "seconds", 20);
+		//
+		//		SetScore ("Jenny", "score", 24004);
+		//		SetScore ("Jenny", "minutes", 2);			
+		//		SetScore ("Jenny", "seconds", 56);
+		//
 	}
 
 	void Update () {
-	
-//		if (Input.GetKeyDown ("space")) {
-//
-//			playerScore = Random.Range (0, 10000);
-//
-//			SetScore ("Jenny", "score", playerScore);
-//			SetScore ("Jenny", "minutes", 2);
-//			SetScore ("Jenny", "seconds", 56);
-//
-//			print ("Best Score: " + bestScore + "   score: " + playerScore);
+
+		//print (playerScores.Keys.Count);
+
+//		if (currentPlayerIcon == null) {
+//			print ("select object null");
+//		} else {
+//			print ("select object is active");
 //		}
 
-//		if (Input.GetKeyDown ("p")) {
+
+		if (Input.GetKeyDown ("space")) {
+
+//			scoeee = Random.Range (0, 10000);
+//			SetScore ("Bob", "score", scoeee);
+//			SetScore ("Bob", "minutes", 5);
+//			SetScore ("Bob", "seconds", 13);
 //
-//			SetScore (newPlayer, "score", 0);
-//		}
+//
+//			print (scoeee);
+
+//			foreach (string key in playerScores.Keys)
+//			{
+//				print (key);
+//			}
+//
+
+		}
+
 
 	}
+
 	void ScoreInit(){
 
 		if (playerScores != null)

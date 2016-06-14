@@ -14,7 +14,6 @@ public class PlayerScoreList : MonoBehaviour {
 	void Start () {
 
 		scoreLeaderboard = GameObject.FindObjectOfType<ScoreLeaderboard> ();
-
 		lastChangeCounter = scoreLeaderboard.GetChangeCounter ();
 	}
 
@@ -50,6 +49,9 @@ public class PlayerScoreList : MonoBehaviour {
 			addEntry.transform.Find("Name").GetComponent<Text>().text = name;
 			addEntry.transform.Find("Score").GetComponent<Text>().text = scoreLeaderboard.GetScore(name, "score").ToString();
 			addEntry.transform.Find("Time").GetComponent<Text>().text = (scoreLeaderboard.GetScore(name, "minutes")+" : "+ scoreLeaderboard.GetScore(name, "seconds")).ToString();
+
+
+
 		}
 
 	}
