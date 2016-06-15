@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour {
 	private float secondsTime = 0;
 	private float lerpInfotext = 0;
 
-	public static int transformItems = 0; 
+	public static int transformCollectItem = 0; 
 	public static int collectedItems = 0; 
 	public static int healthCollectableItems = 0; 
 	//public static int resetCollectableItems = 0; 
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour {
 			UpdateTexts ();
 			UpdateIcons ();
 
-			transformItems = 0;
+			transformCollectItem = 0;
 			collectedItems = 0; 
 			healthCollectableItems = 0; 
 			coinCollectableItems = 0; 
@@ -203,11 +203,10 @@ public class GameManager : MonoBehaviour {
 
 	void GameWin() {
 
-		if (transformItems >= Items.collectablePickUps) {
+		if (transformCollectItem >= Items.collectablePickUps) {
 
 			print ("allCollected");
 		}
-
 
 	}
 	void GameOver(){

@@ -30,7 +30,18 @@ public class CollectablesPickUp : MonoBehaviour {
 
 			GameManager.collectedItems += 1;
 
-			GameObject.Find ("City").GetComponent<Items> ().CreateTransformItems ();
+
+
+			Vector3 pos = new Vector3 (Random.Range (200.0f, 800.0f), Random.Range (100.0f, 200.0f), Random.Range (200f, 800f));
+			GameObject a = (GameObject)Instantiate (Resources.Load("TransformPickUp"), pos, Quaternion.identity);
+
+			Vector3 scale = new Vector3 (Random.Range (20.0f, 35.0f), Random.Range (20.0f, 25.0f), Random.Range (20.0f, 25.0f));
+			a.transform.localScale = scale;
+			a.transform.parent = GameObject.Find("City").transform;
+			a.GetComponent<Rigidbody> ().useGravity = true;
+			a.name = "transformers" ;
+			Items.transformerItems.Add (a);
+
 
 			if (this.gameObject.name == "CollectableItem6") {
 				GameManager.disableSun = true;

@@ -15,7 +15,7 @@ public class TransformerPickUp : MonoBehaviour {
 				GameManager.scoreCountDuration = 20.0f;
 				GameManager.scoreNum += 250;
 
-				GameManager.transformItems += 1;
+				GameManager.transformCollectItem += 1;
 				//CharacterMeshComplete.tranformNum += 1;
 				//Destroy (this.gameObject);
 				Items.RemoveObjectFromList (this.gameObject, Items.transformerItems);

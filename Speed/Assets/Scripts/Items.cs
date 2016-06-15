@@ -33,8 +33,6 @@ public class Items : MonoBehaviour {
 	[HideInInspector] public static List<Vector3> fourPoints3 = new List<Vector3>();
 	[HideInInspector] public static List<Vector3> fourPoints4 = new List<Vector3>();
 
-	private string createFin = "idle";
-
 
 	void Start () {
 
@@ -45,19 +43,11 @@ public class Items : MonoBehaviour {
 
 	}
 
-	void Update (){
-
-
-		//print ("collected: "+GameManager.collectedItems+"   all items: "+collectablesItems.Count);
-
-		print ("trans: " + transformerItems.Count + "  transform Num" + GameManager.transformItems);
-	}
 
 	public IEnumerator CreateCollectable()
 	{
 		WaitForSeconds wait = new WaitForSeconds (2.0f);
 
-		createFin = "idle";
 		//print (collectablesItemsPositions.Count);
 		yield return wait;
 
@@ -271,18 +261,18 @@ public class Items : MonoBehaviour {
 		//transformers objects // sphere
 		//for (int t = 0; t < transformPickUps ; t++) {
 
-			Vector3 pos = new Vector3 (Random.Range (200.0f, 800.0f), Random.Range (100.0f, 200.0f), Random.Range (200f, 800f));
-			GameObject a = (GameObject)Instantiate (collectors [2], pos, Quaternion.identity);
-
-			Vector3 scale = new Vector3 (Random.Range (20.0f, 35.0f), Random.Range (20.0f, 25.0f), Random.Range (20.0f, 25.0f));
-			a.transform.localScale = scale;
-			a.transform.parent = this.transform;
-
-			a.GetComponent<Rigidbody> ().useGravity = true;
-
-			a.name = "transformers" ;
-			transformerItems.Add (a);
-
+//			Vector3 pos = new Vector3 (Random.Range (200.0f, 800.0f), Random.Range (100.0f, 200.0f), Random.Range (200f, 800f));
+//			GameObject a = (GameObject)Instantiate (collectors [2], pos, Quaternion.identity);
+//
+//			Vector3 scale = new Vector3 (Random.Range (20.0f, 35.0f), Random.Range (20.0f, 25.0f), Random.Range (20.0f, 25.0f));
+//			a.transform.localScale = scale;
+//			a.transform.parent = this.transform;
+//
+//			a.GetComponent<Rigidbody> ().useGravity = true;
+//
+//			a.name = "transformers" ;
+//			transformerItems.Add (a);
+//
 		//}
 
 	}
