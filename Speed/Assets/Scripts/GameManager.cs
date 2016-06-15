@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour {
 	private float secondsTime = 0;
 	private float lerpInfotext = 0;
 
+	public static int transformItems = 0; 
 	public static int collectedItems = 0; 
 	public static int healthCollectableItems = 0; 
 	//public static int resetCollectableItems = 0; 
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour {
 			UpdateTexts ();
 			UpdateIcons ();
 
+			transformItems = 0;
 			collectedItems = 0; 
 			healthCollectableItems = 0; 
 			coinCollectableItems = 0; 
@@ -143,6 +145,11 @@ public class GameManager : MonoBehaviour {
 		}
 		Items.coinItems.Clear ();
 
+		foreach (GameObject trans in Items.transformerItems) {
+			Destroy (trans);
+		}
+		Items.transformerItems.Clear ();
+
 		Items.easyPipeCollectablesItemsPositions.Clear ();
 		Items.hardPipeCollectablesItemsPositions.Clear ();
 
@@ -191,9 +198,18 @@ public class GameManager : MonoBehaviour {
 		FlashHealth ();
 		LerpScore ();
 
+		GameWin ();
 	}
 
+	void GameWin() {
 
+		if (transformItems >= Items.collectablePickUps) {
+
+			print ("allCollected");
+		}
+
+
+	}
 	void GameOver(){
 
 		if (gameOver == "idle") {
@@ -204,6 +220,7 @@ public class GameManager : MonoBehaviour {
 
 			Instantiate( Resources.Load ("Menu") );
 			GameObject.Find ("Canvas/MenuBoard").GetComponent<Animator> ().SetTrigger ("GameOver");
+			GameObject.Find ("Canvas/MenuBoard").GetComponent<RectTransform> ().localPosition = Vector3.zero;
 			gameOver = "stop game";
 		}
 

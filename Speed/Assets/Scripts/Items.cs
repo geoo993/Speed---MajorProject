@@ -15,7 +15,6 @@ public class Items : MonoBehaviour {
 	[Range(0, 50)] public int transformPickUps = 5;
 	public static int collectablePickUps = 14;
 
-	[Range(0, 5)] public int transformStartingAmoungt = 5;
 	public static int numberCollected = 0;
 
 	public static List<Vector3> easyPipeCollectablesItemsPositions = new List<Vector3>();
@@ -27,10 +26,15 @@ public class Items : MonoBehaviour {
 	//[HideInInspector] public static List<GameObject> resetItems = new List<GameObject> ();
 	[HideInInspector] public static List<GameObject> coinItems = new List<GameObject> ();
 
+	[HideInInspector] public static List<GameObject> finishItems = new List<GameObject> ();
+
 	[HideInInspector] public static List<Vector3> fourPoints1 = new List<Vector3>();
 	[HideInInspector] public static List<Vector3> fourPoints2 = new List<Vector3>();
 	[HideInInspector] public static List<Vector3> fourPoints3 = new List<Vector3>();
 	[HideInInspector] public static List<Vector3> fourPoints4 = new List<Vector3>();
+
+	private string createFin = "idle";
+
 
 	void Start () {
 
@@ -41,11 +45,19 @@ public class Items : MonoBehaviour {
 
 	}
 
+	void Update (){
+
+
+		//print ("collected: "+GameManager.collectedItems+"   all items: "+collectablesItems.Count);
+
+		print ("trans: " + transformerItems.Count + "  transform Num" + GameManager.transformItems);
+	}
 
 	public IEnumerator CreateCollectable()
 	{
 		WaitForSeconds wait = new WaitForSeconds (2.0f);
 
+		createFin = "idle";
 		//print (collectablesItemsPositions.Count);
 		yield return wait;
 
@@ -164,7 +176,7 @@ public class Items : MonoBehaviour {
 		yield return wait;
 		collectablesItems [1].GetComponent<BoxCollider> ().enabled = true;
 
-		CreateHealthAndTransformItems ();
+		CreateHealthItems ();
 		createCoinItems ();
 
 		fourPoints1.Add (new Vector3(Random.Range(0, 1000), Random.Range(0, 1000),Random.Range(0, 1000)));
@@ -245,36 +257,37 @@ public class Items : MonoBehaviour {
 			v1+= 1f;
 		}
 
-
-
 	}
+		
 
 	Vector3 AlignObjects(Vector3 pos1, Vector3 pos2, float step)
 	{
 		return (pos1 + pos2) / step ;
 	}
 
-	void CreateHealthAndTransformItems()
+	public void CreateTransformItems()
 	{
 
 		//transformers objects // sphere
-//		for (int t = 0; t < transformPickUps - transformStartingAmoungt; t++) {
-//
-//			Vector3 pos = new Vector3 (Random.Range (0, city.mapWidth), Random.Range (0.0f, city.mapHeight), Random.Range (0, city.mapWidth));
-//			GameObject a = (GameObject)Instantiate (collectors [2], pos, Quaternion.identity);
-//
-//			Vector3 scale = new Vector3 (Random.Range (10.0f, 18.0f), Random.Range (10.0f, 18.0f), Random.Range (10.0f, 18.0f));
-//			a.transform.localScale = scale;
-//			a.transform.parent = this.transform;
-//
-//			a.GetComponent<Rigidbody> ().useGravity = (Random.Range (0, 2) == 0);
-//
-//			a.name = "transformers" + t;
-//			transformerItems.Add (a);
-//
-//		}
-//
+		//for (int t = 0; t < transformPickUps ; t++) {
 
+			Vector3 pos = new Vector3 (Random.Range (200.0f, 800.0f), Random.Range (100.0f, 200.0f), Random.Range (200f, 800f));
+			GameObject a = (GameObject)Instantiate (collectors [2], pos, Quaternion.identity);
+
+			Vector3 scale = new Vector3 (Random.Range (20.0f, 35.0f), Random.Range (20.0f, 25.0f), Random.Range (20.0f, 25.0f));
+			a.transform.localScale = scale;
+			a.transform.parent = this.transform;
+
+			a.GetComponent<Rigidbody> ().useGravity = true;
+
+			a.name = "transformers" ;
+			transformerItems.Add (a);
+
+		//}
+
+	}
+	void CreateHealthItems()
+	{
 		//health objects // capsule
 		for (int h = 0; h < healthPickUps; h++) {
 

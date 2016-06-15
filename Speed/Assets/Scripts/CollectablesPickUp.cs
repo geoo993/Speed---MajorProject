@@ -30,6 +30,8 @@ public class CollectablesPickUp : MonoBehaviour {
 
 			GameManager.collectedItems += 1;
 
+			GameObject.Find ("City").GetComponent<Items> ().CreateTransformItems ();
+
 			if (this.gameObject.name == "CollectableItem6") {
 				GameManager.disableSun = true;
 			}

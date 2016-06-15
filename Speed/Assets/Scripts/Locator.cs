@@ -62,8 +62,8 @@ public class Locator : MonoBehaviour {
 				//print ("On Screen  ");
 
 				Image targetInd = GetTarget ();
-				targetInd.color = showTargetIndicator ? GameObject.Find("GameManager").GetComponent<GameManager>().interfaceColor: Color.clear;
-				targetInd.transform.localPosition = new Vector3( screenPos.x, screenPos.y , 0.0f);
+				//targetInd.color = showTargetIndicator ? GameObject.Find("GameManager").GetComponent<GameManager>().interfaceColor: Color.clear;
+				targetInd.transform.position = new Vector3( screenPos.x, screenPos.y , 0.0f);
 
 
 
@@ -202,6 +202,9 @@ public class Locator : MonoBehaviour {
 
 		if (Items.collectablesItems.Count > 0) {
 			targetToLocate = Items.collectablesItems [Items.collectablesItems.Count - 1].transform.position; //GetClosestIcon (craft.transform.position, Items.collectablesItems);
+			FocusOnTarget (targetToLocate);
+		} else if (Items.collectablesItems.Count == 0 && Items.transformerItems.Count > 0){
+			targetToLocate = GetClosestIcon (GameObject.Find("Craft").transform.position, Items.transformerItems);
 			FocusOnTarget (targetToLocate);
 		}
 

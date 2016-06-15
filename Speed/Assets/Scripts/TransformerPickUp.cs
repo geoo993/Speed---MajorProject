@@ -11,7 +11,12 @@ public class TransformerPickUp : MonoBehaviour {
 		if (col.gameObject.name == "Craft")
 		{
 			if (Items.transformerItems.Count > 0) {
-				CharacterMeshComplete.tranformNum += 1;
+
+				GameManager.scoreCountDuration = 20.0f;
+				GameManager.scoreNum += 250;
+
+				GameManager.transformItems += 1;
+				//CharacterMeshComplete.tranformNum += 1;
 				//Destroy (this.gameObject);
 				Items.RemoveObjectFromList (this.gameObject, Items.transformerItems);
 			}

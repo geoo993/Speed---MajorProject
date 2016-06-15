@@ -3,16 +3,25 @@ using System.Collections;
 
 public class HeartColliders : MonoBehaviour {
 
-	[Range(0 , 1f)]public float time = 0f;
+	private float time = 0f;
 	[Range(-500, 500f)]public float X = 0;
 	[Range(-500 , 500f)]public float Y = 0;
 	[Range(-500, 500f)]public float Z = 0;
 
 	void Update(){
 
-		this.transform.localPosition = new Vector3 (pumping (time) * X, pumping (time) * Y, pumping (time) * Z);
-	}
+		this.transform.localPosition = new Vector3 ( pumping (time) * X, pumping (time ) * Y, pumping (time ) * Z );
 
+		float dist = Vector3.Distance (this.transform.position, GameObject.Find ("Craft").transform.position);
+
+		if (dist < 500f) {
+			
+			time = 10f;
+		} else {
+			time = 1f;
+		}
+
+	}
 
 	public float pumping( float duration)
 	{

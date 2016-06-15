@@ -13,7 +13,6 @@ public class HeartPulse : MonoBehaviour {
 			GameObject.Find("City").GetComponent<GenerateCity> ().mapHeight * 2.5f, 
 			GameObject.Find("City").GetComponent<GenerateCity> ().transform.position.z + 500f);
 
-
 	}
 
 

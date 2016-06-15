@@ -23,9 +23,9 @@ public class Menu : MonoBehaviour {
 
 		if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.Controller) {
 
-			restartText.text = "Press OPTIONS To Restart";
+			restartText.text = "Press OPTIONS to check your score";
 		}else if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.Keyboard) {
-			restartText.text = "Press SPACE To Restart";
+			restartText.text = "Press SPACE to check your score";
 		}
 
 	}
