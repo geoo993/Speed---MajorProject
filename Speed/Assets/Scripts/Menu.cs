@@ -4,7 +4,8 @@ using System.Collections;
 
 public class Menu : MonoBehaviour {
 
-	public Text restartPress = null;
+	public Text gameOverText = null;
+	public Text restartText = null;
 
 	void Start () {
 		this.name = "MenuBoard";
@@ -13,10 +14,20 @@ public class Menu : MonoBehaviour {
 
 	void Update(){
 
-		restartPress.color =	new Color(
-			restartPress.color.r, 
-			restartPress.color.g,
-			restartPress.color.b, flashing(1.5f));
+		gameOverText.color = GameObject.Find("GameManager").GetComponent<GameManager>().interfaceColor;
+
+		restartText.color =	new Color(
+			GameObject.Find("GameManager").GetComponent<GameManager>().interfaceColor.r, 
+			GameObject.Find("GameManager").GetComponent<GameManager>().interfaceColor.g,
+			GameObject.Find("GameManager").GetComponent<GameManager>().interfaceColor.b, flashing(1.5f));
+
+		if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.Controller) {
+
+			restartText.text = "Press OPTIONS To Restart";
+		}else if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.Keyboard) {
+			restartText.text = "Press SPACE To Restart";
+		}
+
 	}
 
 	public float flashing( float duration)

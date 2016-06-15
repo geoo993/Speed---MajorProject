@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour {
 
 			ScoreBoardPanel.SetActive(true);
 
-			if (GameObject.Find("Canvas").GetComponent<ScoreLeaderboard>().currentPlayerIcon != null && Input.GetButton ("PS4_Options") || Input.GetKeyDown ("0")) {
+			if (GameObject.Find("Canvas").GetComponent<ScoreLeaderboard>().currentPlayerIcon != null && Input.GetButton ("PS4_Options") || Input.GetKeyDown ("space")) {
 
 				currentPlayer = GameObject.Find ("Canvas/ScoreBoardPanel/SelectedPlayer").GetComponent<Text> ().text;
 
@@ -249,20 +249,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 
-	void UpdateRadar(){
-
-		foreach (GameObject im in radarImages) {
-			if (showRadar) {
-				im.SetActive(true);
-
-			}else{
-				im.SetActive(false);
-			}
-		}
-
-	}
-
-
 	void PS4Controls()
 	{
 
@@ -334,6 +320,19 @@ public class GameManager : MonoBehaviour {
 
 	}
 		
+	void UpdateRadar(){
+
+		foreach (GameObject im in radarImages) {
+			if (showRadar) {
+				im.SetActive(true);
+
+			}else{
+				im.SetActive(false);
+			}
+		}
+
+	}
+
 	void UpdateInTransitionSlider(){
 
 		sliderBars[0].value = inTransitionNum;
@@ -422,6 +421,14 @@ public class GameManager : MonoBehaviour {
 		mainTexts[4].text = Timer();
 		mainTexts[5].text = "COLLECT  THE  DIAMONDS";
 		mainTexts[6].color =	new Color(interfaceColor.r,interfaceColor.g,interfaceColor.b, flashing(1.5f));
+
+		if (controlsType == ControlsType.Controller) {
+
+			mainTexts[6].text =	"Press OPTIONS To Start";
+		}else if (controlsType == ControlsType.Keyboard) {
+
+			mainTexts[6].text =	"Press SPACE To Start";
+		}
 
 		if (secondsTime >= 0 && secondsTime <= 10.0f) 
 		{

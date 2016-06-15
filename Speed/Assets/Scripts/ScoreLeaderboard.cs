@@ -33,19 +33,12 @@ public class ScoreLeaderboard : MonoBehaviour, IPointerClickHandler {
 		if (newPlayerInput.text.Length > 1) {
 
 			if (playerScores.Keys.Count > 0) {
-				
-				foreach (string key in playerScores.Keys) {
-					
-					if (key != newPlayerInput.text) {
-						SetScore (newPlayerInput.text, "score", 0);
-					}
-					print ("key: " + key + "   newPlayerInput: " + newPlayerInput);
-				}
+
+				SetScore (newPlayerInput.text, "score", GetScore (newPlayerInput.text, "score"));
 
 			} else {
 				SetScore (newPlayerInput.text, "score", 0);
 			}
-			
 
 		}
 
@@ -56,9 +49,10 @@ public class ScoreLeaderboard : MonoBehaviour, IPointerClickHandler {
 		
 		currentObject = eventData.pointerPressRaycast.gameObject;
 
-		if (currentObject.transform.childCount > 0) {
+		if (currentObject.transform.childCount > 0 && currentObject.name == "PlayerScoreEntry") 
+		{
 
-			//print("name: "+currentObject.name+"   pos: "+currentObject.transform.position);
+			//print("childCount: "+currentObject.transform.childCount+"   name: "+currentObject.name+"   pos: "+currentObject.transform.position);
 
 			Destroy (currentPlayerIcon);
 			currentPlayerIcon = (GameObject)Instantiate (Resources.Load ("SelectedPlayerIcon")); 
@@ -74,11 +68,17 @@ public class ScoreLeaderboard : MonoBehaviour, IPointerClickHandler {
 
 					currentPlayer.text = child.GetComponent<Text> ().text;
 					//print("name in text: "+child.GetComponent<Text> ().text);
-
 				}
 			}
 		}
-		//print (eventData.pointerPressRaycast.gameObject.name +"  children: "+currentObject.transform.childCount);
+
+		if (currentObject.name == "InterfaceColorText") {
+
+			Color rand = ExtensionMethods.RandomColor ();
+			currentObject.GetComponentInParent<Image>().color = rand;
+			GameObject.Find("GameManager").GetComponent<GameManager>().interfaceColor = rand;
+		}
+		print (eventData.pointerPressRaycast.gameObject.name +"  children: "+currentObject.transform.childCount);
 
 	}
 

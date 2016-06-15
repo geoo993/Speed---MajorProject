@@ -44,6 +44,7 @@ public class PlayerScoreList : MonoBehaviour {
 		foreach(string name in names) {
 
 			GameObject addEntry =  (GameObject)Instantiate (playerScoreEntry);
+			addEntry.name = "PlayerScoreEntry";
 			addEntry.transform.SetParent (this.transform);
 
 			addEntry.transform.Find("Name").GetComponent<Text>().text = name;
