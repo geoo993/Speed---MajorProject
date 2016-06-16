@@ -3,14 +3,45 @@ using System.Collections;
 
 public class Controllerr : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
+
 	void Update () {
 	
+		//PS4Controls ();
+
+		XboxControls ();
+	}
+
+	void PS4Controls()
+	{
+
+		////Axis
+		print("Right Analog Horizontal: "+ Input.GetAxis ("PS4_RightAnalogHorizontal") +
+				"    Right Analog Vertical: "+ Input.GetAxis ("PS4_RightAnalogVertical")+
+				"    Horizontal: "+ Input.GetAxis ("Horizontal") +
+				"    Vertical: "+ Input.GetAxis ("Vertical")
+		);
+
+
+		print("D-Pad Horizontal: "+ Input.GetAxis ("PS4_DirectionalPadHorizontal") +
+			"    D-Pad Vertical: "+ Input.GetAxis ("PS4_DirectionalPadVertical")+
+			"    Horizontal: "+ Input.GetAxis ("Horizontal") +
+			"    Vertical: "+ Input.GetAxis ("Vertical")
+		);
+
+		print("L2: "+ Input.GetAxis ("PS4_L2") +
+			"    R2: "+ Input.GetAxis ("PS4_R2")+
+			"    Horizontal: "+ Input.GetAxis ("Horizontal") +
+			"    Vertical: "+ Input.GetAxis ("Vertical")
+		);
+
+		print("Left Analog Horizontal: "+ Input.GetAxis ("PS4_LeftAnalogHorizontal") +
+			"    Left Analog Vertical: "+ Input.GetAxis ("PS4_LeftAnalogVertical")+
+			"    Horizontal: "+ Input.GetAxis ("Horizontal") +
+			"    Vertical: "+ Input.GetAxis ("Vertical")
+		);
+
+
+		////buttons
 		if (Input.GetButton ("PS4_X")) 
 		{
 			print("Pressed X");
@@ -45,9 +76,54 @@ public class Controllerr : MonoBehaviour {
 		if (Input.GetButton ("PS4_Touch")) {
 			print("Pressed Touch");
 		}
-		if (Input.GetButton ("PS4_PSN")) {
-			print("Pressed PSN");
+//		if (Input.GetButton ("PS4_PSN")) {
+//			print("Pressed PSN");
+//		}
+
+	}
+
+
+	void XboxControls()
+	{
+
+//		print("Right Analog Horizontal: "+ Input.GetAxis ("360_RightAnalogHorizontal") +
+//			"    Right Analog Vertical: "+ Input.GetAxis ("360_RightAnalogVertical")+
+//			"    Horizontal: "+ Input.GetAxis ("Horizontal") +
+//			"    Vertical: "+ Input.GetAxis ("Vertical")
+//		);
+//
+//		print("Left Analog Horizontal: "+ Input.GetAxis ("360_LeftAnalogHorizontal") +
+//			"    Left Analog Vertical: "+ Input.GetAxis ("360_LeftAnalogVertical")+
+//			"    Horizontal: "+ Input.GetAxis ("Horizontal") +
+//			"    Vertical: "+ Input.GetAxis ("Vertical")
+//		);
+
+		if (Input.GetButton ("360_A")) {
+			print("Pressed 360_A");
+		}
+		if (Input.GetButton ("360_B")) {
+			print("Pressed 360_B");
+		}
+		if (Input.GetButton ("360_X")) {
+			print("Pressed X");
+		}
+		if (Input.GetButton ("360_Y")) {
+			print("Pressed 360_Y");
+		}
+		if (Input.GetButton ("360_Back")) {
+			print("Pressed 360_Back");
+		}
+		if (Input.GetButton ("360_Start")) {
+			print("Pressed 360_Start");
+		}
+		if (Input.GetButton ("360_LeftBumper")) {
+			print("Pressed 360_LeftBumper");
+		}
+		if (Input.GetButton ("360_RightBumper")) {
+				print("Pressed 360_RightBumper");
 		}
 
 	}
+
+
 }

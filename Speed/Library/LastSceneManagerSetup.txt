@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/SpeedGame.unity
+- path: Assets/XboxController.unity
   isLoaded: 1
   isActive: 1
