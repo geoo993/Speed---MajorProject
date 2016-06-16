@@ -6,7 +6,6 @@ public class Skybox : MonoBehaviour {
 
 
 	private Camera camera;
-	private int resolution = 256;
 	private float duration = 10.0f;
 	private Color CurrentColor =  Color.red;
 	private Color previousColor = Color.blue;

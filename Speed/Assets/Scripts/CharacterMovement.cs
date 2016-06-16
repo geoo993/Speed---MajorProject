@@ -52,7 +52,6 @@ public class CharacterMovement : MonoBehaviour
 
 
 	private Vector3 lastPosition;
-	private bool isMoving ;
 	private Transform myTransform;
 	private Vector3 forwardForce;
 
@@ -64,7 +63,6 @@ public class CharacterMovement : MonoBehaviour
 		rigid = GetComponent<Rigidbody> ();
 		myTransform = transform;
 		lastPosition = myTransform.position;
-		isMoving = false;
 
 	}
 

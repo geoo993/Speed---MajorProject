@@ -10,12 +10,9 @@ public class TransformerPickUp : MonoBehaviour {
 
 		if (col.gameObject.name == "Craft")
 		{
-			if (Items.transformerItems.Count > 0) {
+			if (Items.finishItems.Count > 0) {
 
-				GameManager.scoreCountDuration = 20.0f;
-				GameManager.scoreNum += 250;
 
-				GameManager.transformCollectItem += 1;
 				//CharacterMeshComplete.tranformNum += 1;
 				//Destroy (this.gameObject);
 				Items.RemoveObjectFromList (this.gameObject, Items.transformerItems);
@@ -23,16 +20,6 @@ public class TransformerPickUp : MonoBehaviour {
 		}
 
 		//print ("transform: "+CharacterMeshComplete.TranformNum);
-	}
-
-	void OnTriggerEnter  ( Collider other ) {
-
-		//print (other.name);
-
-	}
-
-	void OnTriggerExit  ( Collider other ) {
-
 	}
 
 

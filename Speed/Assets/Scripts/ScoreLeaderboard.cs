@@ -78,7 +78,7 @@ public class ScoreLeaderboard : MonoBehaviour, IPointerClickHandler {
 			currentObject.GetComponentInParent<Image>().color = rand;
 			GameObject.Find("GameManager").GetComponent<GameManager>().interfaceColor = rand;
 		}
-		print (eventData.pointerPressRaycast.gameObject.name +"  children: "+currentObject.transform.childCount);
+		//print (eventData.pointerPressRaycast.gameObject.name +"  children: "+currentObject.transform.childCount);
 
 	}
 

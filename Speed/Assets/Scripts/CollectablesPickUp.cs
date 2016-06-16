@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CollectablesPickUp : MonoBehaviour {
 
-	public GameObject city = null;
+	public GameObject trans = null;
 
 	void OnCollisionEnter(Collision col){
 
@@ -17,59 +17,22 @@ public class CollectablesPickUp : MonoBehaviour {
 
 			//Destroy (this.gameObject);
 
-//			Vector3 pos = new Vector3(Random.Range (50, 800), Random.Range (100.0f, 400),Random.Range (50, 800));
-//			this.gameObject.transform.localPosition = pos;
-//
-//			Vector3 scale = new Vector3 (Random.Range (5.0f, 10.0f), Random.Range (5.0f, 10.0f), Random.Range (5.0f, 10.0f));
-//			this.transform.localScale = scale;
-//
-//			this.transform.eulerAngles = new Vector3(Random.Range (0, 360),Random.Range (0, 360),Random.Range (0, 360));
-
 			GameManager.scoreCountDuration = 15.0f;
-			GameManager.scoreNum += 100;
+			GameManager.scoreNum += 150;
 
 			GameManager.collectedItems += 1;
 
 
-
-			Vector3 pos = new Vector3 (Random.Range (200.0f, 800.0f), Random.Range (100.0f, 200.0f), Random.Range (200f, 800f));
-			GameObject a = (GameObject)Instantiate (Resources.Load("TransformPickUp"), pos, Quaternion.identity);
-
-			Vector3 scale = new Vector3 (Random.Range (20.0f, 35.0f), Random.Range (20.0f, 25.0f), Random.Range (20.0f, 25.0f));
-			a.transform.localScale = scale;
-			a.transform.parent = GameObject.Find("City").transform;
-			a.GetComponent<Rigidbody> ().useGravity = true;
-			a.name = "transformers" ;
-			Items.transformerItems.Add (a);
-
-
-			if (this.gameObject.name == "CollectableItem6") {
+			if (this.gameObject.name == "CollectableItem12") {
 				GameManager.disableSun = true;
 			}
 
 			Items.RemoveObjectFromList (this.gameObject, Items.collectablesItems);
-			//print ("hit on enter");
+
 
 		}
 
 	}
-
-	void OnCollisionExit(Collision col){
-
-		//print (gameObject.name + "  has collided with " + col.gameObject.name);
-
-		if (col.gameObject.name == "craft")
-		{
-			
-			print ("exiting");
-
-			//city.GetComponent<Track> ().CreateCollectable();
-
-		}
-
-	}
-
-
 
 
 }

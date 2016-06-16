@@ -13,7 +13,7 @@ public class Items : MonoBehaviour {
 	//[Range(1, 10)] public int resetPickUps = 5;
 	[Range(1, 100)] public int coinPickUps = 10;
 	[Range(0, 50)] public int transformPickUps = 5;
-	public static int collectablePickUps = 14;
+	public static int collectablePickUps = 20;
 
 	public static int numberCollected = 0;
 
@@ -23,25 +23,14 @@ public class Items : MonoBehaviour {
 	[HideInInspector] public static List<GameObject> healthItems = new List<GameObject> ();
 	[HideInInspector] public static List<GameObject> transformerItems = new List<GameObject> ();
 	[HideInInspector] public static List<GameObject> collectablesItems = new List<GameObject> ();
-	//[HideInInspector] public static List<GameObject> resetItems = new List<GameObject> ();
 	[HideInInspector] public static List<GameObject> coinItems = new List<GameObject> ();
 
-	[HideInInspector] public static List<GameObject> finishItems = new List<GameObject> ();
+	public static List<GameObject> finishItems = new List<GameObject> ();
 
 	[HideInInspector] public static List<Vector3> fourPoints1 = new List<Vector3>();
 	[HideInInspector] public static List<Vector3> fourPoints2 = new List<Vector3>();
 	[HideInInspector] public static List<Vector3> fourPoints3 = new List<Vector3>();
 	[HideInInspector] public static List<Vector3> fourPoints4 = new List<Vector3>();
-
-
-	void Start () {
-
-
-		//CharacterMeshComplete.tranformNum = transformStartingAmoungt;
-
-		//StartCoroutine(CreateCollectable ());
-
-	}
 
 
 	public IEnumerator CreateCollectable()
@@ -61,10 +50,46 @@ public class Items : MonoBehaviour {
 			if (col == 0)
 			{
 				c.transform.parent = this.transform;
+				c.transform.localPosition = new Vector3(Random.Range(100f, 900f), 100.0f, Random.Range(100f, 900f));
+
+				c.GetComponent<Rigidbody> ().useGravity = true;
+			}else if (col == 1)
+			{
+				c.transform.parent = this.transform;
+				c.transform.localPosition = new Vector3(Random.Range(100f, 900f), 100.0f, Random.Range(100f, 900f));
+
+				c.GetComponent<Rigidbody> ().useGravity = true;
+			}else if (col == 2)
+			{
+				c.transform.parent = this.transform;
 				c.transform.localPosition = new Vector3 (Random.Range(400f,800f), 100f, Random.Range(400f,800f));;
 				c.GetComponent<Rigidbody> ().useGravity = true;
 
-			}else if (col == 1) 
+			}else if (col == 3)
+			{
+				c.transform.parent = this.transform;
+				c.transform.localPosition = AlignObjects(GameObject.Find ("Heart").transform.position, new Vector3(500f, 0.0f, 500f), 5 );
+
+				c.GetComponent<Rigidbody> ().useGravity = true;
+			}else if (col == 4)
+			{
+				c.transform.parent = this.transform;
+				c.transform.localPosition = AlignObjects(GameObject.Find ("Heart").transform.position, new Vector3(500f, 0.0f, 500f), 4 );
+
+				c.GetComponent<Rigidbody> ().useGravity = false;
+			}else if (col == 5)
+			{
+				c.transform.parent = this.transform;
+				c.transform.localPosition = AlignObjects(GameObject.Find ("Heart").transform.position, new Vector3(500f, 0.0f, 500f), 3 );
+
+				c.GetComponent<Rigidbody> ().useGravity = false;
+			}else if (col == 6)
+			{
+				c.transform.parent = this.transform;
+				c.transform.localPosition = AlignObjects(GameObject.Find ("Heart").transform.position, new Vector3(500f, 0.0f, 500f), 1.5f );
+
+				c.GetComponent<Rigidbody> ().useGravity = false;
+			}else if (col == 7) 
 			{
 				c.transform.parent = GameObject.Find ("Heart").transform;
 				c.GetComponent<BoxCollider> ().enabled = false;
@@ -73,28 +98,28 @@ public class Items : MonoBehaviour {
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
 
-			}else if (col == 2) 
+			}else if (col == 8) 
 			{
 				c.transform.parent = GameObject.Find ("SwirlPipeSystemHard/hardPipeParent1").transform;
 				c.transform.localPosition = hardPipeCollectablesItemsPositions[0];
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
 
-			}else if (col == 3) 
+			}else if (col == 9) 
 			{
 				c.transform.parent = GameObject.Find ("SwirlPipeSystemHard/hardPipeParent2").transform;
 				c.transform.localPosition = hardPipeCollectablesItemsPositions[1];
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
 
-			}else if (col == 4) 
+			}else if (col == 10) 
 			{
 				c.transform.parent = GameObject.Find ("SwirlPipeSystemHard/hardPipeParent3").transform;
 				c.transform.localPosition = hardPipeCollectablesItemsPositions[2];
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
 
-			}else if (col == 5) 
+			}else if (col == 11) 
 			{
 				c.transform.parent = GameObject.Find ("SwirlPipeSystemHard/hardPipeParent4").transform;
 				c.transform.localPosition = hardPipeCollectablesItemsPositions[3];
@@ -102,60 +127,61 @@ public class Items : MonoBehaviour {
 				c.GetComponent<Rigidbody> ().useGravity = false;
 
 			}
-			else if (col == 6){
+			else if (col == 12){
 				c.transform.parent = GameObject.Find ("Sun").transform;
 				c.transform.localPosition = Vector3.zero;
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
 
-			}else if (col == 7) 
+			}else if (col == 13) 
 			{
 				c.transform.parent = GameObject.Find ("SwirlPipeSystemEasy/easyPipeParent1").transform;
 				c.transform.localPosition = easyPipeCollectablesItemsPositions[0];
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
 
-			}else if (col == 8) 
+			}else if (col == 14) 
 			{
 				c.transform.parent = GameObject.Find ("SwirlPipeSystemEasy/easyPipeParent2").transform;
 				c.transform.localPosition = easyPipeCollectablesItemsPositions[1];
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
 
-			}else if (col == 9 ) 
+			}else if (col == 15 ) 
 			{
 				c.transform.parent = GameObject.Find ("Earth").transform;
 				c.transform.localPosition = new Vector3(-0.6f, 0.0f, 0.0f);
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
-			}else if (col == 10 ) 
+			}else if (col == 16 ) 
 			{
 				c.transform.parent = GameObject.Find ("Earth").transform;
 				c.transform.localPosition = new Vector3(0.6f, 0.0f, 0.0f);
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
 
-			}else if (col == 11) 
+			}else if (col == 17) 
 			{
 				c.transform.parent = GameObject.Find ("TorusArc").transform;
 				c.transform.localPosition = Vector3.zero;
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
 
-			}else if (col == 12)
+			}else if (col == 18)
 			{
 				c.transform.parent = this.transform;
 				c.transform.localPosition = new Vector3(0, 40, 1000);
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
 
-			}else if (col == 13)
+			}else if (col == 19)
 			{
 				c.transform.parent = this.transform;
 				c.transform.localPosition = new Vector3(0, 25, 0);
 
 				c.GetComponent<Rigidbody> ().useGravity = false;
 			}
+
 
 			c.name = "CollectableItem"+ col;
 			c.tag = "RadarCollectable";
@@ -164,7 +190,7 @@ public class Items : MonoBehaviour {
 		}
 
 		yield return wait;
-		collectablesItems [1].GetComponent<BoxCollider> ().enabled = true;
+		collectablesItems [7].GetComponent<BoxCollider> ().enabled = true;
 
 		CreateHealthItems ();
 		createCoinItems ();
@@ -276,6 +302,7 @@ public class Items : MonoBehaviour {
 		//}
 
 	}
+
 	void CreateHealthItems()
 	{
 		//health objects // capsule

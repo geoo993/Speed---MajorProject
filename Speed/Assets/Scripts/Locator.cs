@@ -14,7 +14,6 @@ public class Locator : MonoBehaviour {
 	private List<Image> targetPool = new List<Image>();
 	private int targetCursor = 0;
 
-	private int range = 200;
 
 	public GameObject[] arrowParts = null;
 	[Range(100f, 1500f)] public float radarRange = 800;
@@ -202,13 +201,9 @@ public class Locator : MonoBehaviour {
 
 		if (Items.collectablesItems.Count > 0) {
 			targetToLocate = Items.collectablesItems [Items.collectablesItems.Count - 1].transform.position; //GetClosestIcon (craft.transform.position, Items.collectablesItems);
-			FocusOnTarget (targetToLocate);
-		} else if (Items.collectablesItems.Count == 0 && Items.transformerItems.Count > 0){
-			targetToLocate = GetClosestIcon (GameObject.Find("Craft").transform.position, Items.transformerItems);
-			FocusOnTarget (targetToLocate);
 		}
-
-
+			
+		FocusOnTarget (targetToLocate);
 	}
 	void FocusOnTarget( Vector3 target){
 

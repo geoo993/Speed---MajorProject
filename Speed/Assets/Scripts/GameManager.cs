@@ -26,8 +26,7 @@ public class GameManager : MonoBehaviour {
 	public static float scoreCountDuration = 0;
 	public static float timerCount = 0;
 
-	private int healthIconsAmount = 0;
-	public static float health = 80;
+	public static float health = 100;
 	public static int speedValue = 100;
 	public static int flashCount = 120;
 
@@ -36,10 +35,8 @@ public class GameManager : MonoBehaviour {
 	private float secondsTime = 0;
 	private float lerpInfotext = 0;
 
-	public static int transformCollectItem = 0; 
 	public static int collectedItems = 0; 
 	public static int healthCollectableItems = 0; 
-	//public static int resetCollectableItems = 0; 
 	public static int coinCollectableItems = 0; 
 	public static int coinItemsAtStart = 0; 
 
@@ -57,7 +54,7 @@ public class GameManager : MonoBehaviour {
 	private bool startGame = false;
 	public static bool resetGame = false;
 	public static string gameOver = "idle";
-
+	private bool stoppedGame = false;
 	public static string currentPlayer;
 
 	public GameObject ScoreBoardPanel = null;
@@ -82,7 +79,6 @@ public class GameManager : MonoBehaviour {
 			UpdateTexts ();
 			UpdateIcons ();
 
-			transformCollectItem = 0;
 			collectedItems = 0; 
 			healthCollectableItems = 0; 
 			coinCollectableItems = 0; 
@@ -94,7 +90,7 @@ public class GameManager : MonoBehaviour {
 			scoreNum = 0;
 			currentScoreCount = 0;
 			timerCount = 0;
-			health = 80; 
+			health = 100; 
 			gameOver = "idle";
 
 			ScoreBoardPanel.SetActive(true);
@@ -109,11 +105,10 @@ public class GameManager : MonoBehaviour {
 				startGame = true;
 
 				//print ("select object is active");
-			} else {
-				//print ("select object is null");
 			}
 
 		}
+
 
 		//print (startGame);
 	}
@@ -144,11 +139,6 @@ public class GameManager : MonoBehaviour {
 			Destroy (coin);
 		}
 		Items.coinItems.Clear ();
-
-		foreach (GameObject trans in Items.transformerItems) {
-			Destroy (trans);
-		}
-		Items.transformerItems.Clear ();
 
 		Items.easyPipeCollectablesItemsPositions.Clear ();
 		Items.hardPipeCollectablesItemsPositions.Clear ();
@@ -184,6 +174,7 @@ public class GameManager : MonoBehaviour {
 		yield return wait;
 
 		startGame = false;
+		stoppedGame = false;
 	}
 
 	void Game(){
@@ -198,18 +189,24 @@ public class GameManager : MonoBehaviour {
 		FlashHealth ();
 		LerpScore ();
 
-		GameWin ();
-	}
-
-	void GameWin() {
-
-		if (transformCollectItem >= Items.collectablePickUps) {
-
-			print ("allCollected");
+		if(Items.collectablesItems.Count <= 0){
+			GameOver ();
 		}
+//
+//		if (Input.GetKeyDown ("r") || Input.GetButton ("PS4_Triangle")) {
+//
+//			stoppedGame = true;
+//		}
+//
+//		if (stoppedGame == true) {
+//			GameOver ();
+//		}
+//
 
 	}
-	void GameOver(){
+
+
+	public void GameOver(){
 
 		if (gameOver == "idle") {
 
@@ -296,43 +293,43 @@ public class GameManager : MonoBehaviour {
 
 
 		////buttons
-//		if (Input.GetButton ("PS4_X")) 
-//		{
-//			print("Pressed X");
-//		}
-//		if (Input.GetButton ("PS4_O")) {
-//			print("Pressed O");
-//		}
-//		if (Input.GetButton ("PS4_Triangle")) {
-//			print("Pressed Triangle");
-//		}
-//		if (Input.GetButton ("PS4_Square")) {
-//			print("Pressed Square");
-//		}
-//		if (Input.GetButton ("PS4_Share")) {
-//			print("Pressed Share");
-//		}
-//		if (Input.GetButton ("PS4_Options")) {
-//			print("Pressed Options");
-//		}
-//		if (Input.GetButton ("PS4_R1")) {
-//			print("Pressed R1");
-//		}
-//		if (Input.GetButton ("PS4_R3")) {
-//			print("Pressed R3");
-//		}
-//		if (Input.GetButton ("PS4_L1")) {
-//			print("Pressed L1");
-//		}
-//		if (Input.GetButton ("PS4_L3")) {
-//			print("Pressed L3");
-//		}
-//		if (Input.GetButton ("PS4_Touch")) {
-//			print("Pressed Touch");
-//		}
-//		if (Input.GetButton ("PS4_PSN")) {
-//			print("Pressed PSN");
-//		}
+		if (Input.GetButton ("PS4_X")) 
+		{
+			print("Pressed X");
+		}
+		if (Input.GetButton ("PS4_O")) {
+			print("Pressed O");
+		}
+		if (Input.GetButton ("PS4_Triangle")) {
+			print("Pressed Triangle");
+		}
+		if (Input.GetButton ("PS4_Square")) {
+			print("Pressed Square");
+		}
+		if (Input.GetButton ("PS4_Share")) {
+			print("Pressed Share");
+		}
+		if (Input.GetButton ("PS4_Options")) {
+			print("Pressed Options");
+		}
+		if (Input.GetButton ("PS4_R1")) {
+			print("Pressed R1");
+		}
+		if (Input.GetButton ("PS4_R3")) {
+			print("Pressed R3");
+		}
+		if (Input.GetButton ("PS4_L1")) {
+			print("Pressed L1");
+		}
+		if (Input.GetButton ("PS4_L3")) {
+			print("Pressed L3");
+		}
+		if (Input.GetButton ("PS4_Touch")) {
+			print("Pressed Touch");
+		}
+		if (Input.GetButton ("PS4_PSN")) {
+			print("Pressed PSN");
+		}
 
 	}
 		
