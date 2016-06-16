@@ -52,7 +52,7 @@ public class CameraTracker : MonoBehaviour {
 			currentX += Input.GetAxis ("VerticalSW");
 			currentY += Input.GetAxis ("HorizontalAD");
 
-		} else if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.Controller) 
+		} else if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.PS4_Controller) 
 		{
 			if (GameObject.Find("GameManager").GetComponent<GameManager>().switchAnalogStick) {
 				currentX += Input.GetAxis ("PS4_LeftAnalogVertical");
@@ -60,6 +60,15 @@ public class CameraTracker : MonoBehaviour {
 			} else {
 				currentX += Input.GetAxis ("PS4_RightAnalogVertical");
 				currentY += Input.GetAxis ("PS4_RightAnalogHorizontal");
+			}
+		}else if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.Xbox_Controller) 
+		{
+			if (GameObject.Find("GameManager").GetComponent<GameManager>().switchAnalogStick) {
+				currentX += Input.GetAxis ("360_LeftAnalogVertical");
+				currentY += Input.GetAxis ("360_LeftAnalogHorizontal");
+			} else {
+				currentX += Input.GetAxis ("360_RightAnalogVertical");
+				currentY += Input.GetAxis ("360_RightAnalogHorizontal");
 			}
 		}
 	}

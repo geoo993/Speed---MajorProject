@@ -21,9 +21,12 @@ public class Menu : MonoBehaviour {
 			GameObject.Find("GameManager").GetComponent<GameManager>().interfaceColor.g,
 			GameObject.Find("GameManager").GetComponent<GameManager>().interfaceColor.b, flashing(1.5f));
 
-		if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.Controller) {
+		if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.PS4_Controller) {
 
 			restartText.text = "Press OPTIONS to check your score";
+		}else if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.Xbox_Controller) {
+
+			restartText.text = "Press START to check your score";
 		}else if (GameObject.Find("GameManager").GetComponent<GameManager>().controlsType == GameManager.ControlsType.Keyboard) {
 			restartText.text = "Press SPACE to check your score";
 		}

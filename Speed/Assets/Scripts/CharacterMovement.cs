@@ -310,10 +310,14 @@ public class CharacterMovement : MonoBehaviour
 			moveHorizontal = Input.GetAxis ("Horizontal"); 
 			moveVertical = Input.GetAxis ("Vertical");
 
-		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller) {
 			moveHorizontal = Input.GetAxis ("PS4_LeftAnalogHorizontal"); 
 			moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+			moveHorizontal = Input.GetAxis ("360_LeftAnalogHorizontal"); 
+			moveVertical = Input.GetAxis ("360_LeftAnalogVertical");
 		}
+
 
 
 		if (gameManagerScript.controlsType == GameManager.ControlsType.Keyboard) {
@@ -323,7 +327,7 @@ public class CharacterMovement : MonoBehaviour
 
 			forwardForce = (Camera.main.gameObject.transform.forward) * moveVertical * speed; 
 
-		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller) {
 			
 			if ((Input.GetAxis ("PS4_L2") > 0.0f)) 
 			{
@@ -332,6 +336,19 @@ public class CharacterMovement : MonoBehaviour
 			} else if ((Input.GetAxis ("PS4_R2") > 0.0f)) {
 				
 				forwardForce = (Camera.main.gameObject.transform.forward) * Input.GetAxis ("PS4_R2") * (speed * 10); 
+			} else {
+				forwardForce = Vector3.zero;
+			}
+
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+
+			if ((Input.GetAxis ("360_LeftThumbTrigger") > 0.0f)) 
+			{
+				forwardForce = (Camera.main.gameObject.transform.forward) * -Input.GetAxis ("360_LeftThumbTrigger") * (speed * 10); 
+
+			} else if ((Input.GetAxis ("360_RightThumbTrigger") > 0.0f)) {
+
+				forwardForce = (Camera.main.gameObject.transform.forward) * Input.GetAxis ("360_RightThumbTrigger") * (speed * 10); 
 			} else {
 				forwardForce = Vector3.zero;
 			}
@@ -368,7 +385,7 @@ public class CharacterMovement : MonoBehaviour
 			moveVertical = Input.GetAxis ("Vertical");
 			moveHorizontal = Input.GetAxis ("Horizontal");
 
-		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller) {
 			
 			moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
 
@@ -376,6 +393,16 @@ public class CharacterMovement : MonoBehaviour
 				moveHorizontal = Input.GetAxis ("PS4_LeftAnalogHorizontal");
 			} else {
 				moveHorizontal = Input.GetAxis ("PS4_RightAnalogHorizontal");
+			}
+
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+
+			moveVertical = Input.GetAxis ("360_LeftAnalogVertical");
+
+			if (gameManagerScript.switchAnalogStick) {
+				moveHorizontal = Input.GetAxis ("360_LeftAnalogHorizontal");
+			} else {
+				moveHorizontal = Input.GetAxis ("360_RightAnalogHorizontal");
 			}
 
 		}
@@ -391,7 +418,7 @@ public class CharacterMovement : MonoBehaviour
 
 				forwardForce = transform.forward * (speed * 10) * moveVertical;
 
-			} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+			} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller) {
 				
 				if ((Input.GetAxis ("PS4_L2") > 0.0f)) {
 					////calculate forward force:
@@ -402,7 +429,19 @@ public class CharacterMovement : MonoBehaviour
 				} else {
 					forwardForce = Vector3.zero;
 				}
+			}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+
+				if ((Input.GetAxis ("360_LeftThumbTrigger") > 0.0f)) {
+					////calculate forward force:
+					forwardForce = transform.forward * (speed * 100) * -Input.GetAxis ("360_LeftThumbTrigger");
+				} else if ((Input.GetAxis ("360_RightThumbTrigger") > 0.0f)) {
+					////calculate forward force:
+					forwardForce = transform.forward * (speed * 100) * Input.GetAxis ("360_RightThumbTrigger");
+				} else {
+					forwardForce = Vector3.zero;
+				}
 			}
+
 
 			////correct the force for deltatime and vehical mass:
 			forwardForce = forwardForce * Time.deltaTime * rigid.mass;
@@ -447,7 +486,7 @@ public class CharacterMovement : MonoBehaviour
 			moveVertical = Input.GetAxis ("Vertical");
 			moveHorizontal = Input.GetAxis ("Horizontal");
 
-		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller) {
 
 			if (gameManagerScript.switchAnalogStick) {
 				moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
@@ -455,6 +494,15 @@ public class CharacterMovement : MonoBehaviour
 			} else {
 				moveVertical = Input.GetAxis ("PS4_RightAnalogVertical");
 				moveHorizontal = Input.GetAxis ("PS4_RightAnalogHorizontal");
+			}
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+
+			if (gameManagerScript.switchAnalogStick) {
+				moveVertical = Input.GetAxis ("360_LeftAnalogVertical");
+				moveHorizontal = Input.GetAxis ("360_LeftAnalogHorizontal");
+			} else {
+				moveVertical = Input.GetAxis ("360_RightAnalogVertical");
+				moveHorizontal = Input.GetAxis ("360_RightAnalogHorizontal");
 			}
 		}
 
@@ -547,7 +595,7 @@ public class CharacterMovement : MonoBehaviour
 					transform.Rotate (Time.deltaTime * 50, 0, 0);
 			}
 
-		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller || gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
 
 			//Rotate back in z axis general, limited by no horizontal button pressed
 			if (moveHorizontal == 0.0f) 
@@ -582,7 +630,7 @@ public class CharacterMovement : MonoBehaviour
 			if ((Input.GetKey ("x")) && (speed > minSpeed))//(speed > 600))  ///600
 				speed -= Time.deltaTime * 240;
 			
-		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller) {
 			
 			// Input Accellerate and deccellerate in the air
 			if ((Input.GetAxis ("PS4_R2") > 0.0f) && (speed < maxSpeed))////800
@@ -591,7 +639,17 @@ public class CharacterMovement : MonoBehaviour
 			if ((Input.GetAxis ("PS4_L2") > 0.0f) && (speed > minSpeed))//(speed > 600))  ///600
 				speed -= Time.deltaTime * 240;
 
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+
+			// Input Accellerate and deccellerate in the air
+			if ((Input.GetAxis ("360_LeftThumbTrigger") > 0.0f) && (speed < maxSpeed))////800
+
+				speed += Time.deltaTime * 240;
+			if ((Input.GetAxis ("360_RightThumbTrigger") > 0.0f) && (speed > minSpeed))//(speed > 600))  ///600
+				speed -= Time.deltaTime * 240;
+
 		}
+
 			
 
 		if (speed < 0)
@@ -601,9 +659,13 @@ public class CharacterMovement : MonoBehaviour
 			//Another speed floatingpoint fix:
 			if ((!Input.GetKey ("z")) && (!Input.GetKey ("x")) && (speed > (defaultSpeed - 5f)) && (speed < (defaultSpeed + 5f))) ////695 === 705
 				speed = defaultSpeed;
-		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller) {
 			//Another speed floatingpoint fix:
 			if (((Input.GetAxis ("PS4_R2") <= 0.0f) && (Input.GetAxis ("PS4_L2") <= 0.0f)) && (speed > (defaultSpeed - 5f)) && (speed < (defaultSpeed + 5f))) ////695 === 705
+				speed = defaultSpeed;
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+			//Another speed floatingpoint fix:
+			if (((Input.GetAxis ("360_RightThumbTrigger") <= 0.0f) && (Input.GetAxis ("360_LeftThumbTrigger") <= 0.0f)) && (speed > (defaultSpeed - 5f)) && (speed < (defaultSpeed + 5f))) ////695 === 705
 				speed = defaultSpeed;
 		}
 			
@@ -622,7 +684,7 @@ public class CharacterMovement : MonoBehaviour
 			if (!Input.GetKey ("z") && (!Input.GetKey ("x")) && (speed > (minSpeed - 20f)) && (speed > defaultSpeed))// 595 === 700
 				speed -= Time.deltaTime * 240.0f;
 
-		} else if (gameManagerScript.controlsType == GameManager.ControlsType.Controller) {
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller) {
 
 			// Neutral speed at 700
 			//This code resets the speed to 700 when there is no acceleration or deccelleration. speed is between Maximum 800, minimum 600, so go back to 700
@@ -632,7 +694,19 @@ public class CharacterMovement : MonoBehaviour
 			if (((Input.GetAxis ("PS4_R2") <= 0.0f) && (Input.GetAxis ("PS4_L2") <= 0.0f)) && (speed > (minSpeed - 20f)) && (speed > defaultSpeed))// 595 === 700
 				speed -= Time.deltaTime * 240.0f;
 
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+
+			// Neutral speed at 700
+			//This code resets the speed to 700 when there is no acceleration or deccelleration. speed is between Maximum 800, minimum 600, so go back to 700
+			if (((Input.GetAxis ("360_RightThumbTrigger") <= 0.0f) && (Input.GetAxis ("360_LeftThumbTrigger") <= 0.0f)) && (speed > (minSpeed - 20f)) && (speed < defaultSpeed)) //595 === 700
+				speed += Time.deltaTime * 240.0f;
+
+			if (((Input.GetAxis ("360_RightThumbTrigger") <= 0.0f) && (Input.GetAxis ("360_LeftThumbTrigger") <= 0.0f)) && (speed > (minSpeed - 20f)) && (speed > defaultSpeed))// 595 === 700
+				speed -= Time.deltaTime * 240.0f;
+
 		}
+
+
 	}
 
 	void UpdateSpeed()

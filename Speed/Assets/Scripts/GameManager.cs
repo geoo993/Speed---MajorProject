@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour {
 
 	public bool switchAnalogStick = false;
 
-	public enum ControlsType { Keyboard, Controller };
+	public enum ControlsType { Keyboard, PS4_Controller, Xbox_Controller };
 	public ControlsType controlsType = ControlsType.Keyboard;
 
 	private bool startGame = false;
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour {
 
 			ScoreBoardPanel.SetActive(true);
 
-			if (GameObject.Find("Canvas").GetComponent<ScoreLeaderboard>().currentPlayerIcon != null && (Input.GetButton ("PS4_Options") || Input.GetKeyDown ("space"))) {
+			if (GameObject.Find("Canvas").GetComponent<ScoreLeaderboard>().currentPlayerIcon != null && (Input.GetButton ("PS4_Options") || Input.GetButton ("360_Start") || Input.GetKeyDown ("space"))) {
 
 				currentPlayer = GameObject.Find ("Canvas/ScoreBoardPanel/SelectedPlayer").GetComponent<Text> ().text;
 
@@ -108,12 +108,12 @@ public class GameManager : MonoBehaviour {
 
 		}
 
-		if (Input.GetKeyDown ("3") || Input.GetButton ("PS4_Square")) {
+		if (Input.GetKeyDown ("3") || Input.GetButton ("PS4_Square") || Input.GetButton ("360_X")) {
 
 			Color rand = ExtensionMethods.RandomColor ();
 			interfaceColor = rand;
 		}
-		if (Input.GetKeyDown ("4") || Input.GetButton ("PS4_Triangle")) {
+		if (Input.GetKeyDown ("4") || Input.GetButton ("PS4_Triangle") || Input.GetButton ("360_Y")) {
 
 			Color skyRand = ExtensionMethods.RandomColor ();
 
@@ -123,12 +123,12 @@ public class GameManager : MonoBehaviour {
 			}
 
 		}
-		if (Input.GetKeyDown ("5") || Input.GetButton ("PS4_O")) {
+		if (Input.GetKeyDown ("5") || Input.GetButton ("PS4_O") || Input.GetButton ("360_B")) {
 
 			Color buildingsRand = ExtensionMethods.RandomColor ();
 			GameObject.Find ("City").GetComponent<GenerateCity> ().buildingsTopColor = buildingsRand;
 		}
-		if (Input.GetKeyDown ("6") || Input.GetButton ("PS4_X")) {
+		if (Input.GetKeyDown ("6") || Input.GetButton ("PS4_X") || Input.GetButton ("360_A")) {
 
 			Color bottomRand = ExtensionMethods.RandomColor ();
 			Camera.main.gameObject.GetComponent<Skybox> ().bottomColor = bottomRand;
@@ -381,9 +381,12 @@ public class GameManager : MonoBehaviour {
 		mainTexts[5].text = "COLLECT  THE  DIAMONDS";
 		mainTexts[6].color =	new Color(interfaceColor.r,interfaceColor.g,interfaceColor.b, flashing(1.5f));
 
-		if (controlsType == ControlsType.Controller) {
+		if (controlsType == ControlsType.PS4_Controller) {
 
 			mainTexts[6].text =	"Press OPTIONS To Start";
+		}else if (controlsType == ControlsType.Xbox_Controller) {
+
+			mainTexts[6].text =	"Press START To Start";
 		}else if (controlsType == ControlsType.Keyboard) {
 
 			mainTexts[6].text =	"Press SPACE To Start";

@@ -85,7 +85,7 @@ public class Controllerr : MonoBehaviour {
 
 	void XboxControls()
 	{
-
+//
 //		print("Right Analog Horizontal: "+ Input.GetAxis ("360_RightAnalogHorizontal") +
 //			"    Right Analog Vertical: "+ Input.GetAxis ("360_RightAnalogVertical")+
 //			"    Horizontal: "+ Input.GetAxis ("Horizontal") +
@@ -98,30 +98,61 @@ public class Controllerr : MonoBehaviour {
 //			"    Vertical: "+ Input.GetAxis ("Vertical")
 //		);
 
-		if (Input.GetButton ("360_A")) {
-			print("Pressed 360_A");
-		}
-		if (Input.GetButton ("360_B")) {
-			print("Pressed 360_B");
-		}
-		if (Input.GetButton ("360_X")) {
-			print("Pressed X");
-		}
-		if (Input.GetButton ("360_Y")) {
-			print("Pressed 360_Y");
-		}
-		if (Input.GetButton ("360_Back")) {
-			print("Pressed 360_Back");
-		}
-		if (Input.GetButton ("360_Start")) {
-			print("Pressed 360_Start");
-		}
-		if (Input.GetButton ("360_LeftBumper")) {
-			print("Pressed 360_LeftBumper");
-		}
-		if (Input.GetButton ("360_RightBumper")) {
-				print("Pressed 360_RightBumper");
-		}
+		print("Left Thumb Trigger: "+ Input.GetAxis ("360_LeftThumbTrigger") +
+			"    360_RightThumbTrigger: "+ Input.GetAxis ("360_RightThumbTrigger")+
+			"    L2: "+ Input.GetAxis ("PS4_L2") +
+			"    R2: "+ Input.GetAxis ("PS4_R2")
+		);
+
+
+//		if (Input.GetButton ("360_A")) {
+//			print("Pressed 360_A");
+//		}
+//		if (Input.GetButton ("360_B")) {
+//			print("Pressed 360_B");
+//		}
+//		if (Input.GetButton ("360_X")) {
+//			print("Pressed X");
+//		}
+//		if (Input.GetButton ("360_Y")) {
+//			print("Pressed 360_Y");
+//		}
+//		if (Input.GetButton ("360_Back")) {
+//			print("Pressed 360_Back");
+//		}
+//		if (Input.GetButton ("360_Start")) {
+//			print("Pressed 360_Start");
+//		}
+//
+//		if (Input.GetButton ("360_LeftBumper")) {
+//			print("Pressed 360_LeftBumper");
+//		}
+//		if (Input.GetButton ("360_RightBumper")) {
+//			print("Pressed 360_RightBumper");
+//		}
+//
+//
+//		if (Input.GetButton ("360_LeftAnalogPress")) {
+//			print("Pressed 360_LeftAnalogPress");
+//		}
+//		if (Input.GetButton ("360_RightAnalogPress")) {
+//			print("Pressed 360_RightAnalogPress");
+//		}
+//		if (Input.GetButton ("360_DirectionalPadHorizontalUp")) {
+//			print("Pressed 360_DirectionalPadHorizontalUp");
+//		}
+//		if (Input.GetButton ("360_DirectionalPadHorizontalDown")) {
+//			print("Pressed 360_DirectionalPadHorizontalDown");
+//		}
+//
+//		if (Input.GetButton ("360_DirectionalPadVerticalLeft")) {
+//			print("Pressed 360_DirectionalPadVerticalLeft");
+//		}
+//		if (Input.GetButton ("360_DirectionalPadVerticalRight")) {
+//			print("Pressed 360_DirectionalPadVerticalRight");
+//		}
+//			
+
 
 	}
 
