@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour {
 	private bool startGame = false;
 	public static bool resetGame = false;
 	public static string gameOver = "idle";
-	private bool stoppedGame = false;
 	public static string currentPlayer;
 
 	public GameObject ScoreBoardPanel = null;
@@ -95,7 +94,7 @@ public class GameManager : MonoBehaviour {
 
 			ScoreBoardPanel.SetActive(true);
 
-			if (GameObject.Find("Canvas").GetComponent<ScoreLeaderboard>().currentPlayerIcon != null && Input.GetButton ("PS4_Options") || Input.GetKeyDown ("space")) {
+			if (GameObject.Find("Canvas").GetComponent<ScoreLeaderboard>().currentPlayerIcon != null && (Input.GetButton ("PS4_Options") || Input.GetKeyDown ("space"))) {
 
 				currentPlayer = GameObject.Find ("Canvas/ScoreBoardPanel/SelectedPlayer").GetComponent<Text> ().text;
 
@@ -106,6 +105,33 @@ public class GameManager : MonoBehaviour {
 
 				//print ("select object is active");
 			}
+
+		}
+
+		if (Input.GetKeyDown ("3") || Input.GetButton ("PS4_Square")) {
+
+			Color rand = ExtensionMethods.RandomColor ();
+			interfaceColor = rand;
+		}
+		if (Input.GetKeyDown ("4") || Input.GetButton ("PS4_Triangle")) {
+
+			Color skyRand = ExtensionMethods.RandomColor ();
+
+			if (Camera.main.gameObject != null) {
+				Camera.main.gameObject.GetComponent<Skybox> ().topColor = skyRand;
+				Camera.main.gameObject.GetComponent<Skybox> ().midColor = skyRand;
+			}
+
+		}
+		if (Input.GetKeyDown ("5") || Input.GetButton ("PS4_O")) {
+
+			Color buildingsRand = ExtensionMethods.RandomColor ();
+			GameObject.Find ("City").GetComponent<GenerateCity> ().buildingsTopColor = buildingsRand;
+		}
+		if (Input.GetKeyDown ("6") || Input.GetButton ("PS4_X")) {
+
+			Color bottomRand = ExtensionMethods.RandomColor ();
+			Camera.main.gameObject.GetComponent<Skybox> ().bottomColor = bottomRand;
 
 		}
 
@@ -174,7 +200,6 @@ public class GameManager : MonoBehaviour {
 		yield return wait;
 
 		startGame = false;
-		stoppedGame = false;
 	}
 
 	void Game(){
@@ -192,16 +217,7 @@ public class GameManager : MonoBehaviour {
 		if(Items.collectablesItems.Count <= 0){
 			GameOver ();
 		}
-//
-//		if (Input.GetKeyDown ("r") || Input.GetButton ("PS4_Triangle")) {
-//
-//			stoppedGame = true;
-//		}
-//
-//		if (stoppedGame == true) {
-//			GameOver ();
-//		}
-//
+
 
 	}
 
@@ -223,7 +239,8 @@ public class GameManager : MonoBehaviour {
 		GameObject.Find ("Craft").GetComponent<CharacterMeshComplete> ().enabled = false;
 		GameObject.Find ("Craft").GetComponent<CharacterMovement> ().enabled = false;
 
-		if (Input.GetKeyDown ("space") || Input.GetButton ("PS4_Options")) {
+		if (Input.GetKeyDown ("space") || Input.GetButton ("PS4_Options")) 
+		{
 			Restart ();
 		}
 

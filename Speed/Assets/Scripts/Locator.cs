@@ -137,7 +137,7 @@ public class Locator : MonoBehaviour {
 			output = arrowPool [arrowCursor];// get existing
 		} else {
 			output = Instantiate(arrowIndicator) as Image; // make new
-			output.transform.parent = GameObject.Find ("Canvas/Indicators").transform;
+			output.transform.SetParent(GameObject.Find ("Canvas/Indicators").transform);
 			arrowPool.Add (output);
 		}
 
@@ -154,7 +154,7 @@ public class Locator : MonoBehaviour {
 			output = targetPool [targetCursor];// get existing
 		} else {
 			output = Instantiate(targetIndicator) as Image; // make new
-			output.transform.parent = GameObject.Find ("Canvas/Indicators").transform;
+			output.transform.SetParent(GameObject.Find ("Canvas/Indicators").transform);
 			targetPool.Add (output);
 		}
 
