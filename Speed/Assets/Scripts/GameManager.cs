@@ -92,11 +92,11 @@ public class GameManager : MonoBehaviour {
 			health = 100; 
 			gameOver = "idle";
 
-			ScoreBoardPanel.SetActive(true);
+			//ScoreBoardPanel.SetActive(true);
 
-			if (GameObject.Find("Canvas").GetComponent<ScoreLeaderboard>().currentPlayerIcon != null && (Input.GetButton ("PS4_Options") || Input.GetButton ("360_Start") || Input.GetKeyDown ("space"))) {
+			//if (GameObject.Find("Canvas").GetComponent<ScoreLeaderboard>().currentPlayerIcon != null && (Input.GetButton ("PS4_Options") || Input.GetButton ("360_Start") || Input.GetKeyDown ("space"))) {
 
-				currentPlayer = GameObject.Find ("Canvas/ScoreBoardPanel/SelectedPlayer").GetComponent<Text> ().text;
+			//	currentPlayer = GameObject.Find ("Canvas/ScoreBoardPanel/SelectedPlayer").GetComponent<Text> ().text;
 
 				ScoreBoardPanel.SetActive(false);
 				GameObject.Find("Craft").GetComponent<CharacterMovement>().enabled = true;
@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour {
 				startGame = true;
 
 				//print ("select object is active");
-			}
+			//}
 
 		}
 
@@ -214,7 +214,7 @@ public class GameManager : MonoBehaviour {
 		FlashHealth ();
 		LerpScore ();
 
-		if(Items.collectablesItems.Count <= 0){
+		if(collectedItems >= 20){
 			GameOver ();
 		}
 
@@ -226,10 +226,10 @@ public class GameManager : MonoBehaviour {
 
 		if (gameOver == "idle") {
 
-			GameObject.Find ("Canvas").GetComponent<ScoreLeaderboard> ().SetScore (currentPlayer, "score", (int)currentScoreCount);
-			GameObject.Find ("Canvas").GetComponent<ScoreLeaderboard> ().SetScore (currentPlayer, "minutes", (int)minutesTime);
-			GameObject.Find ("Canvas").GetComponent<ScoreLeaderboard> ().SetScore (currentPlayer, "seconds", (int)secondsTime);
-
+//			GameObject.Find ("Canvas").GetComponent<ScoreLeaderboard> ().SetScore (currentPlayer, "score", (int)currentScoreCount);
+//			GameObject.Find ("Canvas").GetComponent<ScoreLeaderboard> ().SetScore (currentPlayer, "minutes", (int)minutesTime);
+//			GameObject.Find ("Canvas").GetComponent<ScoreLeaderboard> ().SetScore (currentPlayer, "seconds", (int)secondsTime);
+//
 			Instantiate( Resources.Load ("Menu") );
 			GameObject.Find ("Canvas/MenuBoard").GetComponent<Animator> ().SetTrigger ("GameOver");
 			GameObject.Find ("Canvas/MenuBoard").GetComponent<RectTransform> ().localPosition = Vector3.zero;

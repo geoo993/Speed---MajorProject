@@ -9,24 +9,24 @@ public class InputText : MonoBehaviour {
 
 	void Awake () {
 		
-		GetComponent<Button> ().onClick.AddListener( () => {OnClickEvent();} ); 
-
-		scoreLeaderboard = GameObject.FindObjectOfType<ScoreLeaderboard> ();
+//		GetComponent<Button> ().onClick.AddListener( () => {OnClickEvent();} ); 
+//
+//		scoreLeaderboard = GameObject.FindObjectOfType<ScoreLeaderboard> ();
 	}
 
 
 	void OnClickEvent()
 	{
-		if(scoreLeaderboard == null){
-			Debug.LogError (" no score leaderboard");
-			return;
-		}
-
-		if (newPlayerInput.text.Length > 1) {
-
-			scoreLeaderboard.SetScore(newPlayerInput.text, "score", 0);
-			print(newPlayerInput.text);
-		}
-
+//		if(scoreLeaderboard == null){
+//			Debug.LogError (" no score leaderboard");
+//			return;
+//		}
+//
+//		if (newPlayerInput.text.Length > 1) {
+//
+//			scoreLeaderboard.SetScore(newPlayerInput.text, "score", 0);
+//			print(newPlayerInput.text);
+//		}
+//
 	}
 }

@@ -68,7 +68,7 @@ public class Items : MonoBehaviour {
 			}else if (col == 3)
 			{
 				c.transform.parent = this.transform;
-				c.transform.localPosition = AlignObjects(GameObject.Find ("Heart").transform.position, new Vector3(500f, 0.0f, 500f), 5 );
+				c.transform.localPosition = AlignObjects(GameObject.Find ("Heart").transform.position, new Vector3(500f, 0.0f, 500f), 2 );
 
 				c.GetComponent<Rigidbody> ().useGravity = true;
 			}else if (col == 4)

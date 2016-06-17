@@ -218,7 +218,7 @@ public class CharacterMovement : MonoBehaviour
 		travelerParticle.startColor = gameManagerScript.interfaceColor;
 
 		if (Input.GetKey ("z") || (Input.GetAxis ("PS4_R2") > 0.0f)) {
-			
+
 			ParticleSystemExtension.SetEmissionRate (travelerParticle, withSpeed);
 
 		}else if (Input.GetKey ("x") || (Input.GetAxis ("PS4_L2") > 0.0f)) {
