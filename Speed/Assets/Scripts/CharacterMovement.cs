@@ -226,7 +226,6 @@ public class CharacterMovement : MonoBehaviour
 			ParticleSystemExtension.SetEmissionRate (travelerParticle, slowingDown);
 		}
 		else {
-			
 			ParticleSystemExtension.SetEmissionRate (travelerParticle, withoutSpeed);
 		}
 	}

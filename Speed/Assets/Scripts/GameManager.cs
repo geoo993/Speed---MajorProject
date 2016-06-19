@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour {
 
 	public bool switchAnalogStick = false;
 
-	public enum ControlsType { Keyboard, PS4_Controller, Xbox_Controller };
+	public enum ControlsType { Keyboard, PS4_Controller, Xbox_Controller, XboxPC_Controller};
 	public ControlsType controlsType = ControlsType.Keyboard;
 
 	private bool startGame = false;
