@@ -219,14 +219,14 @@ public class CharacterMovement : MonoBehaviour
 
 		if (Input.GetKey ("z") || (Input.GetAxis ("PS4_R2") > 0.0f)) {
 
-			ParticleSystemExtension.SetEmissionRate (travelerParticle, withSpeed);
+			//ParticleSystemExtension.SetEmissionRate (travelerParticle, withSpeed);
 
 		}else if (Input.GetKey ("x") || (Input.GetAxis ("PS4_L2") > 0.0f)) {
 			
-			ParticleSystemExtension.SetEmissionRate (travelerParticle, slowingDown);
+			//ParticleSystemExtension.SetEmissionRate (travelerParticle, slowingDown);
 		}
 		else {
-			ParticleSystemExtension.SetEmissionRate (travelerParticle, withoutSpeed);
+			//ParticleSystemExtension.SetEmissionRate (travelerParticle, withoutSpeed);
 		}
 	}
 	private void UpdateRearParticles(float withSpeed, float withoutSpeed, float slowingDown, float startSpeed){
@@ -236,8 +236,8 @@ public class CharacterMovement : MonoBehaviour
 
 		if (Input.GetKey ("z") || (Input.GetAxis ("PS4_R2") > 0.0f)) {
 
-			ParticleSystemExtension.SetEmissionRate (rearParticle1, withSpeed);
-			ParticleSystemExtension.SetEmissionRate (rearParticle2, withSpeed);
+			//ParticleSystemExtension.SetEmissionRate (rearParticle1, withSpeed);
+			//ParticleSystemExtension.SetEmissionRate (rearParticle2, withSpeed);
 
 			rearParticle1.startColor = gameManagerScript.interfaceColor;
 			rearParticle2.startColor = gameManagerScript.interfaceColor;
@@ -245,15 +245,15 @@ public class CharacterMovement : MonoBehaviour
 
 		}else if (Input.GetKey ("x") || (Input.GetAxis ("PS4_L2") > 0.0f)) {
 
-			ParticleSystemExtension.SetEmissionRate (rearParticle1, slowingDown);
-			ParticleSystemExtension.SetEmissionRate (rearParticle2, slowingDown);
+			//ParticleSystemExtension.SetEmissionRate (rearParticle1, slowingDown);
+			//ParticleSystemExtension.SetEmissionRate (rearParticle2, slowingDown);
 			rearParticle1.startColor = Color.white;
 			rearParticle2.startColor = Color.white;
 		}
 		else {
 
-			ParticleSystemExtension.SetEmissionRate (rearParticle1, withoutSpeed);
-			ParticleSystemExtension.SetEmissionRate (rearParticle2, withoutSpeed);
+			//ParticleSystemExtension.SetEmissionRate (rearParticle1, withoutSpeed);
+			//ParticleSystemExtension.SetEmissionRate (rearParticle2, withoutSpeed);
 
 			rearParticle1.startColor = Color.white;
 			rearParticle2.startColor = Color.white;
@@ -312,7 +312,7 @@ public class CharacterMovement : MonoBehaviour
 		} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller) {
 			moveHorizontal = Input.GetAxis ("PS4_LeftAnalogHorizontal"); 
 			moveVertical = Input.GetAxis ("PS4_LeftAnalogVertical");
-		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller || gameManagerScript.controlsType == GameManager.ControlsType.XboxPC_Controller) {
 			moveHorizontal = Input.GetAxis ("360_LeftAnalogHorizontal"); 
 			moveVertical = Input.GetAxis ("360_LeftAnalogVertical");
 		}
@@ -352,11 +352,15 @@ public class CharacterMovement : MonoBehaviour
 				forwardForce = Vector3.zero;
 			}
 
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.XboxPC_Controller) {
+
+			forwardForce = (Camera.main.gameObject.transform.forward) * -Input.GetAxis ("360PC_ThumbTriggers") * (speed * 10); 
+
 		}
 
 		rigid.AddForce(forwardForce);
 
-		if (moveHorizontal == 0 && moveVertical == 0 && (Input.GetAxis ("PS4_L2") <= 0.0f) && (Input.GetAxis ("PS4_R2") <= 0.0f) && this.transform.position.y < 5f) 
+		if (moveHorizontal == 0 && moveVertical == 0 && ((Input.GetAxis ("PS4_L2") <= 0.0f) || Input.GetAxis ("360PC_ThumbTriggers") == 0.0f) && (Input.GetAxis ("PS4_R2") <= 0.0f) && this.transform.position.y < 5f) 
 		{
 			if (rollinglerp < 1.0f) {
 
@@ -394,7 +398,7 @@ public class CharacterMovement : MonoBehaviour
 				moveHorizontal = Input.GetAxis ("PS4_RightAnalogHorizontal");
 			}
 
-		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller || gameManagerScript.controlsType == GameManager.ControlsType.XboxPC_Controller) {
 
 			moveVertical = Input.GetAxis ("360_LeftAnalogVertical");
 
@@ -439,7 +443,12 @@ public class CharacterMovement : MonoBehaviour
 				} else {
 					forwardForce = Vector3.zero;
 				}
+			}else if (gameManagerScript.controlsType == GameManager.ControlsType.XboxPC_Controller) {
+				
+					forwardForce = transform.forward * (speed * 100) * -Input.GetAxis ("360PC_ThumbTriggers");
+				
 			}
+
 
 
 			////correct the force for deltatime and vehical mass:
@@ -494,7 +503,7 @@ public class CharacterMovement : MonoBehaviour
 				moveVertical = Input.GetAxis ("PS4_RightAnalogVertical");
 				moveHorizontal = Input.GetAxis ("PS4_RightAnalogHorizontal");
 			}
-		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller || gameManagerScript.controlsType == GameManager.ControlsType.XboxPC_Controller) {
 
 			if (gameManagerScript.switchAnalogStick) {
 				moveVertical = Input.GetAxis ("360_LeftAnalogVertical");
@@ -594,7 +603,7 @@ public class CharacterMovement : MonoBehaviour
 					transform.Rotate (Time.deltaTime * 50, 0, 0);
 			}
 
-		} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller || gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
+		} else if (gameManagerScript.controlsType == GameManager.ControlsType.PS4_Controller || gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller || gameManagerScript.controlsType == GameManager.ControlsType.XboxPC_Controller) {
 
 			//Rotate back in z axis general, limited by no horizontal button pressed
 			if (moveHorizontal == 0.0f) 
@@ -647,7 +656,17 @@ public class CharacterMovement : MonoBehaviour
 			if ((Input.GetAxis ("360_RightThumbTrigger") > 0.0f) && (speed > minSpeed))//(speed > 600))  ///600
 				speed -= Time.deltaTime * 240;
 
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.XboxPC_Controller) {
+
+			// Input Accellerate and deccellerate in the air
+			if ((Input.GetAxis ("360PC_ThumbTriggers") > 0.0f) && (speed < maxSpeed))////800
+
+				speed += Time.deltaTime * 240;
+			if ((Input.GetAxis ("360PC_ThumbTriggers") > 0.0f) && (speed > minSpeed))//(speed > 600))  ///600
+				speed -= Time.deltaTime * 240;
+
 		}
+
 
 			
 
@@ -665,6 +684,10 @@ public class CharacterMovement : MonoBehaviour
 		}else if (gameManagerScript.controlsType == GameManager.ControlsType.Xbox_Controller) {
 			//Another speed floatingpoint fix:
 			if (((Input.GetAxis ("360_RightThumbTrigger") <= 0.0f) && (Input.GetAxis ("360_LeftThumbTrigger") <= 0.0f)) && (speed > (defaultSpeed - 5f)) && (speed < (defaultSpeed + 5f))) ////695 === 705
+				speed = defaultSpeed;
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.XboxPC_Controller) {
+			//Another speed floatingpoint fix:
+			if ((Input.GetAxis ("360PC_ThumbTriggers") <= 0.0f) && (speed > (defaultSpeed - 5f)) && (speed < (defaultSpeed + 5f))) ////695 === 705
 				speed = defaultSpeed;
 		}
 			
@@ -701,6 +724,16 @@ public class CharacterMovement : MonoBehaviour
 				speed += Time.deltaTime * 240.0f;
 
 			if (((Input.GetAxis ("360_RightThumbTrigger") <= 0.0f) && (Input.GetAxis ("360_LeftThumbTrigger") <= 0.0f)) && (speed > (minSpeed - 20f)) && (speed > defaultSpeed))// 595 === 700
+				speed -= Time.deltaTime * 240.0f;
+
+		}else if (gameManagerScript.controlsType == GameManager.ControlsType.XboxPC_Controller) {
+
+			// Neutral speed at 700
+			//This code resets the speed to 700 when there is no acceleration or deccelleration. speed is between Maximum 800, minimum 600, so go back to 700
+			if ((Input.GetAxis ("360PC_ThumbTriggers") <= 0.0f) && (speed > (minSpeed - 20f)) && (speed < defaultSpeed)) //595 === 700
+				speed += Time.deltaTime * 240.0f;
+
+			if ((Input.GetAxis ("360PC_ThumbTriggers") <= 0.0f) && (speed > (minSpeed - 20f)) && (speed > defaultSpeed))// 595 === 700
 				speed -= Time.deltaTime * 240.0f;
 
 		}

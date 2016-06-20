@@ -108,12 +108,12 @@ public class GameManager : MonoBehaviour {
 
 		}
 
-		if (Input.GetKeyDown ("3") || Input.GetButton ("PS4_Square") || Input.GetButton ("360_X")) {
+		if (Input.GetKeyDown ("3") || Input.GetButton ("PS4_Square") || Input.GetButton ("360_X") || Input.GetButton ("360PC_X")) {
 
 			Color rand = ExtensionMethods.RandomColor ();
 			interfaceColor = rand;
 		}
-		if (Input.GetKeyDown ("4") || Input.GetButton ("PS4_Triangle") || Input.GetButton ("360_Y")) {
+		if (Input.GetKeyDown ("4") || Input.GetButton ("PS4_Triangle") || Input.GetButton ("360_Y") || Input.GetButton ("360PC_Y")) {
 
 			Color skyRand = ExtensionMethods.RandomColor ();
 
@@ -123,12 +123,12 @@ public class GameManager : MonoBehaviour {
 			}
 
 		}
-		if (Input.GetKeyDown ("5") || Input.GetButton ("PS4_O") || Input.GetButton ("360_B")) {
+		if (Input.GetKeyDown ("5") || Input.GetButton ("PS4_O") || Input.GetButton ("360_B") || Input.GetButton ("360PC_B")) {
 
 			Color buildingsRand = ExtensionMethods.RandomColor ();
 			GameObject.Find ("City").GetComponent<GenerateCity> ().buildingsTopColor = buildingsRand;
 		}
-		if (Input.GetKeyDown ("6") || Input.GetButton ("PS4_X") || Input.GetButton ("360_A")) {
+		if (Input.GetKeyDown ("6") || Input.GetButton ("PS4_X") || Input.GetButton ("360_A") || Input.GetButton ("360_A")) {
 
 			Color bottomRand = ExtensionMethods.RandomColor ();
 			Camera.main.gameObject.GetComponent<Skybox> ().bottomColor = bottomRand;
@@ -239,7 +239,7 @@ public class GameManager : MonoBehaviour {
 		GameObject.Find ("Craft").GetComponent<CharacterMeshComplete> ().enabled = false;
 		GameObject.Find ("Craft").GetComponent<CharacterMovement> ().enabled = false;
 
-		if (Input.GetKeyDown ("space") || Input.GetButton ("PS4_Options")) 
+		if (Input.GetKeyDown ("space") || Input.GetButton ("PS4_Options") || Input.GetButton ("360_Start") || Input.GetButton ("360PC_Start")) 
 		{
 			Restart ();
 		}
