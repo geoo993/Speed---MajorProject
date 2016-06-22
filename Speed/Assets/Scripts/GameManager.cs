@@ -218,6 +218,33 @@ public class GameManager : MonoBehaviour {
 			GameOver ();
 		}
 
+		if (controlsType == ControlsType.Keyboard) {
+			
+			if (Input.GetKeyDown ("space")) 
+			{
+				Restart ();
+			}
+			
+		} else if (controlsType == ControlsType.PS4_Controller) {
+			
+			if (Input.GetButton ("PS4_Options")) 
+			{
+				Restart ();
+			}
+
+		}else if (controlsType == ControlsType.Xbox_Controller) {
+			if (Input.GetButton ("360_Start")) 
+			{
+				Restart ();
+			}
+
+		}else if (controlsType == ControlsType.XboxPC_Controller) {
+			if (Input.GetButton ("360PC_Start")) 
+			{
+				Restart ();
+			}
+		}
+
 
 	}
 

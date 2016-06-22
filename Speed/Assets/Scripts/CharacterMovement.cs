@@ -219,14 +219,14 @@ public class CharacterMovement : MonoBehaviour
 
 		if (Input.GetKey ("z") || (Input.GetAxis ("PS4_R2") > 0.0f)) {
 
-			//ParticleSystemExtension.SetEmissionRate (travelerParticle, withSpeed);
+			ParticleSystemExtension.SetEmissionRate (travelerParticle, withSpeed);
 
 		}else if (Input.GetKey ("x") || (Input.GetAxis ("PS4_L2") > 0.0f)) {
 			
-			//ParticleSystemExtension.SetEmissionRate (travelerParticle, slowingDown);
+			ParticleSystemExtension.SetEmissionRate (travelerParticle, slowingDown);
 		}
 		else {
-			//ParticleSystemExtension.SetEmissionRate (travelerParticle, withoutSpeed);
+			ParticleSystemExtension.SetEmissionRate (travelerParticle, withoutSpeed);
 		}
 	}
 	private void UpdateRearParticles(float withSpeed, float withoutSpeed, float slowingDown, float startSpeed){
@@ -236,8 +236,8 @@ public class CharacterMovement : MonoBehaviour
 
 		if (Input.GetKey ("z") || (Input.GetAxis ("PS4_R2") > 0.0f)) {
 
-			//ParticleSystemExtension.SetEmissionRate (rearParticle1, withSpeed);
-			//ParticleSystemExtension.SetEmissionRate (rearParticle2, withSpeed);
+			ParticleSystemExtension.SetEmissionRate (rearParticle1, withSpeed);
+			ParticleSystemExtension.SetEmissionRate (rearParticle2, withSpeed);
 
 			rearParticle1.startColor = gameManagerScript.interfaceColor;
 			rearParticle2.startColor = gameManagerScript.interfaceColor;
@@ -245,15 +245,15 @@ public class CharacterMovement : MonoBehaviour
 
 		}else if (Input.GetKey ("x") || (Input.GetAxis ("PS4_L2") > 0.0f)) {
 
-			//ParticleSystemExtension.SetEmissionRate (rearParticle1, slowingDown);
-			//ParticleSystemExtension.SetEmissionRate (rearParticle2, slowingDown);
+			ParticleSystemExtension.SetEmissionRate (rearParticle1, slowingDown);
+			ParticleSystemExtension.SetEmissionRate (rearParticle2, slowingDown);
 			rearParticle1.startColor = Color.white;
 			rearParticle2.startColor = Color.white;
 		}
 		else {
 
-			//ParticleSystemExtension.SetEmissionRate (rearParticle1, withoutSpeed);
-			//ParticleSystemExtension.SetEmissionRate (rearParticle2, withoutSpeed);
+			ParticleSystemExtension.SetEmissionRate (rearParticle1, withoutSpeed);
+			ParticleSystemExtension.SetEmissionRate (rearParticle2, withoutSpeed);
 
 			rearParticle1.startColor = Color.white;
 			rearParticle2.startColor = Color.white;
