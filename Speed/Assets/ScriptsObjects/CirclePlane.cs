@@ -12,6 +12,8 @@ public class CirclePlane : MonoBehaviour {
 	[Range(1.0f, 2000.0f)] public float radius = 1000f;
 	[Range(50, 500)] public int numVerts = 500; 
 
+	public bool meshSolid;
+
 	Vector3[] verts = new Vector3[]{ };
 	Vector2[] uvs = new Vector2[]{};
 	int[] tris = new int[]{};
@@ -128,13 +130,20 @@ public class CirclePlane : MonoBehaviour {
 
 	void UpdateCollider(){
 
-		if (GameObject.Find ("Craft") != null) {
-			if (GameObject.Find ("Craft").GetComponent<CharacterMovement> ().ballState || GameObject.Find ("Craft").GetComponent<CharacterMovement> ().groundState) {
-				meshCollider.sharedMesh = mesh;
-
-			} else if (GameObject.Find ("Craft").GetComponent<CharacterMovement> ().airSate) {
-				meshCollider.sharedMesh = null;
-			}
+		if (meshSolid){
+			meshCollider.sharedMesh = mesh;
+		}else{
+			meshCollider.sharedMesh = null;
 		}
+			
+//		if (GameObject.Find ("Craft") != null) {
+//			
+//			if (GameObject.Find ("Craft").GetComponent<CharacterMovement> ().ballState || GameObject.Find ("Craft").GetComponent<CharacterMovement> ().groundState) {
+//				meshSolid = true;
+//
+//			} else if (GameObject.Find ("Craft").GetComponent<CharacterMovement> ().airSate) {
+//				meshSolid = false;
+//			}
+//		}
 	}
 }

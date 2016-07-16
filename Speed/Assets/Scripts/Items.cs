@@ -70,7 +70,7 @@ public class Items : MonoBehaviour {
 				c.transform.parent = this.transform;
 				c.transform.localPosition = AlignObjects(GameObject.Find ("Heart").transform.position, new Vector3(500f, 0.0f, 500f), 2 );
 
-				c.GetComponent<Rigidbody> ().useGravity = true;
+				c.GetComponent<Rigidbody> ().useGravity = false;
 			}else if (col == 4)
 			{
 				c.transform.parent = this.transform;
